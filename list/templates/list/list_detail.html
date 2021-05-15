@@ -22,7 +22,7 @@
 {% turbo_stream_from 'broadcasts' %}
 <turbo-frame id="items-frame">
      <ul id="items">
-        {% for items in list.items.all %}
+        {% for item in list.items.all %}
             {% include "list/item.html" with item=item only %}
         {% endfor %}
     </ul>
