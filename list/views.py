@@ -26,7 +26,7 @@ class ListUpdate(UpdateView):
 
 class ItemCreate(CreateView):
     model = Item
-    fields = ["text"]
+    fields = ["text", "note"]
 
     def get_success_url(self):
         # Redirect to the empty form
@@ -35,6 +35,7 @@ class ItemCreate(CreateView):
     def form_valid(self, form):
         list = get_object_or_404(List, pk=self.kwargs["pk"])
         form.instance.list = list
+        form.instance.save()
         return super().form_valid(list)
 
 

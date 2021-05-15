@@ -17,4 +17,5 @@ class Item(BroadcastableMixin, models.Model):
 
     list = models.ForeignKey(List, related_name="items", on_delete=models.CASCADE)
     text = models.TextField()
+    note = models.TextField(default=None, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
