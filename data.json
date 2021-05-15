@@ -1,0 +1,12 @@
+[
+  { "model": "list.list", "pk": 1, "fields": { "name": "Super Market" } },
+  {
+    "model": "list.item",
+    "pk": 1,
+    "fields": {
+      "list": 1,
+      "text": "demo item",
+      "created_at": "2021-01-01T01:33:57.374Z"
+    }
+  }
+]

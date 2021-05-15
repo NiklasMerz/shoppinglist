@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Lists</title>
+    {% include "turbo/head.html" %}
+</head>
+<body>
+{% if lists %}
+    <ul>
+    {% for list in lists %}
+        <li><a href="{% url 'detail' list.id %}">{{ list.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No lists available.</p>
+{% endif %}
+</body>
+</html>

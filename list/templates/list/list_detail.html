@@ -1,0 +1,33 @@
+{% load turbo_streams %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List Detail</title>
+    <style>
+        textarea {
+            width: 200px;
+            height: 2rem;
+        }
+    </style>
+    {% include "turbo/head.html" %}
+</head>
+<body>
+<a href="/">Home</a>
+<turbo-frame id="update-list">
+    {% include 'list/list.html' %}
+    <a href="{% url 'update' list.pk %}">Edit</a>
+</turbo-frame>
+{% turbo_stream_from list %}
+{% turbo_stream_from 'broadcasts' %}
+<turbo-frame id="items-frame">
+     <ul id="items">
+        {% for items in list.items.all %}
+            {% include "list/item.html" with item=item only %}
+        {% endfor %}
+    </ul>
+</turbo-frame>
+<turbo-frame id="send-item" src="{% url 'send' list.id %}">
+</turbo-frame>
+</body>
+</html>
