@@ -1,2 +1,9 @@
 {% load turbo_streams %}
-<li id="{% stream_id item %}">{{ item.text }}</li>
+
+
+<turbo-frame id="delete-item">
+    <li id="{% stream_id item %}">
+        {{ item.text }} 
+        <a href="{% url 'delete' item.pk %}">X</a>
+    </li>
+</turbo-frame>

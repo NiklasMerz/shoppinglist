@@ -1,10 +1,11 @@
 from typing import List
+from django.views.generic.base import View
 import turbo
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from turbo import APPEND
 from .models import Item, List
 
@@ -38,6 +39,18 @@ class ItemCreate(CreateView):
         form.instance.save()
         return super().form_valid(list)
 
+class ItemDelete(DeleteView):
+    model = Item
+
+    def get_success_url(self):
+        # Redirect to list
+        return reverse("done")
+
+def done(request):
+    # Empty frame, TODO stimulus?
+
+    return HttpResponse('<turbo-frame id="delete-item"></turbo-frame>')
+    
 
 def wiretap(request):
     """
