@@ -7,4 +7,5 @@ turbo_django.egg-info/
 ve
 venv
 .vscode
-doc/build
+doc/build.env
+.env
