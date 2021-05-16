@@ -31,3 +31,5 @@ toml==0.10.2
 Twisted==21.2.0
 txaio==21.2.1
 zope.interface==5.4.0
+psycopg2-binary
+dj-database-url
