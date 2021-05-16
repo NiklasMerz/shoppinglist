@@ -1,1 +1,1 @@
-web: gunicorn ShoppingListPlatform.wsgi
+web: uvicorn ShoppingListPlatform.wsgi
