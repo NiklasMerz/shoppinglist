@@ -1,1 +1,1 @@
-web: gunicorn ShoppingListPlatform.asgi
+web: gunicorn ShoppingListPlatform.asgi -k uvicorn.workers.UvicornWorker
