@@ -1,1 +1,1 @@
-web: uvicorn ShoppingListPlatform.wsgi
+web: uvicorn ShoppingListPlatform.asgi:application -k uvicorn.workers.UvicornWorker
