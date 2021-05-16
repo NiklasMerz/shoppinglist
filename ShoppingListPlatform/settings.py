@@ -28,7 +28,7 @@ SECRET_KEY = "+fstz3hi5ulc0$k0m$@6pq=pon*@h1)dep(as2*b#o=t14sx--"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["shoppinglisthotwire.herokuapp.com"]
 
 
 # Application definition
