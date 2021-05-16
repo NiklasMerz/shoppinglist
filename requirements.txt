@@ -37,5 +37,6 @@ toml==0.10.2
 Twisted==21.2.0
 txaio==21.2.1
 uvicorn==0.13.4
+uvloop==0.15.2
 whitenoise==5.2.0
 zope.interface==5.4.0
