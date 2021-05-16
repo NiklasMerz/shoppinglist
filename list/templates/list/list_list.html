@@ -4,16 +4,22 @@
     <meta charset="UTF-8">
     <title>Shopping Lists</title>
     {% include "turbo/head.html" %}
+
+    {% include 'framework/ionic-import.html' %}
 </head>
 <body>
-{% if lists %}
-    <ul>
-    {% for list in lists %}
-        <li><a href="{% url 'detail' list.id %}">{{ list.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No lists available.</p>
-{% endif %}
+<ion-app>
+    <ion-content text-center>
+        {% if lists %}
+        <ion-list>
+        {% for list in lists %}
+            <ion-item href="{% url 'detail' list.id %}">{{ list.name }}</li>
+        {% endfor %}
+        </ion-list>
+        {% else %}
+            <p>No lists available.</p>
+        {% endif %}
+    </ion-content>
+</ion-app>
 </body>
 </html>

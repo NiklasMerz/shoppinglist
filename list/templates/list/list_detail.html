@@ -1,6 +1,7 @@
 {% load turbo_streams %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>List Detail</title>
@@ -11,23 +12,41 @@
         }
     </style>
     {% include "turbo/head.html" %}
+    {% include 'framework/ionic-import.html' %}
 </head>
+
 <body>
-<a href="/">Home</a>
-<turbo-frame id="update-list">
-    {% include 'list/list.html' %}
-    <a href="{% url 'update' list.pk %}">Edit</a>
-</turbo-frame>
-{% turbo_stream_from list %}
-{% turbo_stream_from 'broadcasts' %}
-<turbo-frame id="items-frame">
-     <ul id="items">
-        {% for item in list.items.all %}
-            {% include "list/item.html" with item=item only %}
-        {% endfor %}
-    </ul>
-</turbo-frame>
-<turbo-frame id="send-item" src="{% url 'send' list.id %}">
-</turbo-frame>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar>
+                <ion-buttons slot="start">
+                    <ion-back-button defaultHref="/"></ion-back-button>
+                </ion-buttons>
+                <ion-title>
+                    ShoppingList
+                </ion-title>
+            </ion-toolbar>
+        </ion-header>
+
+
+        <ion-content>
+            <turbo-frame id="update-list">
+                {% include 'list/list.html' %}
+                <a href="{% url 'update' list.pk %}">Edit</a>
+            </turbo-frame>
+            {% turbo_stream_from list %}
+            {% turbo_stream_from 'broadcasts' %}
+            <turbo-frame id="items-frame">
+                <ul id="items">
+                    {% for item in list.items.all %}
+                    {% include "list/item.html" with item=item only %}
+                    {% endfor %}
+                </ul>
+            </turbo-frame>
+            <turbo-frame id="send-item" src="{% url 'send' list.id %}">
+            </turbo-frame>
+        </ion-content>
+    </ion-app>
 </body>
+
 </html>
