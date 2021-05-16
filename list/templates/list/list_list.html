@@ -13,7 +13,7 @@
         {% if lists %}
         <ion-list>
         {% for list in lists %}
-            <ion-item href="{% url 'detail' list.id %}">{{ list.name }}</li>
+            <ion-item href="{% url 'detail' list.id %}">{{ list.name }}</ion-item>
         {% endfor %}
         </ion-list>
         {% else %}
