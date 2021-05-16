@@ -3,7 +3,10 @@
 
 <turbo-frame id="delete-item">
     <ion-item id="{% stream_id item %}">
-        {{ item.text }} 
+        <ion-label>
+            {{ item.text }}
+            <p>{{ item.note }}</p>
+        </ion-label>
         <!-- Doesn't work with shadow dom -->
         <!-- <ion-button slot="end" fill="clear" href="{% url 'delete' item.pk %}">
             <ion-icon name="trash"></ion-icon>
