@@ -1,0 +1,7 @@
+<turbo-frame id="items-frame">
+    <ul id="items">
+        {% for item in list.items.all %}
+        {% include "list/item.html" with item=item only %}
+        {% endfor %}
+    </ul>    
+</turbo-frame>

@@ -23,7 +23,7 @@
                     <ion-back-button defaultHref="/"></ion-back-button>
                 </ion-buttons>
                 <ion-title>
-                    ShoppingList
+                    <a href="/">ShoppingList</a>
                 </ion-title>
             </ion-toolbar>
         </ion-header>
@@ -36,13 +36,8 @@
             </turbo-frame>
             {% turbo_stream_from list %}
             {% turbo_stream_from 'broadcasts' %}
-            <turbo-frame id="items-frame">
-                <ul id="items">
-                    {% for item in list.items.all %}
-                    {% include "list/item.html" with item=item only %}
-                    {% endfor %}
-                </ul>
-            </turbo-frame>
+
+            {% include "list/items_list.html" %}
             <turbo-frame id="send-item" src="{% url 'send' list.id %}">
             </turbo-frame>
         </ion-content>

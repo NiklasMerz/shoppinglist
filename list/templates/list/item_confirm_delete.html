@@ -1,9 +1,0 @@
-
-<turbo-frame id="delete-item">
-    <form method="post" action="{% url 'delete' view.kwargs.pk %}" data-turbo-frame="items">{% csrf_token %}
-        <p>Are you sure you want to delete "{{ object.text }}"?</p>
-
-        <!-- TOOD delete, check remind....-->
-        <input type="submit" value="Confirm">
-    </form>
-</turbo-frame>

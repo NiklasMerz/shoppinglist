@@ -8,6 +8,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from turbo import APPEND
 from .models import Item, List
+from datetime import datetime
 
 
 class ListList(ListView):
@@ -19,6 +20,10 @@ class ListDetail(DetailView):
     model = List
     context_object_name = "list"
 
+class ListItems(DetailView):
+    model = List
+    context_object_name = "list"
+    template_name = "list/items_list.html"
 
 class ListUpdate(UpdateView):
     model = List
@@ -39,18 +44,26 @@ class ItemCreate(CreateView):
         form.instance.save()
         return super().form_valid(list)
 
-class ItemDelete(DeleteView):
+class ItemCheck(UpdateView):
     model = Item
+    fields = ["last_count"]
+    template_name = 'list/check.html'
+    
+    def form_valid(self, form):
+        form.instance.last_bought = datetime.now()
+        form.instance.buy = False
+        form.instance.current_count = form.instance.last_count
+        form.instance.save()
+        return super().form_valid(form)
 
     def get_success_url(self):
         # Redirect to list
-        return reverse("done")
+        return reverse("items", kwargs={"pk": "1"})
 
 def done(request):
     # Empty frame, TODO stimulus?
 
-    return HttpResponse('<turbo-frame id="delete-item"></turbo-frame>')
-    
+    return HttpResponse('')
 
 def wiretap(request):
     """

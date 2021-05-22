@@ -1,18 +1,14 @@
 {% load turbo_streams %}
 
 
-<turbo-frame id="delete-item">
+<turbo-frame id="check-item">
     <ion-item id="{% stream_id item %}">
+        <ion-badge>{{ item.buy }}</ion-badge>
         <ion-label>
             {{ item.text }}
             <p>{{ item.note }}</p>
         </ion-label>
-        <!-- Doesn't work with shadow dom -->
-        <!-- <ion-button slot="end" fill="clear" href="{% url 'delete' item.pk %}">
-            <ion-icon name="trash"></ion-icon>
-        </ion-button> -->
-
-        <a slot="end" href="{% url 'delete' item.pk %}">
+        <a slot="end" href="{% url 'check' item.pk %}">
             <ion-icon name="trash"></ion-icon>
         </a>
     </ion-item>

@@ -9,9 +9,10 @@ urlpatterns = [
     path("<slug:pk>/", views.ListDetail.as_view(), name="detail"),
     path("<slug:pk>/edit", views.ListUpdate.as_view(), name="update"),
     path("<slug:pk>/send", views.ItemCreate.as_view(), name="send"),
+    path("<slug:pk>/items", views.ListItems.as_view(), name="items"),
 
     # Items
-    path("<slug:pk>/delete", views.ItemDelete.as_view(), name="delete"),
+    path("<slug:pk>/check", views.ItemCheck.as_view(), name="check"),
 
     # Misc
     path("wiretap", views.wiretap, name="wiretap"),

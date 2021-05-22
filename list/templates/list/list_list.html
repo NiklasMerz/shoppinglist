@@ -9,6 +9,17 @@
 </head>
 <body>
 <ion-app>
+    <ion-header>
+        <ion-toolbar>
+            <ion-buttons slot="start">
+                <ion-back-button defaultHref="/"></ion-back-button>
+            </ion-buttons>
+            <ion-title>
+                <a href="/">ShoppingList</a>
+            </ion-title>
+        </ion-toolbar>
+    </ion-header>
+
     <ion-content text-center>
         {% if lists %}
         <ion-list>
