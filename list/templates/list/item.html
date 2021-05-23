@@ -2,8 +2,7 @@
 
 
 <turbo-frame id="check-item">
-    <ion-item id="{% stream_id item %}">
-        <ion-badge>{{ item.buy }}</ion-badge>
+    <ion-item id="{% stream_id item %}" data-buy="{{ item.buy }}">
         <ion-label>
             {{ item.text }}
             <p>{{ item.note }}</p>

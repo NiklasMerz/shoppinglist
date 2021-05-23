@@ -22,7 +22,7 @@ class ListDetail(DetailView):
 
 class ListItems(DetailView):
     model = List
-    context_object_name = "list"
+    context_object_name = "listitems"
     template_name = "list/items_list.html"
 
 class ListUpdate(UpdateView):
@@ -61,8 +61,6 @@ class ItemCheck(UpdateView):
         return reverse("items", kwargs={"pk": "1"})
 
 def done(request):
-    # Empty frame, TODO stimulus?
-
     return HttpResponse('')
 
 def wiretap(request):

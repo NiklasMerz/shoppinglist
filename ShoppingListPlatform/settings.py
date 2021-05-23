@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "channels",
     "list.apps.ListConfig",
     "turbo",
+    'webpack_tools',
 ]
 
 MIDDLEWARE = [

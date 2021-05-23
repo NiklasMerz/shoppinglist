@@ -9,3 +9,4 @@ venv
 .vscode
 doc/build.env
 .env
+node_modules

@@ -1,0 +1,39 @@
+{
+  "name": "shopping-list",
+  "version": "1.0.0",
+  "description": "> Built using Django and Hotwire",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NiklasMerz/shoppinglist.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NiklasMerz/shoppinglist/issues"
+  },
+  "homepage": "https://github.com/NiklasMerz/shoppinglist#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-proposal-decorators": "^7.14.2",
+    "@babel/plugin-transform-runtime": "^7.14.3",
+    "@babel/preset-env": "^7.14.2",
+    "@stimulus/webpack-helpers": "^2.0.0",
+    "babel-loader": "^8.2.2",
+    "webpack": "^5.37.1",
+    "webpack-bundle-analyzer": "^4.4.2",
+    "webpack-cli": "^4.7.0",
+    "glob": "^7.1.7"
+  },
+  "dependencies": {
+    "stimulus": "^2.0.0"
+  }
+}
