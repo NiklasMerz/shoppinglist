@@ -22,7 +22,7 @@ class ListDetail(DetailView):
 
 class ListItems(DetailView):
     model = List
-    context_object_name = "listitems"
+    context_object_name = "list"
     template_name = "list/items_list.html"
 
 class ListUpdate(UpdateView):

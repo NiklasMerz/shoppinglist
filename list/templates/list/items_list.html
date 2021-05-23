@@ -1,5 +1,5 @@
 <turbo-frame id="items-frame">
-    <ul data-controller="list">
+    <ul data-controller="list" id="items">
         {% for item in list.items.all %}
         {% include "list/item.html" with item=item only %}
         {% endfor %}
