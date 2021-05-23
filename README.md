@@ -13,6 +13,10 @@ pip install -r requirements.txt
 ./manage.py createsuperuser
 ./manage.py loaddata data.json
 ./manage.py runserver
+
+
+# Save requirements
+pip freeze > requirements.txt
 ```
 
 Log into `http://localhost:8000/admin` and create a `Room`
