@@ -2,7 +2,7 @@
 
 
 <turbo-frame id="check-item">
-    <ion-item id="{% stream_id item %}" data-buy="{{ item.buy }}" data-list-target="item">
+    <ion-item id="{% stream_id item %}" data-buy="{{ item.buy }}" data-list-target="item" data-text="{{ item.text }}">
         <ion-badge slot="start" color="{{ item.buy|yesno:"danger,success" }}">
             {{ item.current_count }}
         </ion-badge>
@@ -11,7 +11,7 @@
             <p>{{ item.note }}</p>
         </ion-label>
         <a slot="end" href="{% url 'check' item.pk %}">
-            <ion-icon name="trash"></ion-icon>
+            <ion-icon name="checkmark"></ion-icon>
         </a>
     </ion-item>
 </turbo-frame>
