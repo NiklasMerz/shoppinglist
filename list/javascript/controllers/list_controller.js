@@ -11,7 +11,7 @@ export default class extends Controller {
             let frame = this.element.children[i];
             let item = frame.children[0];
             
-            if (item.dataset.buy) {
+            if (item?.dataset.buy) {
                 this.items.push(item);
             
 
@@ -20,6 +20,10 @@ export default class extends Controller {
                 }
             }
         }
+    }
+
+    switch() {
+        this.items.forEach((elem) => elem.hidden = !elem.hidden);
     }
 
 }
