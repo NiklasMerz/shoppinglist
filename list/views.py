@@ -50,12 +50,14 @@ class ItemCheck(UpdateView):
     template_name = 'list/check.html'
     
     def form_valid(self, form):
-        form.instance.buy = not form.instance.buy
-
         if form.instance.buy:
+            # Item bought: set inventory and time of purchase
             form.instance.last_bought = datetime.now()
 
+
+        # Number in inventory or to buy        
         form.instance.current_count = form.instance.last_count
+        form.instance.buy = not form.instance.buy
         form.instance.save()
         return super().form_valid(form)
 
