@@ -2,7 +2,7 @@
 
 
 <turbo-frame id="check-item">
-    <ion-item id="{% stream_id item %}" data-buy="{{ item.buy }}">
+    <ion-item id="{% stream_id item %}" data-buy="{{ item.buy }}" data-list-target="item">
         <ion-label>
             {{ item.text }}
             <p>{{ item.note }}</p>
