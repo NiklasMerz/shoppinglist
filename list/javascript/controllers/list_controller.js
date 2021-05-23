@@ -5,6 +5,7 @@ import { Controller } from "stimulus";
 export default class extends Controller {
     static targets = ['item', 'search']
     items = [];
+    buy = true;
 
     connect() {
         // Collect elements and hide elements without by flag
@@ -26,7 +27,17 @@ export default class extends Controller {
     }
 
     switch() {
-        this.items.forEach((elem) => elem.hidden = !elem.hidden);
+        this.buy = !this.buy;
+        this.items.forEach((elem) => {
+            // TODO python booleans?
+            if (elem.dataset.buy === 'False' && this.buy) {
+                elem.hidden = true;
+            } else if (elem.dataset.buy === 'True'  && !this.buy) {
+                elem.hidden = true;
+            } else {
+                elem.hidden = false;
+            }
+        });
     }
 
 }
