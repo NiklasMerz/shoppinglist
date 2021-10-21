@@ -19,8 +19,9 @@ pip install -r requirements.txt
 pip freeze > requirements.txt
 
 # Start with webpack build
-python manage.py webpack --build && ./manage.py runserver
+python manage.py webpack --build && ./manage.py collecstatic && ./manage.py runserver
 ```
 
-Log into `http://localhost:8000/admin` and create a `Room`
 Go to `http://localhost:8000`
+
+Log into `http://localhost:8000/admin` for the admin interface.
