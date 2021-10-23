@@ -16,8 +16,8 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('openapi', get_schema_view(
-        title="Shopping Advanced",
-        description="API for mobile apps",
-        version="0.0.1"
+        title='Shopping Advanced',
+        description='API for mobile apps',
+        version="'0.0.1'"
     ), name='openapi-schema'),
 ]

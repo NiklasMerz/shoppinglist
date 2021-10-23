@@ -1,0 +1,751 @@
+openapi: 3.0.2
+info:
+  title: Shopping Advanced
+  version: '''0.0.1'''
+  description: API for mobile apps
+paths:
+  /api/lists/:
+    get:
+      operationId: listLists
+      description: List endpoint
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/List'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createList
+      description: List endpoint
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/List'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/List'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/List'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+          description: ''
+      tags:
+      - api
+  /api/lists/{id}/:
+    get:
+      operationId: retrieveList
+      description: List endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this list.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateList
+      description: List endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this list.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/List'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/List'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/List'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateList
+      description: List endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this list.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/List'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/List'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/List'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyList
+      description: List endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this list.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/items/:
+    get:
+      operationId: listItems
+      description: Item endpoint
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createItem
+      description: Item endpoint
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Item'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+          description: ''
+      tags:
+      - api
+  /api/items/{id}/:
+    get:
+      operationId: retrieveItem
+      description: Item endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateItem
+      description: Item endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Item'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateItem
+      description: Item endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Item'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyItem
+      description: Item endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this item.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/stores/:
+    get:
+      operationId: listStores
+      description: Store endpoint
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Store'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createStore
+      description: Store endpoint
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Store'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Store'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Store'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+          description: ''
+      tags:
+      - api
+  /api/stores/{id}/:
+    get:
+      operationId: retrieveStore
+      description: Store endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this store.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateStore
+      description: Store endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this store.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Store'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Store'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Store'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateStore
+      description: Store endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this store.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Store'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Store'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Store'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyStore
+      description: Store endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this store.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/trips/:
+    get:
+      operationId: listTrips
+      description: Trip endpoint
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trip'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createTrip
+      description: Trip endpoint
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trip'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Trip'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Trip'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trip'
+          description: ''
+      tags:
+      - api
+  /api/trips/{id}/:
+    get:
+      operationId: retrieveTrip
+      description: Trip endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this trip.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trip'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateTrip
+      description: Trip endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this trip.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trip'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Trip'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Trip'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trip'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateTrip
+      description: Trip endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this trip.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trip'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Trip'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Trip'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trip'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyTrip
+      description: Trip endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this trip.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/checkouts/:
+    get:
+      operationId: listCheckouts
+      description: Checkout endpoint
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Checkout'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createCheckout
+      description: Checkout endpoint
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checkout'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Checkout'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Checkout'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checkout'
+          description: ''
+      tags:
+      - api
+  /api/checkouts/{id}/:
+    get:
+      operationId: retrieveCheckout
+      description: Checkout endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this checkout.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checkout'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateCheckout
+      description: Checkout endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this checkout.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checkout'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Checkout'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Checkout'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checkout'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateCheckout
+      description: Checkout endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this checkout.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checkout'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Checkout'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Checkout'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checkout'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyCheckout
+      description: Checkout endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this checkout.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+components:
+  schemas:
+    List:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 255
+      required:
+      - name
+    Item:
+      type: object
+      properties:
+        text:
+          type: string
+        note:
+          type: string
+          nullable: true
+        buy:
+          type: boolean
+        list:
+          type: string
+      required:
+      - text
+      - list
+    Store:
+      type: object
+      properties:
+        name:
+          type: string
+        note:
+          type: string
+          nullable: true
+        location:
+          type: string
+          nullable: true
+      required:
+      - name
+    Trip:
+      type: object
+      properties:
+        time:
+          type: string
+          format: date-time
+          readOnly: true
+        store:
+          type: integer
+        list:
+          type: integer
+        count:
+          type: integer
+      required:
+      - store
+      - list
+    Checkout:
+      type: object
+      properties:
+        time:
+          type: string
+          format: date-time
+          readOnly: true
+        trip:
+          type: integer
+        item:
+          type: integer
+        count:
+          type: integer
+      required:
+      - trip
+      - item
