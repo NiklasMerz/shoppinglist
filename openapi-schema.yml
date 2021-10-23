@@ -142,7 +142,19 @@ paths:
     get:
       operationId: listItems
       description: Item endpoint
-      parameters: []
+      parameters:
+      - name: buy
+        required: false
+        in: query
+        description: buy
+        schema:
+          type: string
+      - name: list
+        required: false
+        in: query
+        description: list
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -189,6 +201,18 @@ paths:
         description: A unique integer value identifying this item.
         schema:
           type: string
+      - name: buy
+        required: false
+        in: query
+        description: buy
+        schema:
+          type: string
+      - name: list
+        required: false
+        in: query
+        description: list
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -206,6 +230,18 @@ paths:
         in: path
         required: true
         description: A unique integer value identifying this item.
+        schema:
+          type: string
+      - name: buy
+        required: false
+        in: query
+        description: buy
+        schema:
+          type: string
+      - name: list
+        required: false
+        in: query
+        description: list
         schema:
           type: string
       requestBody:
@@ -238,6 +274,18 @@ paths:
         description: A unique integer value identifying this item.
         schema:
           type: string
+      - name: buy
+        required: false
+        in: query
+        description: buy
+        schema:
+          type: string
+      - name: list
+        required: false
+        in: query
+        description: list
+        schema:
+          type: string
       requestBody:
         content:
           application/json:
@@ -266,6 +314,18 @@ paths:
         in: path
         required: true
         description: A unique integer value identifying this item.
+        schema:
+          type: string
+      - name: buy
+        required: false
+        in: query
+        description: buy
+        schema:
+          type: string
+      - name: list
+        required: false
+        in: query
+        description: list
         schema:
           type: string
       responses:
@@ -689,27 +749,6 @@ components:
         name:
           type: string
           maxLength: 255
-        items:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-                readOnly: true
-              text:
-                type: string
-              note:
-                type: string
-                nullable: true
-              buy:
-                type: boolean
-              list:
-                type: string
-            required:
-            - text
-            - list
-          readOnly: true
       required:
       - name
     Item:

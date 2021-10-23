@@ -6,9 +6,37 @@
 
 <ion-content>
 
-  <ion-list>
-    <app-listitem *ngFor="let item of items" [item]="item">
+  <ion-searchbar placeholder="Search or add" (ionChange)="search($event)" showClearButton="always" (ionClear)="clear()"></ion-searchbar>
+
+  <ion-list *ngIf="searchActive && searchItem">
+    <ion-list-header color="secondary">
+      Add new item
+    </ion-list-header>
+    <app-listitem [item]="searchItem">
+      <ion-button slot="end" fill="clear" (click)="create(searchItem)">
+        <ion-icon name="add" slot="icon-only" color="secondary"></ion-icon>
+      </ion-button>
+    </app-listitem>
+  </ion-list>
+
+  <ion-list *ngIf="listItems.length > 0">
+    <ion-list-header color="primary">
+      On List
+    </ion-list-header>
+    <app-listitem *ngFor="let item of listItems" [item]="item">
       <ion-checkbox slot="end" *ngIf="mode === 'buy'"></ion-checkbox>
+    </app-listitem>
+  </ion-list>
+
+  <ion-list *ngIf="searchActive && notListItems.length > 0">
+    <ion-list-header color="danger">
+      Not on list
+    </ion-list-header>
+    <app-listitem *ngFor="let item of notListItems" [item]="item">
+      <ion-button slot="end" fill="clear" (click)="add(item)">
+        <ion-icon name="add" slot="end"></ion-icon>
+        Add
+      </ion-button>
     </app-listitem>
   </ion-list>
 

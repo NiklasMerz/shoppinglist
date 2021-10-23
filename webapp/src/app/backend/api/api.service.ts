@@ -405,15 +405,27 @@ export class ApiService {
     /**
      * Item endpoint
      * @param id A unique integer value identifying this item.
+     * @param buy buy
+     * @param list list
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public destroyItem(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public destroyItem(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public destroyItem(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public destroyItem(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+    public destroyItem(id: string, buy?: string, list?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public destroyItem(id: string, buy?: string, list?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public destroyItem(id: string, buy?: string, list?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public destroyItem(id: string, buy?: string, list?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling destroyItem.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (buy !== undefined && buy !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>buy, 'buy');
+        }
+        if (list !== undefined && list !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>list, 'list');
         }
 
         let headers = this.defaultHeaders;
@@ -437,6 +449,7 @@ export class ApiService {
 
         return this.httpClient.delete<any>(`${this.configuration.basePath}/api/items/${encodeURIComponent(String(id))}/`,
             {
+                params: queryParameters,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -621,13 +634,25 @@ export class ApiService {
 
     /**
      * Item endpoint
+     * @param buy buy
+     * @param list list
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public listItems(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<Item>>;
-    public listItems(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<Item>>>;
-    public listItems(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<Item>>>;
-    public listItems(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public listItems(buy?: string, list?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<Item>>;
+    public listItems(buy?: string, list?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<Item>>>;
+    public listItems(buy?: string, list?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<Item>>>;
+    public listItems(buy?: string, list?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (buy !== undefined && buy !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>buy, 'buy');
+        }
+        if (list !== undefined && list !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>list, 'list');
+        }
 
         let headers = this.defaultHeaders;
 
@@ -651,6 +676,7 @@ export class ApiService {
 
         return this.httpClient.get<Array<Item>>(`${this.configuration.basePath}/api/items/`,
             {
+                params: queryParameters,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -844,16 +870,28 @@ export class ApiService {
     /**
      * Item endpoint
      * @param id A unique integer value identifying this item.
+     * @param buy buy
+     * @param list list
      * @param item 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public partialUpdateItem(id: string, item?: Item, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Item>;
-    public partialUpdateItem(id: string, item?: Item, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Item>>;
-    public partialUpdateItem(id: string, item?: Item, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Item>>;
-    public partialUpdateItem(id: string, item?: Item, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public partialUpdateItem(id: string, buy?: string, list?: string, item?: Item, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Item>;
+    public partialUpdateItem(id: string, buy?: string, list?: string, item?: Item, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Item>>;
+    public partialUpdateItem(id: string, buy?: string, list?: string, item?: Item, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Item>>;
+    public partialUpdateItem(id: string, buy?: string, list?: string, item?: Item, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling partialUpdateItem.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (buy !== undefined && buy !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>buy, 'buy');
+        }
+        if (list !== undefined && list !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>list, 'list');
         }
 
         let headers = this.defaultHeaders;
@@ -890,6 +928,7 @@ export class ApiService {
         return this.httpClient.patch<Item>(`${this.configuration.basePath}/api/items/${encodeURIComponent(String(id))}/`,
             item,
             {
+                params: queryParameters,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -1121,15 +1160,27 @@ export class ApiService {
     /**
      * Item endpoint
      * @param id A unique integer value identifying this item.
+     * @param buy buy
+     * @param list list
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public retrieveItem(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Item>;
-    public retrieveItem(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Item>>;
-    public retrieveItem(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Item>>;
-    public retrieveItem(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public retrieveItem(id: string, buy?: string, list?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Item>;
+    public retrieveItem(id: string, buy?: string, list?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Item>>;
+    public retrieveItem(id: string, buy?: string, list?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Item>>;
+    public retrieveItem(id: string, buy?: string, list?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling retrieveItem.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (buy !== undefined && buy !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>buy, 'buy');
+        }
+        if (list !== undefined && list !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>list, 'list');
         }
 
         let headers = this.defaultHeaders;
@@ -1154,6 +1205,7 @@ export class ApiService {
 
         return this.httpClient.get<Item>(`${this.configuration.basePath}/api/items/${encodeURIComponent(String(id))}/`,
             {
+                params: queryParameters,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -1359,16 +1411,28 @@ export class ApiService {
     /**
      * Item endpoint
      * @param id A unique integer value identifying this item.
+     * @param buy buy
+     * @param list list
      * @param item 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateItem(id: string, item?: Item, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Item>;
-    public updateItem(id: string, item?: Item, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Item>>;
-    public updateItem(id: string, item?: Item, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Item>>;
-    public updateItem(id: string, item?: Item, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public updateItem(id: string, buy?: string, list?: string, item?: Item, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Item>;
+    public updateItem(id: string, buy?: string, list?: string, item?: Item, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Item>>;
+    public updateItem(id: string, buy?: string, list?: string, item?: Item, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Item>>;
+    public updateItem(id: string, buy?: string, list?: string, item?: Item, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling updateItem.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (buy !== undefined && buy !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>buy, 'buy');
+        }
+        if (list !== undefined && list !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>list, 'list');
         }
 
         let headers = this.defaultHeaders;
@@ -1405,6 +1469,7 @@ export class ApiService {
         return this.httpClient.put<Item>(`${this.configuration.basePath}/api/items/${encodeURIComponent(String(id))}/`,
             item,
             {
+                params: queryParameters,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

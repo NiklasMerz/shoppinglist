@@ -17,7 +17,7 @@
         <ion-list id="labels-list">
           <ion-list-header>Lists</ion-list-header>
 
-          <ion-item *ngFor="let list of lists" lines="none" [routerLink]="['/list', list.id]">
+          <ion-item *ngFor="let list of lists" lines="none" [routerLink]="['/list', list.id, list.name]">
             <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
             <ion-label>{{ list.name }}</ion-label>
           </ion-item>

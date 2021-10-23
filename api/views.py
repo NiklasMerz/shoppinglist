@@ -2,6 +2,7 @@ from list.models import *
 from rest_framework import viewsets
 from rest_framework import permissions
 from .serializers import *
+from django_filters.rest_framework import DjangoFilterBackend
 
 from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
 
@@ -21,6 +22,8 @@ class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['buy', 'list']
 
 class StoreViewSet(viewsets.ModelViewSet):
     """

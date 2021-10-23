@@ -9,12 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ListItems } from './listItems';
 
 
 export interface List { 
     readonly id?: number;
     name: string;
-    readonly items?: Array<ListItems>;
 }
 

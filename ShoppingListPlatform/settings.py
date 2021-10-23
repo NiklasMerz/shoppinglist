@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "turbo",
     'webpack_tools',
     'oauth2_provider',
+    'django_filters',
     'rest_framework',
     'corsheaders',
 ]
@@ -161,7 +162,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-    )
+    ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 CORS_ALLOWED_ORIGINS = [
