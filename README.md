@@ -28,6 +28,8 @@ Log into `http://localhost:8000/admin` for the admin interface.
 
 # Open API
 
+> TODO NPM package angular client?
+
 * API URL: `http://localhost:8000/api/`
 
 * API Scheme: `http://localhost:8000/api/openapi`
