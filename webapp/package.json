@@ -10,7 +10,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "openapi": "npx @openapitools/openapi-generator-cli generate -i ../openapi-schema.yml  -o src/app/backend -g typescript-angular --additional-properties=npmName=shopping-advanced-client"
+    "openapi": "npx @openapitools/openapi-generator-cli generate -i ../openapi-schema.yml  -o src/app/backend -g typescript-angular --additional-properties=npmName=shopping-advanced-client",
+    "generate": "npm run generate:fix-version && npm run generate:build",
+    "generate:fix-version": "openapi-generator-cli version-manager set 5.1.0",
+    "generate:build": "npx @openapitools/openapi-generator-cli generate -i ../openapi-schema.yml  -o src/app/backend -g typescript-angular --additional-properties=npmName=shopping-advanced-client"
   },
   "private": true,
   "dependencies": {

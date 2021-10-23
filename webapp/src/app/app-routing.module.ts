@@ -7,14 +7,6 @@ const routes: Routes = [
     redirectTo: 'folder/Inbox',
     pathMatch: 'full'
   },
-  {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  },
-  {
-    path: 'lists',
-    loadChildren: () => import('./pages/lists/lists.module').then( m => m.ListsPageModule)
-  }
 ];
 
 @NgModule({
