@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "list.apps.ListConfig",
     "turbo",
     'webpack_tools',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +141,11 @@ STATICFILES_DIRS = (
 )
 
 CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

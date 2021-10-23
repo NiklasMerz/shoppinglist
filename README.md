@@ -19,9 +19,17 @@ pip install -r requirements.txt
 pip freeze > requirements.txt
 
 # Start with webpack build
-python manage.py webpack --build && ./manage.py collecstatic && ./manage.py runserver
+python manage.py webpack --build && ./manage.py collectstatic && ./manage.py runserver
 ```
 
 Go to `http://localhost:8000`
 
 Log into `http://localhost:8000/admin` for the admin interface.
+
+# Open API
+
+* API URL: `http://localhost:8000/api/`
+
+* API Scheme: `http://localhost:8000/api/openapi`
+
+* Generate schema: `./manage.py generateschema --file openapi-schema.yml`
