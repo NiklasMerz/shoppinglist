@@ -7,18 +7,9 @@
 <ion-content>
 
   <ion-list>
-    <ion-item-sliding>
-      <ion-item *ngFor="let item of items">
-        <ion-label>
-          {{item.text}}
-          <p>{{item.note}}</p>
-        </ion-label>
-        <ion-checkbox slot="end" *ngIf="mode === 'buy'"></ion-checkbox>
-      </ion-item>
-      <ion-item-options side="start">
-        <ion-item-option>Delete</ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
+    <app-listitem *ngFor="let item of items" [item]="item">
+      <ion-checkbox slot="end" *ngIf="mode === 'buy'"></ion-checkbox>
+    </app-listitem>
   </ion-list>
 
 </ion-content>
