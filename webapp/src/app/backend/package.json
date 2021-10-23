@@ -1,6 +1,6 @@
 {
   "name": "shopping-advanced-client",
-  "version": "'0.0.1'",
+  "version": "1.0.0",
   "description": "OpenAPI client for shopping-advanced-client",
   "author": "OpenAPI-Generator Contributors",
   "keywords": [

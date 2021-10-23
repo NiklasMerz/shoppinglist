@@ -11,11 +11,11 @@
  */
 
 
-export interface Checkout { 
+export interface ListItems { 
     readonly id?: number;
-    readonly time?: string;
-    trip: number;
-    item: number;
-    count?: number;
+    text: string;
+    note?: string | null;
+    buy?: boolean;
+    list: string;
 }
 

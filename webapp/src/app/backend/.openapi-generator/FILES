@@ -10,6 +10,7 @@ index.ts
 model/checkout.ts
 model/item.ts
 model/list.ts
+model/listItems.ts
 model/models.ts
 model/store.ts
 model/trip.ts
