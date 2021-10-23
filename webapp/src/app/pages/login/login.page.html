@@ -1,13 +1,25 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>login</ion-title>
+    <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <p><strong class="capitalize">Login</strong></p>
 
-  <ion-input type="text" placeholder="Username" [(ngModel)]="username"></ion-input>
-  <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
-  <ion-button (click)="login()">Login</ion-button>
+    <ion-input type="text" placeholder="Username" [(ngModel)]="username"></ion-input>
+    <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
 
+    <ion-button (click)="login()">Login</ion-button>
+    <ion-button (click)="logout()">Logout</ion-button>
+
+    <!-- Test UI-->
+    <br>
+    <br>
+    <p *ngIf="isLogin">
+      Login Success. Token is:
+    </p>
+    {{token}}
+  </div>
 </ion-content>

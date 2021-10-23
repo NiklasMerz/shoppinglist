@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
+import {OAuthService} from "angular-oauth2-oidc";
 
 @Component({
   selector: 'app-login',
@@ -7,19 +9,35 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  username: string;
-  password: string;
+  public token?: string;
+  public isLogin: boolean = false;
 
-  constructor(private modalCtrl: ModalController) { }
+  public username: string;
+  public password: string;
+
+  constructor(private router: Router, private authService: AuthService, private oauthService: OAuthService) { }
 
   ngOnInit() {
+    this.oauthService.configure(this.authService.getConfig());
+    this.oauthService.loadDiscoveryDocumentAndTryLogin().then(
+        _ => {
+          if (this.authService.isLoggedIn()) {
+            this.token = "Logged In!"
+          } else {
+            this.token = "Not Logged In!"
+          }
+        }
+    )
   }
 
-  login() {
-    this.modalCtrl.dismiss({
-      username: this.username,
-      password: this.password
-    });
+  async login() {
+    await this.authService.login(this.username, this.password);
+
+    // TODO modal or better?
+    this.router.navigate(['/']);
   }
 
+  logout() {
+    this.authService.logout()
+  }
 }
