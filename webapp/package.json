@@ -9,7 +9,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "openapi": "npx @openapitools/openapi-generator-cli generate -i ../openapi-schema.yml  -o src/app/backend -g typescript-angular --additional-properties=npmName=shopping-advanced-client"
   },
   "private": true,
   "dependencies": {
