@@ -9,20 +9,25 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 
-import { ApiModule, Configuration, ConfigurationParameters, BASE_PATH } from './backend';
+import { ApiModule, Configuration, ConfigurationParameters } from './backend';
 
-export function apiConfigFactory (): Configuration {
-  const params: ConfigurationParameters = {
-    // set configuration parameters here.
-  }
-  return new Configuration(params);
-}
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,  HttpClientModule, ApiModule.forRoot(apiConfigFactory)],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, {provide: BASE_PATH, useValue: environment.API_BASE_PATH}],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,  HttpClientModule, ApiModule],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, {
+    provide: Configuration,
+    useFactory: (authService: AuthService) => new Configuration(
+      {
+        basePath: environment.API_BASE_PATH,
+        accessToken: authService.getToken.bind(authService)
+      }
+    ),
+    deps: [AuthService],
+    multi: false
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
