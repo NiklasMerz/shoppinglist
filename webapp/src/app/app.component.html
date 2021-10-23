@@ -15,11 +15,11 @@
         </ion-list>
 
         <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
+          <ion-list-header>Lists</ion-list-header>
 
-          <ion-item *ngFor="let label of labels" lines="none">
+          <ion-item *ngFor="let list of lists" lines="none" [routerLink]="['/list', list.id]">
             <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
+            <ion-label>{{ list.name }}</ion-label>
           </ion-item>
         </ion-list>
       </ion-content>

@@ -1,4 +1,4 @@
-## shopping-advanced-client@&#39;0.0.1&#39;
+## shopping-advanced-client@1.0.0
 
 ### Building
 
@@ -19,7 +19,7 @@ Navigate to the folder of your consuming project and run one of next commands.
 _published:_
 
 ```
-npm install shopping-advanced-client@&#39;0.0.1&#39; --save
+npm install shopping-advanced-client@1.0.0 --save
 ```
 
 _without publishing (not recommended):_

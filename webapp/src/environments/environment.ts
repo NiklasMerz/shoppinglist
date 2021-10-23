@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  API_BASE_PATH: 'http://localhost:8000'
+  API_BASE_PATH: 'http://localhost:8000',
+  CLIENT_ID: 'tvtNIMClW2WPmym6OX6UCJ4drHVQuySbeP58CXdP'
 };
 
 /*

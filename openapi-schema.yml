@@ -683,14 +683,41 @@ components:
     List:
       type: object
       properties:
+        id:
+          type: integer
+          readOnly: true
         name:
           type: string
           maxLength: 255
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              text:
+                type: string
+              note:
+                type: string
+                nullable: true
+              buy:
+                type: boolean
+              list:
+                type: string
+            required:
+            - text
+            - list
+          readOnly: true
       required:
       - name
     Item:
       type: object
       properties:
+        id:
+          type: integer
+          readOnly: true
         text:
           type: string
         note:
@@ -706,6 +733,9 @@ components:
     Store:
       type: object
       properties:
+        id:
+          type: integer
+          readOnly: true
         name:
           type: string
         note:
@@ -719,6 +749,9 @@ components:
     Trip:
       type: object
       properties:
+        id:
+          type: integer
+          readOnly: true
         time:
           type: string
           format: date-time
@@ -735,6 +768,9 @@ components:
     Checkout:
       type: object
       properties:
+        id:
+          type: integer
+          readOnly: true
         time:
           type: string
           format: date-time
