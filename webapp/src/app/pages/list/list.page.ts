@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApiService } from 'src/app/backend';
+import { ModalController } from '@ionic/angular';
+import { ApiService, Checkout, Trip } from 'src/app/backend';
 
 import { Item } from '../../backend';
+import { StartShoppingPage } from '../startshopping/startshopping.page';
 @Component({
   selector: 'app-list',
   templateUrl: './list.page.html',
@@ -15,14 +17,15 @@ export class ListPage implements OnInit {
   name: string;
   mode: 'add' | 'buy' = 'add';
   searchActive = false;
-  id: string;
+  listId: string;
   searchItem: Item;
+  trip: Trip;
 
-  constructor(private activatedRoute: ActivatedRoute, private api: ApiService) { }
+  constructor(private activatedRoute: ActivatedRoute, private api: ApiService, private modalCtrl: ModalController) { }
 
   ngOnInit() {
     this.name = this.activatedRoute.snapshot.paramMap.get('name');
-    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.listId = this.activatedRoute.snapshot.paramMap.get('id');
     this.getItems(true).then((data) => {
       this.allItems = data;
       this.listItems = data;
@@ -36,7 +39,7 @@ export class ListPage implements OnInit {
       this.listItems = this.allItems.filter(item => item.text.includes(searchterm));
 
       this.searchActive = true;
-      this.searchItem = {text: searchterm, list: this.id};
+      this.searchItem = {text: searchterm, list: this.listId};
 
       this.notListItems = await (await this.getItems(false)).filter(item => item.text.includes(searchterm));
     }
@@ -56,14 +59,49 @@ export class ListPage implements OnInit {
 
   add(item: Item) {
     item.buy = true;
-    this.api.updateItem(item.id.toString(), 'false', this.id, item).toPromise().then(async () => {
+    this.api.updateItem(item.id.toString(), 'false', this.listId, item).toPromise().then(async () => {
       await this.getItems(true);
       this.clear();
     }).catch(err => console.log(err));
   }
 
+  // TODO Animation
+
+  async startShopping() {
+    this.mode = 'buy';
+
+    const modal = await this.modalCtrl.create({
+      component: StartShoppingPage,
+      componentProps: {
+        listId: this.listId
+      },
+      backdropDismiss: false
+    });
+    await modal.present();
+
+    modal.onDidDismiss().then(async (res) => {
+      this.trip = res.data.trip;
+    });
+  }
+
+  stopShopping() {
+    this.mode = 'add';
+    this.trip = null;
+  }
+
+  async check(item: Item) {
+    // TODO error handling
+    item.buy = false;
+    await this.api.updateItem(item.id.toString(), 'true', this.listId, item).toPromise();
+    const checkout: Checkout = {trip: this.trip.id, item: item.id};
+    await this.api.createCheckout(checkout).toPromise();
+
+    // TODO fix array display remove and add
+    this.allItems.splice(this.allItems.indexOf(item), 1);
+    this.listItems.splice(this.listItems.indexOf(item), 1);
+  }
 
   private getItems(buy: boolean) {
-    return this.api.listItems(buy ? 'true': 'false', this.id).toPromise();
+    return this.api.listItems(buy ? 'true': 'false', this.listId).toPromise();
   }
 }
