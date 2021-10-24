@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>startshopping</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <ion-list>
+    <ion-list-header color="primary">
+      Stores
+    </ion-list-header>
+    <ion-item *ngFor="let store of stores" (click)="selectStore(store)">
+      <ion-label> {{store.name}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

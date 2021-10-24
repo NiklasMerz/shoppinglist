@@ -24,7 +24,7 @@
       On List
     </ion-list-header>
     <app-listitem *ngFor="let item of listItems" [item]="item">
-      <ion-checkbox slot="end" *ngIf="mode === 'buy'"></ion-checkbox>
+      <ion-checkbox slot="end" *ngIf="mode === 'buy'" (ionChange)="check(item)"></ion-checkbox>
     </app-listitem>
   </ion-list>
 
@@ -39,5 +39,17 @@
       </ion-button>
     </app-listitem>
   </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <!-- TODO Animation -->
+    <ion-fab-button *ngIf="mode === 'add'" (click)="startShopping()">
+      <ion-icon name="bag"></ion-icon>
+    </ion-fab-button>
+
+    <ion-fab-button *ngIf="mode === 'buy'" (click)="stopShopping()" color="danger">
+      <ion-icon name="bag-check"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
 
 </ion-content>
