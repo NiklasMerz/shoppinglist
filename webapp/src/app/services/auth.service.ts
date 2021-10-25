@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import {AuthConfig, OAuthService} from 'angular-oauth2-oidc';
-import {Platform} from "@ionic/angular";
+import {Platform} from '@ionic/angular';
 
 import { Configuration } from '../backend';
 
@@ -83,41 +83,36 @@ export class AuthService {
       showDebugInformation: true,
 
       openUri: uri => window.open(uri)
-    }
-  }
-
-  private getRedirectUri(): string {
-    console.log("Get RedirectURI. Is Hybrid: " + this.platform.is('hybrid'))
-    if (this.platform.is('hybrid')) {
-      // Universal Link
-      return 'TODO'
-    } else {
-      return window.location.origin + '/login'
-    }
+    };
   }
 
   isLoggedIn(): boolean {
-    return localStorage.getItem('access_token') !== null;
+    return this.oauthService.hasValidAccessToken();
+  }
+
+  getAccessToken(): string {
+    return this.oauthService.getAccessToken();
   }
 
   login(username: string, password: string) {
     console.log('Configure');
     this.oauthService.configure(this.getConfig());
     console.log('Try Login');
-    return this.oauthService.fetchTokenUsingPasswordFlow(username, password).then((token) => {
-        localStorage.setItem('access_token', token.access_token);
-        localStorage.setItem('id_token', token.id_token);
-        localStorage.setItem('refresh_token', token.refresh_token);
-        localStorage.setItem('expires_in', token.expires_in.toString());
-        localStorage.setItem('token_type', token.token_type);
-        localStorage.setItem('scope', token.scope);
-        localStorage.setItem('refresh_token', token.refresh_token);
-
-        return token.access_token;
-    });
+    this.oauthService.initLoginFlow();
+    return this.oauthService.fetchTokenUsingPasswordFlow(username, password).then((token) => token.access_token);
   }
 
   logout() {
     this.oauthService.logOut();
+  }
+
+  private getRedirectUri(): string {
+    console.log('Get RedirectURI. Is Hybrid: ' + this.platform.is('hybrid'))
+    if (this.platform.is('hybrid')) {
+      // Universal Link
+      return 'TODO';
+    } else {
+      return window.location.origin + '/login';
+    }
   }
 }
