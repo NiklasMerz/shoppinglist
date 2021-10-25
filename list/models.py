@@ -41,6 +41,7 @@ class Item(BroadcastableMixin, models.Model):
 class Trip(models.Model):
     id = models.BigAutoField(primary_key=True)
     time = models.DateTimeField(auto_now_add=True)
+    finish_time = models.DateTimeField(blank=True, null=True)
     store = models.ForeignKey(Store, related_name="trips", on_delete=models.CASCADE)
     list = models.ForeignKey(List, related_name="trips", on_delete=models.CASCADE)
     count = models.IntegerField(default=0)

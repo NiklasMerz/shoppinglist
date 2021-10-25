@@ -17,5 +17,6 @@ export interface Trip {
     store: number;
     list: number;
     count?: number;
+    finish_time?: string | null;
 }
 

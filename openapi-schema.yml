@@ -765,7 +765,7 @@ components:
         buy:
           type: boolean
         list:
-          type: string
+          type: integer
       required:
       - text
       - list
@@ -801,6 +801,10 @@ components:
           type: integer
         count:
           type: integer
+        finish_time:
+          type: string
+          format: date-time
+          nullable: true
       required:
       - store
       - list

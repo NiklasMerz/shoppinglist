@@ -17,7 +17,7 @@ export class ListPage implements OnInit {
   name: string;
   mode: 'add' | 'buy' = 'add';
   searchActive = false;
-  listId: string;
+  listId: number;
   searchItem: Item;
   trip: Trip;
 
@@ -26,7 +26,7 @@ export class ListPage implements OnInit {
 
   ngOnInit() {
     this.name = this.activatedRoute.snapshot.paramMap.get('name');
-    this.listId = this.activatedRoute.snapshot.paramMap.get('id');
+    this.listId = parseInt(this.activatedRoute.snapshot.paramMap.get('id'), 10);
     this.getItems(true).then((data) => {
       this.allItems = data;
       this.listItems = data;
@@ -60,7 +60,7 @@ export class ListPage implements OnInit {
 
   add(item: Item) {
     item.buy = true;
-    this.api.updateItem(item.id.toString(), 'false', this.listId, item).toPromise().then(async () => {
+    this.api.updateItem(item.id.toString(), 'false', this.listId.toString(), item).toPromise().then(async () => {
       await this.getItems(true);
       this.clear();
     }).catch(err => console.log(err));
@@ -93,19 +93,22 @@ export class ListPage implements OnInit {
 
   async stopShopping() {
     this.mode = 'add';
-    this.trip = null;
+    this.trip.finish_time = new Date().toISOString();
 
-    const toast = await this.toastCtrl.create({
-      message: 'Shopping ended',
-      duration: 2000
+    this.api.updateTrip(this.trip.id.toString(), this.trip).toPromise().then(async () => {
+      this.trip = null;
+      const toast = await this.toastCtrl.create({
+        message: 'Shopping ended',
+        duration: 2000
+      });
+      await toast.present();
     });
-    await toast.present();
   }
 
   async check(item: Item) {
     // TODO error handling
     item.buy = false;
-    await this.api.updateItem(item.id.toString(), 'true', this.listId, item).toPromise();
+    await this.api.updateItem(item.id.toString(), 'true', this.listId.toString(), item).toPromise();
     const checkout: Checkout = {trip: this.trip.id, item: item.id};
     await this.api.createCheckout(checkout).toPromise();
 
@@ -115,6 +118,6 @@ export class ListPage implements OnInit {
   }
 
   private getItems(buy: boolean) {
-    return this.api.listItems(buy ? 'true': 'false', this.listId).toPromise();
+    return this.api.listItems(buy ? 'true': 'false', this.listId.toString()).toPromise();
   }
 }

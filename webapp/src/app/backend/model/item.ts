@@ -16,6 +16,6 @@ export interface Item {
     text: string;
     note?: string | null;
     buy?: boolean;
-    list: string;
+    list: number;
 }
 
