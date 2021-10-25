@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalController, ToastController } from '@ionic/angular';
+import { IonSearchbar, ModalController, ToastController } from '@ionic/angular';
 import { ApiService, Checkout, Trip } from 'src/app/backend';
 
 import { Item } from '../../backend';
@@ -11,6 +11,7 @@ import { StartShoppingPage } from '../startshopping/startshopping.page';
   styleUrls: ['./list.page.scss'],
 })
 export class ListPage implements OnInit {
+  @ViewChild(IonSearchbar) searchbar: IonSearchbar;
   allItems: Item[] = [];
   listItems: Item[] = [];
   notListItems: Item[] = [];
@@ -27,10 +28,7 @@ export class ListPage implements OnInit {
   ngOnInit() {
     this.name = this.activatedRoute.snapshot.paramMap.get('name');
     this.listId = parseInt(this.activatedRoute.snapshot.paramMap.get('id'), 10);
-    this.getItems(true).then((data) => {
-      this.allItems = data;
-      this.listItems = data;
-    });
+    this.showList();
   }
 
   async search(event) {
@@ -49,6 +47,7 @@ export class ListPage implements OnInit {
   clear() {
     this.searchActive = false;
     this.listItems = this.allItems;
+    this.searchbar.value = undefined;
   }
 
   create(item: Item) {
@@ -61,8 +60,7 @@ export class ListPage implements OnInit {
   add(item: Item) {
     item.buy = true;
     this.api.updateItem(item.id.toString(), 'false', this.listId.toString(), item).toPromise().then(async () => {
-      await this.getItems(true);
-      this.clear();
+      this.showList();
     }).catch(err => console.log(err));
   }
 
@@ -112,11 +110,24 @@ export class ListPage implements OnInit {
     const checkout: Checkout = {trip: this.trip.id, item: item.id};
     await this.api.createCheckout(checkout).toPromise();
 
-    // TODO fix array display remove and add
-    this.allItems.splice(this.allItems.indexOf(item), 1);
-    this.listItems.splice(this.listItems.indexOf(item), 1);
+    this.showList();
   }
 
+  /**
+   * Get current list from server and displays it resetting all filters
+   */
+  private showList() {
+    this.getItems(true).then((data) => {
+      this.allItems = data;
+      this.clear();
+    });
+  }
+
+  /**
+   * Gets current list from server
+   * @param buy filter by buy status
+   * @returns items
+   */
   private getItems(buy: boolean) {
     return this.api.listItems(buy ? 'true': 'false', this.listId.toString()).toPromise();
   }
