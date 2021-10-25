@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { ApiService, Checkout, Trip } from 'src/app/backend';
 
 import { Item } from '../../backend';
@@ -21,7 +21,8 @@ export class ListPage implements OnInit {
   searchItem: Item;
   trip: Trip;
 
-  constructor(private activatedRoute: ActivatedRoute, private api: ApiService, private modalCtrl: ModalController) { }
+  constructor(private activatedRoute: ActivatedRoute, private api: ApiService, private modalCtrl: ModalController,
+    private toastCtrl: ToastController) { }
 
   ngOnInit() {
     this.name = this.activatedRoute.snapshot.paramMap.get('name');
@@ -81,12 +82,24 @@ export class ListPage implements OnInit {
 
     modal.onDidDismiss().then(async (res) => {
       this.trip = res.data.trip;
+
+      const toast = await this.toastCtrl.create({
+        message: 'Shopping started',
+        duration: 2000
+      });
+      await toast.present();
     });
   }
 
-  stopShopping() {
+  async stopShopping() {
     this.mode = 'add';
     this.trip = null;
+
+    const toast = await this.toastCtrl.create({
+      message: 'Shopping ended',
+      duration: 2000
+    });
+    await toast.present();
   }
 
   async check(item: Item) {

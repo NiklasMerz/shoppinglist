@@ -1,6 +1,12 @@
 <ion-header>
+  <ion-buttons slot="start">
+    <ion-back-button></ion-back-button>
+  </ion-buttons>
   <ion-toolbar>
-    <ion-title>{{name}}</ion-title>
+    <ion-title>
+      {{name}}
+      - {{ mode === 'add' ? 'Edit' : 'Shopping'}}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
