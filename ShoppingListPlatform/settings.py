@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from pathlib import Path
-import dj_database_url
+import django_heroku
 import dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -97,7 +97,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -169,3 +168,6 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8100',
 ]
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
