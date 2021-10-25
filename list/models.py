@@ -22,8 +22,12 @@ class List(BroadcastableMixin, models.Model):
     def __str__(self):
        return self.name
 
+# Sorting
+
 class Item(BroadcastableMixin, models.Model):
     id = models.BigAutoField(primary_key=True)
+    index = None # for sorting
+
     broadcasts_to = ["list", "all-lists"]
     broadcast_self = False
 
@@ -35,6 +39,7 @@ class Item(BroadcastableMixin, models.Model):
     current_count = models.IntegerField(default=None, blank=True, null=True)
     last_count = models.IntegerField(default=None, blank=True, null=True)
     buy = models.BooleanField(default=True)
+    index = models.IntegerField(default=0)
 
     def __str__(self):
        return self.text
@@ -55,3 +60,6 @@ class Checkout(models.Model):
     trip = models.ForeignKey(Trip, related_name="checkouts", on_delete=models.CASCADE)
     item = models.ForeignKey(Item, related_name="checkouts", on_delete=models.CASCADE)
     count = models.IntegerField(default=0)
+
+    class Meta:
+        get_latest_by = ['-time']

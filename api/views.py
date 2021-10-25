@@ -19,12 +19,11 @@ class ItemViewSet(viewsets.ModelViewSet):
     """
     Item endpoint
     """
-    queryset = Item.objects.all()
+    queryset = Item.objects.all().order_by('index')
     serializer_class = ItemSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['buy', 'list']
-
 class StoreViewSet(viewsets.ModelViewSet):
     """
     Store endpoint
@@ -50,9 +49,15 @@ class CheckoutViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        trip = Trip.objects.filter(id=self.request.data['trip']).first()
         # Get current count from trip, set to checkout and increase count
+        trip = Trip.objects.filter(id=self.request.data['trip']).first()
         count = trip.count
         trip.count = count + 1
         trip.save()
+
+        # Update index in item. The last counter value for now
+        item = Item.objects.filter(id=self.request.data['item']).first()
+        item.index = count
+        item.save()
+
         serializer.save(count=count)
