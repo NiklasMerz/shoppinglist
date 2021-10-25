@@ -51,7 +51,8 @@ class CheckoutViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         trip = Trip.objects.filter(id=self.request.data['trip']).first()
-        count = trip.count + 1
-        trip.count = count
+        # Get current count from trip, set to checkout and increase count
+        count = trip.count
+        trip.count = count + 1
         trip.save()
         serializer.save(count=count)
