@@ -10,3 +10,4 @@ venv
 doc/build.env
 .env
 node_modules
+webapp/.firebase/
