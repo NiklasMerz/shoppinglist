@@ -35,3 +35,5 @@ Log into `http://localhost:8000/admin` for the admin interface.
 * API Scheme: `http://localhost:8000/api/openapi`
 
 * Generate schema: `./manage.py generateschema --file openapi-schema.yml`
+
+* Update TS Client: `cd webapp && npm run generate`

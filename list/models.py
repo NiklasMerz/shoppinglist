@@ -17,7 +17,6 @@ class Store(BroadcastableMixin, models.Model):
 class List(BroadcastableMixin, models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=255)
-    list = models.ManyToManyField(Store, related_name="stores")
 
     def __str__(self):
        return self.name
