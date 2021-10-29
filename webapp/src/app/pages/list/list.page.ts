@@ -32,15 +32,16 @@ export class ListPage implements OnInit {
   }
 
   async search(event) {
-    const searchterm = event.detail.value.toLowerCase();
+    const searchterm = event.detail.value;
+    const lowercaseSearchTerm = (searchterm || '').toLowerCase();
 
     if (searchterm !== '') {
-      this.listItems = this.allItems.filter(item => item.text.includes(searchterm));
+      this.listItems = this.allItems.filter(item => item.text.includes(lowercaseSearchTerm));
 
       this.searchActive = true;
       this.searchItem = {text: searchterm, list: this.listId};
 
-      this.notListItems = await (await this.getItems(false)).filter(item => item.text.includes(searchterm));
+      this.notListItems = await (await this.getItems(false)).filter(item => item.text.includes(lowercaseSearchTerm));
     }
   }
 
