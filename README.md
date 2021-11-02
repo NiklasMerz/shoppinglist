@@ -28,6 +28,10 @@ Go to `http://localhost:8000`
 
 Log into `http://localhost:8000/admin` for the admin interface.
 
+Go to `https://localhost:8000/o/applications` to register the webapp as an OAuth application. Use the client id from `environement.ts` for local development. *Client type* is public and authorization type is "Ressource owner password".
+
+The webaoo runs on `http://localhost:8100`.
+
 # Open API
 
 > TODO NPM package angular client?
