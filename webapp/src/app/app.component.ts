@@ -10,7 +10,7 @@ import { List } from './backend/';
 export class AppComponent {
   lists: List[] = null;
   public appPages = [
-    // { title: 'Lists', url: '/lists', icon: 'mail' },
+    { title: 'Trips', url: '/trips', icon: 'cart' },
   ];
   constructor(private api: ApiService) {
     this.api.listLists().subscribe(data => {

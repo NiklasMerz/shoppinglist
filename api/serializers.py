@@ -20,7 +20,7 @@ class StoreSerializer(serializers.ModelSerializer):
 class TripSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trip
-        fields = ['id', 'time', 'store', 'list', 'count', 'finish_time']
+        fields = ['id', 'time', 'store', 'list', 'count', 'finish_time', 'label']
 
 class CheckoutSerializer(serializers.ModelSerializer):
     class Meta:

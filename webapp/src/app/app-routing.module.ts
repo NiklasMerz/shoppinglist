@@ -36,6 +36,14 @@ const routes: Routes = [
     path: 'startshopping',
     loadChildren: () => import('./pages/startshopping/startshopping.module').then( m => m.StartshoppingPageModule)
   },
+  {
+    path: 'trip',
+    loadChildren: () => import('./pages/trip/trip.module').then( m => m.TripPageModule)
+  },
+  {
+    path: 'trips',
+    loadChildren: () => import('./pages/trips/trips.module').then( m => m.TripsPageModule)
+  },
 ];
 
 @NgModule({
