@@ -805,6 +805,9 @@ components:
           type: string
           format: date-time
           nullable: true
+        label:
+          type: string
+          readOnly: true
       required:
       - store
       - list

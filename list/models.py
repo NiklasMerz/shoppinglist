@@ -50,8 +50,12 @@ class Trip(models.Model):
     list = models.ForeignKey(List, related_name="trips", on_delete=models.CASCADE)
     count = models.IntegerField(default=0)
 
+    @property
+    def label(self):
+        return f'{self.store.name} - {self.time.strftime("%Y-%m-%d %H:%M")}'
+
     def __str__(self):
-        return self.time.strftime("%Y-%m-%d %H:%M")
+        return self.label
 
 class Checkout(models.Model):
     id = models.BigAutoField(primary_key=True)

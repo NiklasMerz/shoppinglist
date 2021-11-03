@@ -11,13 +11,10 @@
  */
 
 
-export interface Trip { 
+export interface TripStoreInfo { 
     readonly id?: number;
-    readonly time?: string;
-    store: number;
-    list: number;
-    count?: number;
-    finish_time?: string | null;
-    readonly label?: string;
+    name: string;
+    note?: string | null;
+    location?: string | null;
 }
 
