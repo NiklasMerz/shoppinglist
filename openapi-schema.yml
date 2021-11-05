@@ -808,6 +808,20 @@ components:
         label:
           type: string
           readOnly: true
+        reciept:
+          type: string
+          format: binary
+          nullable: true
+        notes:
+          type: string
+          nullable: true
+        total:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 100000000000000000
+          minimum: -100000000000000000
+          nullable: true
       required:
       - store
       - list

@@ -1,5 +1,5 @@
 from django.db import models
-from django.urls import reverse
+from djmoney.models.fields import MoneyField
 
 from turbo.mixins import BroadcastableMixin
 
@@ -49,6 +49,9 @@ class Trip(models.Model):
     store = models.ForeignKey(Store, related_name="trips", on_delete=models.CASCADE)
     list = models.ForeignKey(List, related_name="trips", on_delete=models.CASCADE)
     count = models.IntegerField(default=0)
+    reciept = models.FileField(blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
+    total = MoneyField(max_digits=19, decimal_places=2, default_currency='EUR', blank=True, null=True)
 
     @property
     def label(self):
