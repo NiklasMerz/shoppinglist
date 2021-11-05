@@ -11,7 +11,7 @@
       Shopping Trips
     </ion-list-header>
 
-    <ion-item *ngFor="let trip of trips">
+    <ion-item *ngFor="let trip of trips" [routerLink]="['/trip', trip.id]">
       <ion-label>
         {{trip.label}}
       </ion-label>
