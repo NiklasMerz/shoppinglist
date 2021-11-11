@@ -6,6 +6,21 @@
 
 <ion-content>
 
-  {{trip?.label}}
+  <ion-list *ngIf="trip">
+    <ion-list-header>Edit trip</ion-list-header>
+
+    <ion-item>
+      <ion-label position="fixed">Name</ion-label>
+      <ion-label ion-content>{{trip.label}}</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Total €</ion-label>
+      <ion-input type="number" min="1" [(ngModel)]="trip.total"></ion-input>
+    </ion-item>
+
+
+    <ion-button expand="block" (click)="save()">Save</ion-button>
+  </ion-list>
 
 </ion-content>
