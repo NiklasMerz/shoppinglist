@@ -51,6 +51,19 @@ export class ApiService {
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }
 
+    /**
+     * @param consumes string[] mime-types
+     * @return true: consumes contains 'multipart/form-data', false: otherwise
+     */
+    private canConsumeForm(consumes: string[]): boolean {
+        const form = 'multipart/form-data';
+        for (const consume of consumes) {
+            if (form === consume) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
         if (typeof value === "object" && value instanceof Date === false) {
@@ -306,14 +319,29 @@ export class ApiService {
 
     /**
      * Trip endpoint
-     * @param trip 
+     * @param store 
+     * @param list 
+     * @param id 
+     * @param time 
+     * @param count 
+     * @param finishTime 
+     * @param label 
+     * @param reciept 
+     * @param notes 
+     * @param total 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createTrip(trip?: Trip, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Trip>;
-    public createTrip(trip?: Trip, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Trip>>;
-    public createTrip(trip?: Trip, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Trip>>;
-    public createTrip(trip?: Trip, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public createTrip(store: number, list: number, id?: number, time?: string, count?: number, finishTime?: string, label?: string, reciept?: Blob, notes?: string, total?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Trip>;
+    public createTrip(store: number, list: number, id?: number, time?: string, count?: number, finishTime?: string, label?: string, reciept?: Blob, notes?: string, total?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Trip>>;
+    public createTrip(store: number, list: number, id?: number, time?: string, count?: number, finishTime?: string, label?: string, reciept?: Blob, notes?: string, total?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Trip>>;
+    public createTrip(store: number, list: number, id?: number, time?: string, count?: number, finishTime?: string, label?: string, reciept?: Blob, notes?: string, total?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (store === null || store === undefined) {
+            throw new Error('Required parameter store was null or undefined when calling createTrip.');
+        }
+        if (list === null || list === undefined) {
+            throw new Error('Required parameter list was null or undefined when calling createTrip.');
+        }
 
         let headers = this.defaultHeaders;
 
@@ -329,16 +357,54 @@ export class ApiService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json',
-            'application/x-www-form-urlencoded',
-            'multipart/form-data'
+            'application/x-www-form-urlencoded'
         ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: this.encoder});
+        }
+
+        if (id !== undefined) {
+            formParams = formParams.append('id', <any>id) as any || formParams;
+        }
+        if (time !== undefined) {
+            formParams = formParams.append('time', <any>time) as any || formParams;
+        }
+        if (store !== undefined) {
+            formParams = formParams.append('store', <any>store) as any || formParams;
+        }
+        if (list !== undefined) {
+            formParams = formParams.append('list', <any>list) as any || formParams;
+        }
+        if (count !== undefined) {
+            formParams = formParams.append('count', <any>count) as any || formParams;
+        }
+        if (finishTime !== undefined) {
+            formParams = formParams.append('finish_time', <any>finishTime) as any || formParams;
+        }
+        if (label !== undefined) {
+            formParams = formParams.append('label', <any>label) as any || formParams;
+        }
+        if (reciept !== undefined) {
+            formParams = formParams.append('reciept', <any>reciept) as any || formParams;
+        }
+        if (notes !== undefined) {
+            formParams = formParams.append('notes', <any>notes) as any || formParams;
+        }
+        if (total !== undefined) {
+            formParams = formParams.append('total', <any>total) as any || formParams;
         }
 
         let responseType: 'text' | 'json' = 'json';
@@ -347,7 +413,7 @@ export class ApiService {
         }
 
         return this.httpClient.post<Trip>(`${this.configuration.basePath}/api/trips/`,
-            trip,
+            convertFormParamsToString ? formParams.toString() : formParams,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -1057,16 +1123,31 @@ export class ApiService {
     /**
      * Trip endpoint
      * @param id A unique integer value identifying this trip.
-     * @param trip 
+     * @param store 
+     * @param list 
+     * @param id2 
+     * @param time 
+     * @param count 
+     * @param finishTime 
+     * @param label 
+     * @param reciept 
+     * @param notes 
+     * @param total 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public partialUpdateTrip(id: string, trip?: Trip, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Trip>;
-    public partialUpdateTrip(id: string, trip?: Trip, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Trip>>;
-    public partialUpdateTrip(id: string, trip?: Trip, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Trip>>;
-    public partialUpdateTrip(id: string, trip?: Trip, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public partialUpdateTrip(id: string, store: number, list: number, id2?: number, time?: string, count?: number, finishTime?: string, label?: string, reciept?: Blob, notes?: string, total?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Trip>;
+    public partialUpdateTrip(id: string, store: number, list: number, id2?: number, time?: string, count?: number, finishTime?: string, label?: string, reciept?: Blob, notes?: string, total?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Trip>>;
+    public partialUpdateTrip(id: string, store: number, list: number, id2?: number, time?: string, count?: number, finishTime?: string, label?: string, reciept?: Blob, notes?: string, total?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Trip>>;
+    public partialUpdateTrip(id: string, store: number, list: number, id2?: number, time?: string, count?: number, finishTime?: string, label?: string, reciept?: Blob, notes?: string, total?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling partialUpdateTrip.');
+        }
+        if (store === null || store === undefined) {
+            throw new Error('Required parameter store was null or undefined when calling partialUpdateTrip.');
+        }
+        if (list === null || list === undefined) {
+            throw new Error('Required parameter list was null or undefined when calling partialUpdateTrip.');
         }
 
         let headers = this.defaultHeaders;
@@ -1083,16 +1164,54 @@ export class ApiService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json',
-            'application/x-www-form-urlencoded',
-            'multipart/form-data'
+            'application/x-www-form-urlencoded'
         ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: this.encoder});
+        }
+
+        if (id2 !== undefined) {
+            formParams = formParams.append('id', <any>id2) as any || formParams;
+        }
+        if (time !== undefined) {
+            formParams = formParams.append('time', <any>time) as any || formParams;
+        }
+        if (store !== undefined) {
+            formParams = formParams.append('store', <any>store) as any || formParams;
+        }
+        if (list !== undefined) {
+            formParams = formParams.append('list', <any>list) as any || formParams;
+        }
+        if (count !== undefined) {
+            formParams = formParams.append('count', <any>count) as any || formParams;
+        }
+        if (finishTime !== undefined) {
+            formParams = formParams.append('finish_time', <any>finishTime) as any || formParams;
+        }
+        if (label !== undefined) {
+            formParams = formParams.append('label', <any>label) as any || formParams;
+        }
+        if (reciept !== undefined) {
+            formParams = formParams.append('reciept', <any>reciept) as any || formParams;
+        }
+        if (notes !== undefined) {
+            formParams = formParams.append('notes', <any>notes) as any || formParams;
+        }
+        if (total !== undefined) {
+            formParams = formParams.append('total', <any>total) as any || formParams;
         }
 
         let responseType: 'text' | 'json' = 'json';
@@ -1101,7 +1220,7 @@ export class ApiService {
         }
 
         return this.httpClient.patch<Trip>(`${this.configuration.basePath}/api/trips/${encodeURIComponent(String(id))}/`,
-            trip,
+            convertFormParamsToString ? formParams.toString() : formParams,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -1598,16 +1717,31 @@ export class ApiService {
     /**
      * Trip endpoint
      * @param id A unique integer value identifying this trip.
-     * @param trip 
+     * @param store 
+     * @param list 
+     * @param id2 
+     * @param time 
+     * @param count 
+     * @param finishTime 
+     * @param label 
+     * @param reciept 
+     * @param notes 
+     * @param total 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateTrip(id: string, trip?: Trip, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Trip>;
-    public updateTrip(id: string, trip?: Trip, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Trip>>;
-    public updateTrip(id: string, trip?: Trip, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Trip>>;
-    public updateTrip(id: string, trip?: Trip, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public updateTrip(id: string, store: number, list: number, id2?: number, time?: string, count?: number, finishTime?: string, label?: string, reciept?: Blob, notes?: string, total?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Trip>;
+    public updateTrip(id: string, store: number, list: number, id2?: number, time?: string, count?: number, finishTime?: string, label?: string, reciept?: Blob, notes?: string, total?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Trip>>;
+    public updateTrip(id: string, store: number, list: number, id2?: number, time?: string, count?: number, finishTime?: string, label?: string, reciept?: Blob, notes?: string, total?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Trip>>;
+    public updateTrip(id: string, store: number, list: number, id2?: number, time?: string, count?: number, finishTime?: string, label?: string, reciept?: Blob, notes?: string, total?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling updateTrip.');
+        }
+        if (store === null || store === undefined) {
+            throw new Error('Required parameter store was null or undefined when calling updateTrip.');
+        }
+        if (list === null || list === undefined) {
+            throw new Error('Required parameter list was null or undefined when calling updateTrip.');
         }
 
         let headers = this.defaultHeaders;
@@ -1624,16 +1758,54 @@ export class ApiService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json',
-            'application/x-www-form-urlencoded',
-            'multipart/form-data'
+            'application/x-www-form-urlencoded'
         ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: this.encoder});
+        }
+
+        if (id2 !== undefined) {
+            formParams = formParams.append('id', <any>id2) as any || formParams;
+        }
+        if (time !== undefined) {
+            formParams = formParams.append('time', <any>time) as any || formParams;
+        }
+        if (store !== undefined) {
+            formParams = formParams.append('store', <any>store) as any || formParams;
+        }
+        if (list !== undefined) {
+            formParams = formParams.append('list', <any>list) as any || formParams;
+        }
+        if (count !== undefined) {
+            formParams = formParams.append('count', <any>count) as any || formParams;
+        }
+        if (finishTime !== undefined) {
+            formParams = formParams.append('finish_time', <any>finishTime) as any || formParams;
+        }
+        if (label !== undefined) {
+            formParams = formParams.append('label', <any>label) as any || formParams;
+        }
+        if (reciept !== undefined) {
+            formParams = formParams.append('reciept', <any>reciept) as any || formParams;
+        }
+        if (notes !== undefined) {
+            formParams = formParams.append('notes', <any>notes) as any || formParams;
+        }
+        if (total !== undefined) {
+            formParams = formParams.append('total', <any>total) as any || formParams;
         }
 
         let responseType: 'text' | 'json' = 'json';
@@ -1642,7 +1814,7 @@ export class ApiService {
         }
 
         return this.httpClient.put<Trip>(`${this.configuration.basePath}/api/trips/${encodeURIComponent(String(id))}/`,
-            trip,
+            convertFormParamsToString ? formParams.toString() : formParams,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,

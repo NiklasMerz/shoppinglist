@@ -1,8 +1,8 @@
 from list.models import *
-from rest_framework import viewsets
-from rest_framework import permissions
+from rest_framework import viewsets, permissions
 from .serializers import *
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.parsers import JSONParser
 
 from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
 
@@ -32,6 +32,9 @@ class StoreViewSet(viewsets.ModelViewSet):
     serializer_class = StoreSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+class OnlyFormTextParser(JSONParser):
+    media_type = "application/x-www-form-urlencoded"
+
 class TripViewSet(viewsets.ModelViewSet):
     """
     Trip endpoint
@@ -39,6 +42,7 @@ class TripViewSet(viewsets.ModelViewSet):
     queryset = Trip.objects.all().order_by('-time')
     serializer_class = TripSerializer
     permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [OnlyFormTextParser]
 
 class CheckoutViewSet(viewsets.ModelViewSet):
     """

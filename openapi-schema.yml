@@ -490,13 +490,7 @@ paths:
       parameters: []
       requestBody:
         content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Trip'
           application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Trip'
-          multipart/form-data:
             schema:
               $ref: '#/components/schemas/Trip'
       responses:
@@ -540,13 +534,7 @@ paths:
           type: string
       requestBody:
         content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Trip'
           application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Trip'
-          multipart/form-data:
             schema:
               $ref: '#/components/schemas/Trip'
       responses:
@@ -570,13 +558,7 @@ paths:
           type: string
       requestBody:
         content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Trip'
           application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Trip'
-          multipart/form-data:
             schema:
               $ref: '#/components/schemas/Trip'
       responses:
