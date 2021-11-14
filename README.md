@@ -1,7 +1,5 @@
 # Shopping List App
 
-> Built using Django and Hotwire
-
 To run this, after cloning the repository:
 
 ```bash
