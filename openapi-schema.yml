@@ -901,10 +901,6 @@ paths:
       parameters: []
       requestBody:
         content:
-          application/json:
-            schema: {}
-          application/x-www-form-urlencoded:
-            schema: {}
           multipart/form-data:
             schema: {}
       responses:
@@ -1022,6 +1018,7 @@ components:
           readOnly: true
         trip:
           type: integer
+          nullable: true
         total:
           type: string
           format: decimal
@@ -1041,12 +1038,13 @@ components:
                 type: string
                 maxLength: 255
               total:
-                type: integer
+                type: string
+                format: decimal
+                multipleOf: 0.01
+                maximum: 100000000000000000
+                minimum: -100000000000000000
+                nullable: true
               quantity:
-                type: integer
-              tax:
-                type: integer
-              tax_rate:
                 type: integer
               item:
                 type: string
@@ -1054,5 +1052,3 @@ components:
             required:
             - description
           readOnly: true
-      required:
-      - trip

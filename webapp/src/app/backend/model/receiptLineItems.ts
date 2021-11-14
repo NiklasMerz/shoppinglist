@@ -14,10 +14,8 @@
 export interface ReceiptLineItems { 
     readonly id?: number;
     description: string;
-    total?: number;
+    total?: string | null;
     quantity?: number;
-    tax?: number;
-    tax_rate?: number;
     readonly item?: string;
 }
 
