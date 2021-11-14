@@ -10,6 +10,7 @@ class Store(BroadcastableMixin, models.Model):
     note = models.TextField(default=None, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     location = models.TextField(blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
 
     def __str__(self):
        return self.name
@@ -49,7 +50,6 @@ class Trip(models.Model):
     store = models.ForeignKey(Store, related_name="trips", on_delete=models.CASCADE, null=True, blank=True)
     list = models.ForeignKey(List, related_name="trips", on_delete=models.CASCADE, null=True, blank=True)
     count = models.IntegerField(default=0)
-    reciept = models.FileField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
     total = MoneyField(max_digits=19, decimal_places=2, default_currency='EUR', blank=True, null=True)
 
@@ -69,3 +69,24 @@ class Checkout(models.Model):
 
     class Meta:
         get_latest_by = ['-time']
+
+class Receipt(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    time = models.DateTimeField(auto_now_add=True)
+    trip = models.ForeignKey(Trip, related_name="receipts", on_delete=models.CASCADE)
+    total = MoneyField(max_digits=19, decimal_places=2, default_currency='EUR', blank=True, null=True)
+    class Meta:
+        get_latest_by = ['-time']
+
+class LineItem(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    description = models.CharField(max_length=255)
+    receipt = models.ForeignKey(Receipt, related_name="line_items", on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, related_name="line_items", on_delete=models.CASCADE, null=True, blank=True)
+    total = models.IntegerField(default=0)
+    quantity = models.IntegerField(default=0)
+    tax = models.IntegerField(default=0)
+    tax_rate = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.description

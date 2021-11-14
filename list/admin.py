@@ -12,8 +12,14 @@ class CheckoutInline(admin.StackedInline):
     model = Checkout
     extra = 1
 
-
 class TripAdmin(admin.ModelAdmin):
     inlines = [CheckoutInline]
 
 admin.site.register(Trip, TripAdmin)
+class LineItemInline(admin.StackedInline):
+    model = LineItem
+    extra = 1
+class ReceiptAdmin(admin.ModelAdmin):
+    inlines = [LineItemInline]
+
+admin.site.register(Receipt, ReceiptAdmin)
