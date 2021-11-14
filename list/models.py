@@ -1,10 +1,7 @@
 from django.db import models
 from djmoney.models.fields import MoneyField
 
-from turbo.mixins import BroadcastableMixin
-
-
-class Store(BroadcastableMixin, models.Model):
+class Store(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.TextField()
     note = models.TextField(default=None, blank=True, null=True)
@@ -15,7 +12,7 @@ class Store(BroadcastableMixin, models.Model):
     def __str__(self):
        return self.name
 
-class List(BroadcastableMixin, models.Model):
+class List(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=255)
 
@@ -24,15 +21,15 @@ class List(BroadcastableMixin, models.Model):
 
 # Sorting
 
-class Item(BroadcastableMixin, models.Model):
+class Item(models.Model):
     id = models.BigAutoField(primary_key=True)
     index = None # for sorting
 
     broadcasts_to = ["list", "all-lists"]
     broadcast_self = False
 
-    list = models.ForeignKey(List, related_name="items", on_delete=models.CASCADE)
-    text = models.TextField()
+    list = models.ForeignKey(List, related_name="items", on_delete=models.SET_NULL, blank=True, null=True)
+    description = models.CharField(max_length=255)
     note = models.TextField(default=None, blank=True, null=True)
     ean = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -42,7 +39,7 @@ class Item(BroadcastableMixin, models.Model):
     index = models.IntegerField(default=0)
 
     def __str__(self):
-       return self.text
+       return self.description
 class Trip(models.Model):
     id = models.BigAutoField(primary_key=True)
     time = models.DateTimeField(auto_now_add=True)
