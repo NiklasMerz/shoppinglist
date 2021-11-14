@@ -48,11 +48,10 @@ class Trip(models.Model):
     list = models.ForeignKey(List, related_name="trips", on_delete=models.CASCADE, null=True, blank=True)
     count = models.IntegerField(default=0)
     notes = models.TextField(blank=True, null=True)
-    total = MoneyField(max_digits=19, decimal_places=2, default_currency='EUR', blank=True, null=True)
 
     @property
     def label(self):
-        return f'{self.store.name if self.store else self.notes} - {self.time.strftime("%Y-%m-%d %H:%M")}: {self.total if self.total else "No total"}'
+        return f'{self.store.name if self.store else self.notes} - {self.time.strftime("%Y-%m-%d %H:%M")}'
 
     def __str__(self):
         return self.label
@@ -70,8 +69,9 @@ class Checkout(models.Model):
 class Receipt(models.Model):
     id = models.BigAutoField(primary_key=True)
     time = models.DateTimeField(auto_now_add=True)
-    trip = models.ForeignKey(Trip, related_name="receipts", on_delete=models.CASCADE)
+    trip = models.ForeignKey(Trip, related_name="receipts", on_delete=models.CASCADE, null=True, blank=True)
     total = MoneyField(max_digits=19, decimal_places=2, default_currency='EUR', blank=True, null=True)
+    image = models.ImageField(upload_to='receipts', blank=True, null=True)
     class Meta:
         get_latest_by = ['-time']
 

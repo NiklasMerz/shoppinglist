@@ -24,4 +24,5 @@ urlpatterns = [
 
     # Non-openapi endpoints
     path('file-receipt/json', views.ReceiptDataView.as_view(), name='file-receipt/json'),
+    path('file-receipt/image', views.ReceiptImageView.as_view(), name='file-receipt/image'),
 ]

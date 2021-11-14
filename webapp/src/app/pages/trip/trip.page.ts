@@ -818,6 +818,18 @@ export class TripPage implements OnInit {
     console.debug('res', res);
   }
 
+  async addReceiptImage(event) {
+    console.debug(event);
+
+    const file: File = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const url = environment.API_BASE_PATH + environment.API_PREFIX + '/file-receipt/image';
+    const res = await this.http.post(url, formData).toPromise();
+    console.debug('res', res);
+  }
+
   private async init() {
     this.id = this.activatedRouter.snapshot.params.trip;
     if (this.id) {

@@ -11,6 +11,8 @@ model/checkout.ts
 model/item.ts
 model/list.ts
 model/models.ts
+model/receipt.ts
+model/receiptLineItems.ts
 model/store.ts
 model/trip.ts
 ng-package.json

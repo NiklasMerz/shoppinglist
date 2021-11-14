@@ -19,8 +19,6 @@ export interface Trip {
     count?: number;
     finish_time?: string | null;
     readonly label?: string;
-    reciept?: Blob | null;
     notes?: string | null;
-    total?: string | null;
 }
 
