@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   API_BASE_PATH: 'http://localhost:8000',
+  // For non openapi endpoints
+  API_PREFIX: '/api',
   CLIENT_ID: 'tvtNIMClW2WPmym6OX6UCJ4drHVQuySbeP58CXdP'
 };
 

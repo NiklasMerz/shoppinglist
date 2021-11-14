@@ -3,7 +3,7 @@ from .models import Item, Receipt, Trip, Store
 
 def file_reciept(json_data, trip_id):
     """
-    This function takes a json object from the external provider, creates the objects and returns the id of the receipt.
+    This function takes a json object from the external provider, creates the objects and returns the receipt.
     """
     return create_receipt_verify(json_data, trip_id)
 
@@ -23,4 +23,4 @@ def create_receipt_verify(json_data, trip_id):
         item = Item.objects.get_or_create(description=line_item['description'])
         receipt.line_items.create(description=line_item['description'], total=line_item['total'], quantity=line_item['quantity'], item=item[0])
 
-    return receipt.id
+    return receipt

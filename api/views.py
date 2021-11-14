@@ -1,10 +1,16 @@
 from list.models import *
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 from .serializers import *
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAuthenticated
 
 from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+
+from list.receipts import file_reciept
 
 class ListViewSet(viewsets.ModelViewSet):
     """
@@ -61,3 +67,27 @@ class CheckoutViewSet(viewsets.ModelViewSet):
         item.save()
 
         serializer.save(count=count)
+
+class ReceiptViewSet(viewsets.ModelViewSet):
+    """
+    Receipt endpoint
+    """
+    queryset = Receipt.objects.all().order_by('-time')
+    serializer_class = ReceiptSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+# Receipt creation from images or parsed data from external services
+# Custom API not part of OpenAPI spec
+class ReceiptDataView(APIView):
+    """
+    Creates receipt and related objects from json
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, format=None):
+        json_data = request.data
+        trip_id = request.query_params.get('trip', None)
+
+        reciept = file_reciept(json_data, trip_id)
+        
+        return Response(ReceiptSerializer(reciept).data, status=status.HTTP_201_CREATED)
