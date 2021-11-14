@@ -75,6 +75,9 @@ class Receipt(models.Model):
     class Meta:
         get_latest_by = ['-time']
 
+    def __str__(self):
+        return f"{self.time} - {self.total}"
+
 class LineItem(models.Model):
     id = models.BigAutoField(primary_key=True)
     description = models.CharField(max_length=255)

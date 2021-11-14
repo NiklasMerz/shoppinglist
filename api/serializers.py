@@ -5,7 +5,7 @@ from rest_framework import serializers
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ['id', 'text', 'note', 'buy', 'list']
+        fields = ['id', 'description', 'note', 'buy', 'list']
 
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,3 +26,15 @@ class CheckoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Checkout
         fields = ['id', 'time', 'trip', 'item', 'count']
+
+class LineItemSerializer(serializers.ModelSerializer):
+    item = serializers.PrimaryKeyRelatedField(read_only=True)
+    class Meta:
+        model = LineItem
+        fields = ['id', 'description', 'total', 'quantity', 'tax', 'tax_rate', 'item']
+
+class ReceiptSerializer(serializers.ModelSerializer):
+    line_items = LineItemSerializer(many=True, read_only=True)
+    class Meta:
+        model = Receipt
+        fields = ['id', 'time', 'trip', 'total', 'line_items']

@@ -9,6 +9,7 @@ router.register(r'items', views.ItemViewSet)
 router.register(r'stores', views.StoreViewSet)
 router.register(r'trips', views.TripViewSet)
 router.register(r'checkouts', views.CheckoutViewSet)
+router.register(r'receipts', views.ReceiptViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
@@ -20,4 +21,7 @@ urlpatterns = [
         description='API for mobile apps',
         version="'0.0.1'"
     ), name='openapi-schema'),
+
+    # Non-openapi endpoints
+    path('file-receipt/json', views.ReceiptDataView.as_view(), name='file-receipt/json'),
 ]
