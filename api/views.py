@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser
 from rest_framework import status
 from .serializers import *
 from django_filters.rest_framework import DjangoFilterBackend
@@ -10,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
 
-from list.receipts import file_reciept
+from list.receipts import file_reciept, file_reciept_from_image
 
 class ListViewSet(viewsets.ModelViewSet):
     """
@@ -91,3 +92,18 @@ class ReceiptDataView(APIView):
         reciept = file_reciept(json_data, trip_id)
         
         return Response(ReceiptSerializer(reciept).data, status=status.HTTP_201_CREATED)
+
+class ReceiptImageView(APIView):
+    """
+    Creates receipt and related objects from image
+    """
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser]
+
+    def post(self, request, format=None):
+        trip_id = request.query_params.get('trip', None)
+
+        data = request.data['file']
+        reciept = file_reciept_from_image(data, trip_id)
+        return Response(ReceiptSerializer(reciept).data, status=status.HTTP_201_CREATED)
+        

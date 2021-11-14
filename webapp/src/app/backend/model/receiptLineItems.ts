@@ -11,11 +11,13 @@
  */
 
 
-export interface Item { 
+export interface ReceiptLineItems { 
     readonly id?: number;
     description: string;
-    note?: string | null;
-    buy?: boolean;
-    list?: number | null;
+    total?: number;
+    quantity?: number;
+    tax?: number;
+    tax_rate?: number;
+    readonly item?: string;
 }
 

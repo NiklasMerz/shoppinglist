@@ -9,13 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ReceiptLineItems } from './receiptLineItems';
 
 
-export interface Item { 
+export interface Receipt { 
     readonly id?: number;
-    description: string;
-    note?: string | null;
-    buy?: boolean;
-    list?: number | null;
+    readonly time?: string;
+    trip: number;
+    total?: string | null;
+    readonly line_items?: Array<ReceiptLineItems>;
 }
 

@@ -32,6 +32,7 @@ jwcrypto==1.0
 Markdown==3.3.4
 oauthlib==3.1.1
 packaging==20.9
+Pillow==8.4.0
 pluggy==0.13.1
 psycopg2==2.9.1
 psycopg2-binary==2.8.6
@@ -60,6 +61,7 @@ uritemplate==4.1.1
 urllib3==1.26.7
 uvicorn==0.13.4
 uvloop==0.15.2
+veryfi==2.1.0
 watchgod==0.7
 webpack-tools==0.2.0
 websockets==8.1

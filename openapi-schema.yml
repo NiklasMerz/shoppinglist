@@ -738,6 +738,183 @@ paths:
           description: ''
       tags:
       - api
+  /api/receipts/:
+    get:
+      operationId: listReceipts
+      description: Receipt endpoint
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Receipt'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createReceipt
+      description: Receipt endpoint
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receipt'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Receipt'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Receipt'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+          description: ''
+      tags:
+      - api
+  /api/receipts/{id}/:
+    get:
+      operationId: retrieveReceipt
+      description: Receipt endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this receipt.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateReceipt
+      description: Receipt endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this receipt.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receipt'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Receipt'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Receipt'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateReceipt
+      description: Receipt endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this receipt.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receipt'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Receipt'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Receipt'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyReceipt
+      description: Receipt endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this receipt.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/file-receipt/json:
+    post:
+      operationId: createReceiptData
+      description: Creates receipt and related objects from json
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/file-receipt/image:
+    post:
+      operationId: createReceiptImage
+      description: Creates receipt and related objects from image
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
 components:
   schemas:
     List:
@@ -757,8 +934,9 @@ components:
         id:
           type: integer
           readOnly: true
-        text:
+        description:
           type: string
+          maxLength: 255
         note:
           type: string
           nullable: true
@@ -766,9 +944,9 @@ components:
           type: boolean
         list:
           type: integer
+          nullable: true
       required:
-      - text
-      - list
+      - description
     Store:
       type: object
       properties:
@@ -810,19 +988,8 @@ components:
         label:
           type: string
           readOnly: true
-        reciept:
-          type: string
-          format: binary
-          nullable: true
         notes:
           type: string
-          nullable: true
-        total:
-          type: string
-          format: decimal
-          multipleOf: 0.01
-          maximum: 100000000000000000
-          minimum: -100000000000000000
           nullable: true
     Checkout:
       type: object
@@ -843,3 +1010,49 @@ components:
       required:
       - trip
       - item
+    Receipt:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        time:
+          type: string
+          format: date-time
+          readOnly: true
+        trip:
+          type: integer
+        total:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 100000000000000000
+          minimum: -100000000000000000
+          nullable: true
+        line_items:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              description:
+                type: string
+                maxLength: 255
+              total:
+                type: integer
+              quantity:
+                type: integer
+              tax:
+                type: integer
+              tax_rate:
+                type: integer
+              item:
+                type: string
+                readOnly: true
+            required:
+            - description
+          readOnly: true
+      required:
+      - trip
