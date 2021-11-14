@@ -15,7 +15,7 @@ import { ReceiptLineItems } from './receiptLineItems';
 export interface Receipt { 
     readonly id?: number;
     readonly time?: string;
-    trip: number;
+    trip?: number | null;
     total?: string | null;
     readonly line_items?: Array<ReceiptLineItems>;
 }
