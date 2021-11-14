@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { ApiService, Trip } from 'src/app/backend';
 
 import { environment } from '../../../environments/environment';
@@ -16,7 +16,7 @@ export class TripPage implements OnInit {
   trip: Trip;
 
   constructor(private api: ApiService, private activatedRouter: ActivatedRoute, private toastCtrl: ToastController,
-    private http: HttpClient) { }
+    private http: HttpClient, private loadintCtrl: LoadingController) { }
 
   ngOnInit() {
     this.init();
@@ -819,15 +819,25 @@ export class TripPage implements OnInit {
   }
 
   async addReceiptImage(event) {
-    console.debug(event);
+    const loading = await this.loadintCtrl.create({
+      message: 'Uploading...'
+    });
+    loading.present();
 
     const file: File = event.target.files[0];
     const formData = new FormData();
     formData.append('file', file);
 
     const url = environment.API_BASE_PATH + environment.API_PREFIX + '/file-receipt/image';
-    const res = await this.http.post(url, formData).toPromise();
-    console.debug('res', res);
+    try {
+      const res = await this.http.post(url, formData).toPromise();
+      console.debug('res', res);
+      loading.dismiss();
+    } catch (err) {
+      alert('Error uploading file');
+      console.error('err', err);
+      loading.dismiss();
+    }
   }
 
   private async init() {

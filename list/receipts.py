@@ -32,6 +32,7 @@ def create_receipt_verify(receipt, json_data, trip_id):
         item = Item.objects.get_or_create(description=line_item['description'])
         receipt.line_items.create(description=line_item['description'], total=line_item['total'], quantity=line_item['quantity'], item=item[0])
 
+    receipt.save()
     return receipt
 
 def create_receipt_from_image_verify(receipt, image, trip_id):

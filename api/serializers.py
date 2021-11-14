@@ -31,7 +31,7 @@ class LineItemSerializer(serializers.ModelSerializer):
     item = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = LineItem
-        fields = ['id', 'description', 'total', 'quantity', 'tax', 'tax_rate', 'item']
+        fields = ['id', 'description', 'total', 'quantity', 'item']
 
 class ReceiptSerializer(serializers.ModelSerializer):
     line_items = LineItemSerializer(many=True, read_only=True)
