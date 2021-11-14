@@ -46,8 +46,8 @@ class Trip(models.Model):
     id = models.BigAutoField(primary_key=True)
     time = models.DateTimeField(auto_now_add=True)
     finish_time = models.DateTimeField(blank=True, null=True)
-    store = models.ForeignKey(Store, related_name="trips", on_delete=models.CASCADE)
-    list = models.ForeignKey(List, related_name="trips", on_delete=models.CASCADE)
+    store = models.ForeignKey(Store, related_name="trips", on_delete=models.CASCADE, null=True, blank=True)
+    list = models.ForeignKey(List, related_name="trips", on_delete=models.CASCADE, null=True, blank=True)
     count = models.IntegerField(default=0)
     reciept = models.FileField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
@@ -55,7 +55,7 @@ class Trip(models.Model):
 
     @property
     def label(self):
-        return f'{self.store.name} - {self.time.strftime("%Y-%m-%d %H:%M")}'
+        return f'{self.store.name if self.store else self.notes} - {self.time.strftime("%Y-%m-%d %H:%M")}: {self.total if self.total else "No total"}'
 
     def __str__(self):
         return self.label

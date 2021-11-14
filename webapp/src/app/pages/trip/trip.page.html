@@ -9,10 +9,17 @@
   <ion-list *ngIf="trip">
     <ion-list-header>Edit trip</ion-list-header>
 
-    <ion-item>
+    <ion-item *ngIf="id">
       <ion-label position="fixed">Name</ion-label>
       <ion-label ion-content>{{trip.label}}</ion-label>
     </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Notes</ion-label>
+      <ion-input type="text" [(ngModel)]="trip.notes"></ion-input>
+    </ion-item>
+
+    <!-- TODO select store and list -->
 
     <ion-item>
       <ion-label position="floating">Total €</ion-label>

@@ -15,20 +15,34 @@ export class TripPage implements OnInit {
   constructor(private api: ApiService, private activatedRouter: ActivatedRoute, private toastCtrl: ToastController) { }
 
   ngOnInit() {
-    this.loadTrips();
+    this.init();
   }
 
   save() {
-    this.api.updateTrip(this.trip.id.toString(), this.trip).subscribe(() => {
-      this.toastCtrl.create({
-        message: 'Trip updated',
-        duration: 2000
-      }).then(toast => toast.present());
-    });
+    if (this.id) {
+      this.api.updateTrip(this.trip.id.toString(), this.trip).subscribe(() => {
+        this.toastCtrl.create({
+          message: 'Trip updated',
+          duration: 2000
+        }).then(toast => toast.present());
+      });
+    } else {
+      this.api.createTrip(this.trip).subscribe(() => {
+        this.toastCtrl.create({
+          message: 'Trip created',
+          duration: 2000
+        }).then(toast => toast.present());
+      });
+    }
   }
 
-  private async loadTrips() {
-    this.id = this.activatedRouter.snapshot.params["trip"];
-    this.trip = await this.api.retrieveTrip(this.id).toPromise();
+  private async init() {
+    this.id = this.activatedRouter.snapshot.params.trip;
+    if (this.id) {
+      this.trip = await this.api.retrieveTrip(this.id).toPromise();
+    } else {
+
+      this.trip = {};
+    }
   }
 }

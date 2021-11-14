@@ -797,8 +797,10 @@ components:
           readOnly: true
         store:
           type: integer
+          nullable: true
         list:
           type: integer
+          nullable: true
         count:
           type: integer
         finish_time:
@@ -822,9 +824,6 @@ components:
           maximum: 100000000000000000
           minimum: -100000000000000000
           nullable: true
-      required:
-      - store
-      - list
     Checkout:
       type: object
       properties:

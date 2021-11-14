@@ -14,8 +14,8 @@
 export interface Trip { 
     readonly id?: number;
     readonly time?: string;
-    store: number;
-    list: number;
+    store?: number | null;
+    list?: number | null;
     count?: number;
     finish_time?: string | null;
     readonly label?: string;
