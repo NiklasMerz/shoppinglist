@@ -83,10 +83,9 @@ class LineItem(models.Model):
     description = models.CharField(max_length=255)
     receipt = models.ForeignKey(Receipt, related_name="line_items", on_delete=models.CASCADE)
     item = models.ForeignKey(Item, related_name="line_items", on_delete=models.CASCADE, null=True, blank=True)
-    total = models.IntegerField(default=0)
+    total = MoneyField(max_digits=19, decimal_places=2, default_currency='EUR', blank=True, null=True)
     quantity = models.IntegerField(default=0)
-    tax = models.IntegerField(default=0)
-    tax_rate = models.IntegerField(default=0)
+    tax = MoneyField(max_digits=19, decimal_places=2, default_currency='EUR', blank=True, null=True)
 
     def __str__(self):
         return self.description
