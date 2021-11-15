@@ -22,6 +22,10 @@ class ReceiptTestCase(TestCase):
 
             assert r.ocr_data == data
 
+            assert r.time == "2021-11-03 11:39:00"
+
+            assert r.line_items.first().receipt.time == "2021-11-03 11:39:00"
+
 
     @pytest.mark.django_db
     def test_create_receipt_from_image_with_veryfi(self):

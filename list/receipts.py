@@ -1,4 +1,5 @@
 import os
+from django.utils import timezone
 from veryfi import Client
 from .models import Item, Receipt, Trip, Store
 
@@ -19,12 +20,17 @@ def file_reciept_from_image(image, trip_id):
 
 def create_receipt_verify(receipt, json_data, trip_id):
     
+    time = timezone.now()
+    if json_data['date'] and json_data['date'] != '':
+        time = json_data['date']
+
     if trip_id:
-        trip = Trip.objects.get(id=trip_id)
+        trip = Trip.objects.get(id=trip_id, time=time)
     else:
         store = Store.objects.get_or_create(name=json_data['vendor']['name'])
         trip = Trip.objects.create(store=store[0])
 
+    receipt.time = time
     receipt.ocr_data = json_data
     receipt.trip = trip
     receipt.total = json_data['total']
