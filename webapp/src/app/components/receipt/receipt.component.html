@@ -1,0 +1,21 @@
+<ion-list *ngIf="receipt">
+  <ion-list-header>Receipt</ion-list-header>
+
+  <ion-item>
+    <ion-label>
+      Total
+    </ion-label>
+    <ion-label>
+      {{receipt.total | currency:'EUR':true}}
+    </ion-label>
+  </ion-item>
+
+</ion-list>
+
+<ion-list *ngIf="receipt?.line_items">
+  <ion-list-header>Line Items</ion-list-header>
+
+  <ion-item *ngFor="let item of receipt.line_items">
+    {{item.description}} - {{item.quantity}} x {{item.total | currency:'EUR':true}}
+  </ion-item>
+</ion-list>

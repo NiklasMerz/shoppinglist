@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { TripPageRoutingModule } from './trip-routing.module';
 
 import { TripPage } from './trip.page';
+import { ReceiptComponent } from 'src/app/components/receipt/receipt.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { TripPage } from './trip.page';
     IonicModule,
     TripPageRoutingModule
   ],
-  declarations: [TripPage]
+  declarations: [ReceiptComponent, TripPage]
 })
 export class TripPageModule {}

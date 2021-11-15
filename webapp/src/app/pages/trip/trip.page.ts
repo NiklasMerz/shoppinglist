@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
-import { ApiService, Trip } from 'src/app/backend';
+import { ApiService, Receipt, Trip } from 'src/app/backend';
 
 import { environment } from '../../../environments/environment';
 
@@ -14,6 +14,7 @@ import { environment } from '../../../environments/environment';
 export class TripPage implements OnInit {
   id: any;
   trip: Trip;
+  receipt: Receipt;
 
   constructor(private api: ApiService, private activatedRouter: ActivatedRoute, private toastCtrl: ToastController,
     private http: HttpClient, private loadintCtrl: LoadingController) { }
@@ -814,8 +815,8 @@ export class TripPage implements OnInit {
     const url = environment.API_BASE_PATH + environment.API_PREFIX + '/file-receipt/json';
     let headers = new HttpHeaders();
     headers= headers.append('content-type', 'application/json');
-    const res = await this.http.post(url, testdata, {headers}).toPromise();
-    console.debug('res', res);
+    this.receipt = await this.http.post(url, testdata, {headers}).toPromise();
+    console.debug('res', this.receipt);
   }
 
   async addReceiptImage(event) {
@@ -830,8 +831,8 @@ export class TripPage implements OnInit {
 
     const url = environment.API_BASE_PATH + environment.API_PREFIX + '/file-receipt/image';
     try {
-      const res = await this.http.post(url, formData).toPromise();
-      console.debug('res', res);
+      this.receipt = await this.http.post(url, formData).toPromise();
+      console.debug('res', this.receipt);
       loading.dismiss();
     } catch (err) {
       alert('Error uploading file');

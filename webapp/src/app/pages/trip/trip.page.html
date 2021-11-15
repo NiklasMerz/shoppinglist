@@ -26,6 +26,8 @@
     <ion-button expand="block" (click)="addReceiptData()">Add receipt</ion-button>
 
     <input type="file" (change)="addReceiptImage($event)" />
+
+    <app-receipt [receipt]="receipt"></app-receipt>
   </ion-list>
 
 </ion-content>
