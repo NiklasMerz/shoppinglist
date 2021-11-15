@@ -72,6 +72,7 @@ class Receipt(models.Model):
     trip = models.ForeignKey(Trip, related_name="receipts", on_delete=models.CASCADE, null=True, blank=True)
     total = MoneyField(max_digits=19, decimal_places=2, default_currency='EUR', blank=True, null=True)
     image = models.ImageField(upload_to='receipts', blank=True, null=True)
+    ocr_data = models.JSONField(blank=True, null=True)
     class Meta:
         get_latest_by = ['-time']
 
@@ -85,6 +86,7 @@ class LineItem(models.Model):
     item = models.ForeignKey(Item, related_name="line_items", on_delete=models.CASCADE, null=True, blank=True)
     total = MoneyField(max_digits=19, decimal_places=2, default_currency='EUR', blank=True, null=True)
     quantity = models.IntegerField(default=0)
+    time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.description

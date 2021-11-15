@@ -25,6 +25,7 @@ def create_receipt_verify(receipt, json_data, trip_id):
         store = Store.objects.get_or_create(name=json_data['vendor']['name'])
         trip = Trip.objects.create(store=store[0])
 
+    receipt.ocr_data = json_data
     receipt.trip = trip
     receipt.total = json_data['total']
 

@@ -20,6 +20,8 @@ class ReceiptTestCase(TestCase):
 
             assert  r.line_items.first().total.get_amount_in_sub_unit() == 1014
 
+            assert r.ocr_data == data
+
 
     @pytest.mark.django_db
     def test_create_receipt_from_image_with_veryfi(self):
