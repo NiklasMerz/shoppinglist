@@ -10,27 +10,29 @@
 <ion-content>
 
   <ion-list *ngIf="trip">
-    <ion-list-header>Edit trip</ion-list-header>
+    <ion-list-header>Shopping Trip</ion-list-header>
 
     <ion-item *ngIf="id">
       <ion-label position="fixed">Name</ion-label>
       <ion-label ion-content>{{trip.label}}</ion-label>
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="id">
       <ion-label position="floating">Notes</ion-label>
       <ion-input type="text" [(ngModel)]="trip.notes"></ion-input>
     </ion-item>
 
     <!-- TODO select store and list -->
 
-    <ion-button expand="block" (click)="save()">Save</ion-button>
+    <ion-button expand="block" *ngIf="id" (click)="save()">Save</ion-button>
 
-    <ion-button expand="block" color="secondary" fill="outline" (click)="addReceiptData()">Test receipt</ion-button>
-
-    <input type="file" (change)="addReceiptImage($event)" />
-
+    <ion-item>
+      <ion-label>Upload receipt here</ion-label>
+      <input type="file" (change)="addReceiptImage($event)" />
+    </ion-item>
+    
     <app-receipt [receipt]="receipt"></app-receipt>
+    <ion-button expand="block" color="secondary" fill="outline" (click)="addReceiptData()">Test receipt</ion-button>
   </ion-list>
 
 </ion-content>

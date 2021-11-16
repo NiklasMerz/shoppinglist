@@ -742,7 +742,13 @@ paths:
     get:
       operationId: listReceipts
       description: Receipt endpoint
-      parameters: []
+      parameters:
+      - name: trip
+        required: false
+        in: query
+        description: trip
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -789,6 +795,12 @@ paths:
         description: A unique integer value identifying this receipt.
         schema:
           type: string
+      - name: trip
+        required: false
+        in: query
+        description: trip
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -806,6 +818,12 @@ paths:
         in: path
         required: true
         description: A unique integer value identifying this receipt.
+        schema:
+          type: string
+      - name: trip
+        required: false
+        in: query
+        description: trip
         schema:
           type: string
       requestBody:
@@ -838,6 +856,12 @@ paths:
         description: A unique integer value identifying this receipt.
         schema:
           type: string
+      - name: trip
+        required: false
+        in: query
+        description: trip
+        schema:
+          type: string
       requestBody:
         content:
           application/json:
@@ -866,6 +890,12 @@ paths:
         in: path
         required: true
         description: A unique integer value identifying this receipt.
+        schema:
+          type: string
+      - name: trip
+        required: false
+        in: query
+        description: trip
         schema:
           type: string
       responses:

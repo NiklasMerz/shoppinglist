@@ -78,6 +78,10 @@ export class TripPage implements OnInit {
     this.id = this.activatedRouter.snapshot.params.trip;
     if (this.id) {
       this.trip = await this.api.retrieveTrip(this.id).toPromise();
+      const receipts = await this.api.listReceipts(this.id).toPromise();
+      if (receipts?.length > 0) {
+        this.receipt = receipts[0];
+      }
     } else {
 
       this.trip = {};

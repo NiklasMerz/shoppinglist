@@ -29,7 +29,6 @@ class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all().order_by('index')
     serializer_class = ItemSerializer
     permission_classes = [permissions.IsAuthenticated]
-    filter_backends = [DjangoFilterBackend]
     filterset_fields = ['buy', 'list']
 class StoreViewSet(viewsets.ModelViewSet):
     """
@@ -76,6 +75,7 @@ class ReceiptViewSet(viewsets.ModelViewSet):
     queryset = Receipt.objects.all().order_by('-time')
     serializer_class = ReceiptSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filterset_fields = ['trip']
 
 # Receipt creation from images or parsed data from external services
 # Custom API not part of OpenAPI spec

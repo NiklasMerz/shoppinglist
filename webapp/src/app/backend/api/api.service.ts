@@ -657,15 +657,22 @@ export class ApiService {
     /**
      * Receipt endpoint
      * @param id A unique integer value identifying this receipt.
+     * @param trip trip
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public destroyReceipt(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public destroyReceipt(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public destroyReceipt(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public destroyReceipt(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+    public destroyReceipt(id: string, trip?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public destroyReceipt(id: string, trip?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public destroyReceipt(id: string, trip?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public destroyReceipt(id: string, trip?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling destroyReceipt.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (trip !== undefined && trip !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>trip, 'trip');
         }
 
         let headers = this.defaultHeaders;
@@ -689,6 +696,7 @@ export class ApiService {
 
         return this.httpClient.delete<any>(`${this.configuration.basePath}/api/receipts/${encodeURIComponent(String(id))}/`,
             {
+                params: queryParameters,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -924,13 +932,20 @@ export class ApiService {
 
     /**
      * Receipt endpoint
+     * @param trip trip
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public listReceipts(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<Receipt>>;
-    public listReceipts(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<Receipt>>>;
-    public listReceipts(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<Receipt>>>;
-    public listReceipts(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public listReceipts(trip?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<Receipt>>;
+    public listReceipts(trip?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<Receipt>>>;
+    public listReceipts(trip?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<Receipt>>>;
+    public listReceipts(trip?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (trip !== undefined && trip !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>trip, 'trip');
+        }
 
         let headers = this.defaultHeaders;
 
@@ -954,6 +969,7 @@ export class ApiService {
 
         return this.httpClient.get<Array<Receipt>>(`${this.configuration.basePath}/api/receipts/`,
             {
+                params: queryParameters,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -1235,16 +1251,23 @@ export class ApiService {
     /**
      * Receipt endpoint
      * @param id A unique integer value identifying this receipt.
+     * @param trip trip
      * @param receipt 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public partialUpdateReceipt(id: string, receipt?: Receipt, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Receipt>;
-    public partialUpdateReceipt(id: string, receipt?: Receipt, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Receipt>>;
-    public partialUpdateReceipt(id: string, receipt?: Receipt, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Receipt>>;
-    public partialUpdateReceipt(id: string, receipt?: Receipt, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public partialUpdateReceipt(id: string, trip?: string, receipt?: Receipt, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Receipt>;
+    public partialUpdateReceipt(id: string, trip?: string, receipt?: Receipt, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Receipt>>;
+    public partialUpdateReceipt(id: string, trip?: string, receipt?: Receipt, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Receipt>>;
+    public partialUpdateReceipt(id: string, trip?: string, receipt?: Receipt, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling partialUpdateReceipt.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (trip !== undefined && trip !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>trip, 'trip');
         }
 
         let headers = this.defaultHeaders;
@@ -1281,6 +1304,7 @@ export class ApiService {
         return this.httpClient.patch<Receipt>(`${this.configuration.basePath}/api/receipts/${encodeURIComponent(String(id))}/`,
             receipt,
             {
+                params: queryParameters,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -1557,15 +1581,22 @@ export class ApiService {
     /**
      * Receipt endpoint
      * @param id A unique integer value identifying this receipt.
+     * @param trip trip
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public retrieveReceipt(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Receipt>;
-    public retrieveReceipt(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Receipt>>;
-    public retrieveReceipt(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Receipt>>;
-    public retrieveReceipt(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public retrieveReceipt(id: string, trip?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Receipt>;
+    public retrieveReceipt(id: string, trip?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Receipt>>;
+    public retrieveReceipt(id: string, trip?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Receipt>>;
+    public retrieveReceipt(id: string, trip?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling retrieveReceipt.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (trip !== undefined && trip !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>trip, 'trip');
         }
 
         let headers = this.defaultHeaders;
@@ -1590,6 +1621,7 @@ export class ApiService {
 
         return this.httpClient.get<Receipt>(`${this.configuration.basePath}/api/receipts/${encodeURIComponent(String(id))}/`,
             {
+                params: queryParameters,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -1879,16 +1911,23 @@ export class ApiService {
     /**
      * Receipt endpoint
      * @param id A unique integer value identifying this receipt.
+     * @param trip trip
      * @param receipt 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateReceipt(id: string, receipt?: Receipt, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Receipt>;
-    public updateReceipt(id: string, receipt?: Receipt, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Receipt>>;
-    public updateReceipt(id: string, receipt?: Receipt, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Receipt>>;
-    public updateReceipt(id: string, receipt?: Receipt, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public updateReceipt(id: string, trip?: string, receipt?: Receipt, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Receipt>;
+    public updateReceipt(id: string, trip?: string, receipt?: Receipt, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Receipt>>;
+    public updateReceipt(id: string, trip?: string, receipt?: Receipt, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Receipt>>;
+    public updateReceipt(id: string, trip?: string, receipt?: Receipt, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling updateReceipt.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (trip !== undefined && trip !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>trip, 'trip');
         }
 
         let headers = this.defaultHeaders;
@@ -1925,6 +1964,7 @@ export class ApiService {
         return this.httpClient.put<Receipt>(`${this.configuration.basePath}/api/receipts/${encodeURIComponent(String(id))}/`,
             receipt,
             {
+                params: queryParameters,
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
