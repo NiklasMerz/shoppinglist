@@ -22,6 +22,9 @@ class List(models.Model):
 # Sorting
 
 class Item(models.Model):
+    """
+    This is an item on a shopping list
+    """
     id = models.BigAutoField(primary_key=True)
     index = None # for sorting
 
@@ -37,6 +40,17 @@ class Item(models.Model):
     last_count = models.IntegerField(default=None, blank=True, null=True)
     buy = models.BooleanField(default=True)
     index = models.IntegerField(default=0)
+
+    def __str__(self):
+       return self.description
+
+class BrandItem(models.Model):
+    """
+    This item links line items to shopping list item and matches line_items by the description string
+    """
+    id = models.BigAutoField(primary_key=True)
+    description = models.CharField(max_length=255)
+    item = models.ForeignKey(Item, related_name="brand_items", on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
        return self.description
@@ -83,7 +97,7 @@ class LineItem(models.Model):
     id = models.BigAutoField(primary_key=True)
     description = models.CharField(max_length=255)
     receipt = models.ForeignKey(Receipt, related_name="line_items", on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, related_name="line_items", on_delete=models.CASCADE, null=True, blank=True)
+    brand_item = models.ForeignKey(BrandItem, related_name="line_items", on_delete=models.CASCADE, null=True, blank=True)
     total = MoneyField(max_digits=19, decimal_places=2, default_currency='EUR', blank=True, null=True)
     quantity = models.IntegerField(default=0)
 

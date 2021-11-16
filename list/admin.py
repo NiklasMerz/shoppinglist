@@ -4,10 +4,18 @@ from django.contrib import admin
 from .models import *
 
 admin.site.register(List)
-admin.site.register(Item)
 admin.site.register(Store)
 admin.site.register(Checkout)
 
+class BrandItemInline(admin.StackedInline):
+    model = BrandItem
+    extra = 0
+
+class ItemAdmin(admin.ModelAdmin):
+    inlines = [BrandItemInline]
+
+admin.site.register(Item, ItemAdmin)
+admin.site.register(BrandItem)
 class CheckoutInline(admin.StackedInline):
     model = Checkout
     extra = 1

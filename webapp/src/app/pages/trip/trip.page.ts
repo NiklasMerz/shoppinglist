@@ -15,12 +15,15 @@ export class TripPage implements OnInit {
   id: any;
   trip: Trip;
   receipt: Receipt;
+  ocrJson: string;
 
   constructor(private api: ApiService, private activatedRouter: ActivatedRoute, private toastCtrl: ToastController,
     private http: HttpClient, private loadintCtrl: LoadingController) { }
 
   ngOnInit() {
     this.init();
+
+    this.setupTestData();
   }
 
   save() {
@@ -42,6 +45,46 @@ export class TripPage implements OnInit {
   }
 
   async addReceiptData() {
+    const url = environment.API_BASE_PATH + environment.API_PREFIX + '/file-receipt/json';
+    let headers = new HttpHeaders();
+    headers= headers.append('content-type', 'application/json');
+    this.receipt = await this.http.post(url, this.ocrJson, {headers}).toPromise();
+    console.debug('res', this.receipt);
+  }
+
+  async addReceiptImage(event) {
+    const loading = await this.loadintCtrl.create({
+      message: 'Uploading...'
+    });
+    loading.present();
+
+    const file: File = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const url = environment.API_BASE_PATH + environment.API_PREFIX + '/file-receipt/image';
+    try {
+      this.receipt = await this.http.post(url, formData).toPromise();
+      console.debug('res', this.receipt);
+      loading.dismiss();
+    } catch (err) {
+      alert('Error uploading file');
+      console.error('err', err);
+      loading.dismiss();
+    }
+  }
+
+  private async init() {
+    this.id = this.activatedRouter.snapshot.params.trip;
+    if (this.id) {
+      this.trip = await this.api.retrieveTrip(this.id).toPromise();
+    } else {
+
+      this.trip = {};
+    }
+  }
+
+  private setupTestData() {
     const testdata = `
     {
       "abn_number": "",
@@ -812,42 +855,6 @@ export class TripPage implements OnInit {
     }
     `;
 
-    const url = environment.API_BASE_PATH + environment.API_PREFIX + '/file-receipt/json';
-    let headers = new HttpHeaders();
-    headers= headers.append('content-type', 'application/json');
-    this.receipt = await this.http.post(url, testdata, {headers}).toPromise();
-    console.debug('res', this.receipt);
-  }
-
-  async addReceiptImage(event) {
-    const loading = await this.loadintCtrl.create({
-      message: 'Uploading...'
-    });
-    loading.present();
-
-    const file: File = event.target.files[0];
-    const formData = new FormData();
-    formData.append('file', file);
-
-    const url = environment.API_BASE_PATH + environment.API_PREFIX + '/file-receipt/image';
-    try {
-      this.receipt = await this.http.post(url, formData).toPromise();
-      console.debug('res', this.receipt);
-      loading.dismiss();
-    } catch (err) {
-      alert('Error uploading file');
-      console.error('err', err);
-      loading.dismiss();
-    }
-  }
-
-  private async init() {
-    this.id = this.activatedRouter.snapshot.params.trip;
-    if (this.id) {
-      this.trip = await this.api.retrieveTrip(this.id).toPromise();
-    } else {
-
-      this.trip = {};
-    }
+    this.ocrJson = testdata;
   }
 }
