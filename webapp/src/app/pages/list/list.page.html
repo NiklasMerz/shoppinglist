@@ -29,7 +29,7 @@
     <ion-list-header color="primary">
       On List
     </ion-list-header>
-    <app-listitem *ngFor="let item of listItems" [item]="item">
+    <app-listitem *ngFor="let item of listItems" [item]="item" (delete)="removeFromList($event)">
       <ion-checkbox slot="end" *ngIf="mode === 'buy'" (ionChange)="check(item)"></ion-checkbox>
     </app-listitem>
   </ion-list>

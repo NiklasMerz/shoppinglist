@@ -114,6 +114,18 @@ export class ListPage implements OnInit {
     this.showList();
   }
 
+  async removeFromList(item: Item) {
+    item.buy = false;
+
+    await this.api.partialUpdateItem(item.id.toString(), 'true', this.listId.toString(), item).toPromise();
+    const toast = await this.toastCtrl.create({
+      message: 'Item removed from list',
+      duration: 2000
+    });
+    await toast.present();
+    this.showList();
+  }
+
   /**
    * Get current list from server and displays it resetting all filters
    */
