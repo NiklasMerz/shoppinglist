@@ -155,6 +155,12 @@ paths:
         description: list
         schema:
           type: string
+      - name: description
+        required: false
+        in: query
+        description: description
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -213,6 +219,12 @@ paths:
         description: list
         schema:
           type: string
+      - name: description
+        required: false
+        in: query
+        description: description
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -242,6 +254,12 @@ paths:
         required: false
         in: query
         description: list
+        schema:
+          type: string
+      - name: description
+        required: false
+        in: query
+        description: description
         schema:
           type: string
       requestBody:
@@ -286,6 +304,12 @@ paths:
         description: list
         schema:
           type: string
+      - name: description
+        required: false
+        in: query
+        description: description
+        schema:
+          type: string
       requestBody:
         content:
           application/json:
@@ -326,6 +350,12 @@ paths:
         required: false
         in: query
         description: list
+        schema:
+          type: string
+      - name: description
+        required: false
+        in: query
+        description: description
         schema:
           type: string
       responses:

@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser
 from rest_framework import status
 from .serializers import *
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
+from django_filters import rest_framework as filters
 
 from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
 
@@ -21,6 +21,12 @@ class ListViewSet(viewsets.ModelViewSet):
     serializer_class = ListSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+class ItemFilter(filters.FilterSet):
+    description = filters.CharFilter(field_name="description", lookup_expr='contains')
+    class Meta:
+        model = Item
+        fields = ['buy', 'list', 'description']
+
 
 class ItemViewSet(viewsets.ModelViewSet):
     """
@@ -29,7 +35,7 @@ class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all().order_by('index')
     serializer_class = ItemSerializer
     permission_classes = [permissions.IsAuthenticated]
-    filterset_fields = ['buy', 'list']
+    filterset_class = ItemFilter
 class StoreViewSet(viewsets.ModelViewSet):
     """
     Store endpoint

@@ -36,16 +36,18 @@ export class ListPage implements OnInit {
     const lowercaseSearchTerm = (searchterm || '').toLowerCase();
 
     if (searchterm !== '') {
-      this.listItems = this.allItems.filter(item => item.description.includes(lowercaseSearchTerm));
-
       this.searchActive = true;
-      this.searchItem = {description: searchterm, list: this.listId};
-
-      this.notListItems = await (await this.getItems(false)).filter(item => item.description.includes(lowercaseSearchTerm));
+      try {
+        this.listItems = await this.getItems(true, lowercaseSearchTerm);
+        this.searchItem = {description: searchterm, list: this.listId};
+        this.notListItems = await this.getItems(false, lowercaseSearchTerm);
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 
-  clear() {
+  async clear() {
     this.searchActive = false;
     this.listItems = this.allItems;
     this.searchbar.value = undefined;
@@ -60,7 +62,7 @@ export class ListPage implements OnInit {
 
   add(item: Item) {
     item.buy = true;
-    this.api.updateItem(item.id.toString(), 'false', this.listId.toString(), item).toPromise().then(async () => {
+    this.api.updateItem(item.id.toString(), 'false', this.listId.toString(), undefined, item).toPromise().then(async () => {
       this.showList();
     }).catch(err => console.log(err));
   }
@@ -107,7 +109,7 @@ export class ListPage implements OnInit {
   async check(item: Item) {
     // TODO error handling
     item.buy = false;
-    await this.api.updateItem(item.id.toString(), 'true', this.listId.toString(), item).toPromise();
+    await this.api.updateItem(item.id.toString(), 'true', this.listId.toString(), undefined, item).toPromise();
     const checkout: Checkout = {trip: this.trip.id, item: item.id};
     await this.api.createCheckout(checkout).toPromise();
 
@@ -117,7 +119,7 @@ export class ListPage implements OnInit {
   async removeFromList(item: Item) {
     item.buy = false;
 
-    await this.api.partialUpdateItem(item.id.toString(), 'true', this.listId.toString(), item).toPromise();
+    await this.api.partialUpdateItem(item.id.toString(), 'true', this.listId.toString(), undefined, item).toPromise();
     const toast = await this.toastCtrl.create({
       message: 'Item removed from list',
       duration: 2000
@@ -141,7 +143,7 @@ export class ListPage implements OnInit {
    * @param buy filter by buy status
    * @returns items
    */
-  private getItems(buy: boolean) {
-    return this.api.listItems(buy ? 'true': 'false', this.listId.toString()).toPromise();
+  private getItems(buy: boolean, search = undefined) {
+    return this.api.listItems(buy ? 'true': 'false', this.listId.toString(), search).toPromise();
   }
 }
