@@ -169,6 +169,7 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8100',
     'https://shoppinglist-advanced.web.app',
+    'https://shopping.merz.dev'
 ]
 
 # Activate Django-Heroku.
