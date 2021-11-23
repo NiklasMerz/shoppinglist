@@ -32,7 +32,13 @@
     </ion-item>
     
     <app-receipt [receipt]="receipt"></app-receipt>
-    <ion-button expand="block" color="secondary" fill="outline" (click)="addReceiptData()">Test receipt</ion-button>
+   
   </ion-list>
 
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <a (click)="addReceiptData()">Test receipt</a>
+  </ion-toolbar>
+</ion-footer>
