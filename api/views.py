@@ -93,7 +93,7 @@ class ReceiptDataView(APIView):
 
     def post(self, request, format=None):
         json_data = request.data
-        trip_id = request.query_params.get('trip', None)
+        trip_id = request.query_params.get('tripId', None)
 
         reciept = file_reciept(json_data, trip_id)
         
@@ -107,7 +107,7 @@ class ReceiptImageView(APIView):
     parser_classes = [MultiPartParser]
 
     def post(self, request, format=None):
-        trip_id = request.query_params.get('trip', None)
+        trip_id = request.query_params.get('tripId', None)
 
         data = request.data['file']
         reciept = file_reciept_from_image(data, trip_id)

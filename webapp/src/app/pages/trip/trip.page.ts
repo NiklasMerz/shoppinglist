@@ -45,7 +45,11 @@ export class TripPage implements OnInit {
   }
 
   async addReceiptData() {
-    const url = environment.API_BASE_PATH + environment.API_PREFIX + '/file-receipt/json';
+    let url = environment.API_BASE_PATH + environment.API_PREFIX + '/file-receipt/json';
+    if (this.id) {
+      url += '?tripId=' + this.id;
+    }
+
     let headers = new HttpHeaders();
     headers= headers.append('content-type', 'application/json');
     this.receipt = await this.http.post(url, this.ocrJson, {headers}).toPromise();
@@ -61,7 +65,10 @@ export class TripPage implements OnInit {
     const formData = new FormData();
     formData.append('file', file);
 
-    const url = environment.API_BASE_PATH + environment.API_PREFIX + '/file-receipt/image';
+    let url = environment.API_BASE_PATH + environment.API_PREFIX + '/file-receipt/image';
+    if (this.id) {
+      url += '?tripId=' + this.id;
+    }
     try {
       this.receipt = await this.http.post(url, formData).toPromise();
       console.debug('res', this.receipt);

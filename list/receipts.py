@@ -25,10 +25,14 @@ def create_receipt_verify(receipt, json_data, trip_id):
         time = json_data['date']
 
     if trip_id:
-        trip = Trip.objects.get(id=trip_id, time=time)
+        trip = Trip.objects.get(id=trip_id)
     else:
         store = Store.objects.get_or_create(name=json_data['vendor']['name'])
         trip = Trip.objects.create(store=store[0])
+
+    if not trip.finish_time:
+        trip.finish_time = time
+        trip.save()
 
     receipt.time = time
     receipt.ocr_data = json_data
