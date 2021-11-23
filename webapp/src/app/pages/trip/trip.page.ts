@@ -49,7 +49,6 @@ export class TripPage implements OnInit {
     let headers = new HttpHeaders();
     headers= headers.append('content-type', 'application/json');
     this.receipt = await this.http.post(url, this.ocrJson, {headers}).toPromise();
-    console.debug('res', this.receipt);
   }
 
   async addReceiptImage(event) {
