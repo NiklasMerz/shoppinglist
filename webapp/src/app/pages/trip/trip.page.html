@@ -28,7 +28,7 @@
 
     <ion-item>
       <ion-label>Upload receipt here</ion-label>
-      <input type="file" (change)="addReceiptImage($event)" />
+      <input type="file" accept="image/*;capture=camera" (change)="addReceiptImage($event)" />
     </ion-item>
     
     <app-receipt [receipt]="receipt"></app-receipt>
