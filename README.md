@@ -18,7 +18,7 @@ pip install -r requirements.txt
 # Save requirements
 pip freeze > requirements.txt
 
-# Start with webpack build
+# Start with webpack build for old web UI
 python manage.py webpack --build && ./manage.py collectstatic && ./manage.py runserver
 ```
 
