@@ -34,19 +34,23 @@ const routes: Routes = [
   },
   {
     path: 'startshopping',
-    loadChildren: () => import('./pages/startshopping/startshopping.module').then( m => m.StartshoppingPageModule)
+    loadChildren: () => import('./pages/startshopping/startshopping.module').then( m => m.StartshoppingPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'trip/:trip',
-    loadChildren: () => import('./pages/trip/trip.module').then( m => m.TripPageModule)
+    loadChildren: () => import('./pages/trip/trip.module').then( m => m.TripPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'trip',
-    loadChildren: () => import('./pages/trip/trip.module').then( m => m.TripPageModule)
+    loadChildren: () => import('./pages/trip/trip.module').then( m => m.TripPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'trips',
-    loadChildren: () => import('./pages/trips/trips.module').then( m => m.TripsPageModule)
+    loadChildren: () => import('./pages/trips/trips.module').then( m => m.TripsPageModule),
+    canActivate: [AuthGuard]
   },
 ];
 
