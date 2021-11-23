@@ -24,11 +24,18 @@ export function apiConfigFactory(): Configuration {
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, OAuthModule.forRoot(), ApiModule.forRoot(apiConfigFactory), ServiceWorkerModule.register('ngsw-worker.js', {
-  enabled: environment.production,
-  // Register the ServiceWorker as soon as the app is stable
-  // or after 30 seconds (whichever comes first).
-  registrationStrategy: 'registerWhenStable:30000'
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    HttpClientModule,
+    OAuthModule.forRoot(),
+    ApiModule.forRoot(apiConfigFactory),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
 })],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, { provide: BASE_PATH, useValue: environment.API_BASE_PATH }, {
     provide: HTTP_INTERCEPTORS,

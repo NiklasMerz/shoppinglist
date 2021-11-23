@@ -65,7 +65,10 @@ class Trip(models.Model):
 
     @property
     def label(self):
-        return f'{self.store.name if self.store else self.notes} - {self.time.strftime("%Y-%m-%d %H:%M")}'
+        if self.finish_time:
+            return f'{self.store.name if self.store else self.notes} - {self.time.strftime("%Y-%m-%d %H:%M")} -> {self.finish_time.strftime("%H:%M")}'
+        else:
+             return f'{self.store.name if self.store else self.notes}'
 
     def __str__(self):
         return self.label

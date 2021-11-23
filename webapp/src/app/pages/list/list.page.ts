@@ -86,7 +86,8 @@ export class ListPage implements OnInit {
 
       const toast = await this.toastCtrl.create({
         message: 'Shopping started',
-        duration: 2000
+        duration: 2000,
+        position: 'top'
       });
       await toast.present();
     });

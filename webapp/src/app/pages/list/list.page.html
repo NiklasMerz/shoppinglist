@@ -57,5 +57,14 @@
     </ion-fab-button>
   </ion-fab>
 
-
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar color="primary" *ngIf="mode === 'add'">
+    <ion-title>Edit list</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar color="danger" *ngIf="mode === 'buy' && trip">
+    <ion-title>Shopping: {{trip.label}} <cd-timer format="hms"></cd-timer></ion-title>
+  </ion-toolbar>
+</ion-footer>

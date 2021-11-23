@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CdTimerModule } from 'angular-cd-timer';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -15,7 +16,8 @@ import { ListItemComponent } from '../../components/listitem/listitem.component'
     CommonModule,
     FormsModule,
     IonicModule,
-    ListPageRoutingModule
+    ListPageRoutingModule,
+    CdTimerModule
   ],
   declarations: [ListItemComponent, ListPage]
 })
