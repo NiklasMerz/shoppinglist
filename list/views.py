@@ -46,7 +46,6 @@ class ItemCreate(CreateView):
 
 class ItemCheck(UpdateView):
     model = Item
-    fields = ["last_count"]
     template_name = 'list/check.html'
     
     def form_valid(self, form):
@@ -55,8 +54,6 @@ class ItemCheck(UpdateView):
             form.instance.last_bought = datetime.now()
 
 
-        # Number in inventory or to buy        
-        form.instance.current_count = form.instance.last_count
         form.instance.buy = not form.instance.buy
         form.instance.save()
         return super().form_valid(form)

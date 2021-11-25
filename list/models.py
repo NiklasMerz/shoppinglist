@@ -36,8 +36,6 @@ class Item(models.Model):
     note = models.TextField(default=None, blank=True, null=True)
     ean = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    current_count = models.IntegerField(default=None, blank=True, null=True)
-    last_count = models.IntegerField(default=None, blank=True, null=True)
     buy = models.BooleanField(default=True)
     index = models.IntegerField(default=0)
 
