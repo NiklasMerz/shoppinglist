@@ -7,15 +7,15 @@ admin.site.register(List)
 admin.site.register(Store)
 admin.site.register(Checkout)
 
-class BrandItemInline(admin.StackedInline):
-    model = BrandItem
+class SKUInline(admin.StackedInline):
+    model = SKU
     extra = 0
 
 class ItemAdmin(admin.ModelAdmin):
-    inlines = [BrandItemInline]
+    inlines = [SKUInline]
 
 admin.site.register(Item, ItemAdmin)
-admin.site.register(BrandItem)
+admin.site.register(SKU)
 class CheckoutInline(admin.StackedInline):
     model = Checkout
     extra = 1

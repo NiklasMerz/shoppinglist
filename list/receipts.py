@@ -1,7 +1,7 @@
 import os
 from django.utils import timezone
 from veryfi import Client
-from .models import BrandItem, Receipt, Trip, Store
+from .models import SKU, Receipt, Trip, Store
 
 def file_reciept(json_data, trip_id):
     """
@@ -40,7 +40,7 @@ def create_receipt_verify(receipt, json_data, trip_id):
     receipt.total = json_data['total']
 
     for line_item in json_data['line_items']:
-        item = BrandItem.objects.get_or_create(description=line_item['description'])
+        item = SKU.objects.get_or_create(description=line_item['description'])
         receipt.line_items.create(description=line_item['description'], total=line_item['total'], quantity=line_item['quantity'], brand_item=item[0])
 
     receipt.save()
