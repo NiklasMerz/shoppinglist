@@ -13,9 +13,15 @@ class SKUInline(admin.StackedInline):
 
 class ItemAdmin(admin.ModelAdmin):
     inlines = [SKUInline]
+    search_fields = ["description"]
 
 admin.site.register(Item, ItemAdmin)
-admin.site.register(SKU)
+
+class SKUAdmin(admin.ModelAdmin):
+    search_fields = ["description"]
+    list_filter = ["item"]
+
+admin.site.register(SKU, SKUAdmin)
 class CheckoutInline(admin.StackedInline):
     model = Checkout
     extra = 1

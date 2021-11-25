@@ -44,16 +44,23 @@ class Item(models.Model):
     def __str__(self):
        return self.description
 
+    class Meta:
+        ordering = ['description']
+
 class SKU(models.Model):
     """
     This item links line items to shopping list item and matches line_items by the description string
     """
     id = models.BigAutoField(primary_key=True)
     description = models.CharField(max_length=255)
-    item = models.ForeignKey(Item, related_name="brand_items", on_delete=models.SET_NULL, blank=True, null=True)
+    item = models.ForeignKey(Item, related_name="skus", on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
        return self.description
+
+    class Meta:
+        verbose_name_plural = "SKUs"
+        ordering = ['description']
 class Trip(models.Model):
     id = models.BigAutoField(primary_key=True)
     time = models.DateTimeField(auto_now_add=True)
