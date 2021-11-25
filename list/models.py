@@ -105,7 +105,7 @@ class LineItem(models.Model):
     id = models.BigAutoField(primary_key=True)
     description = models.CharField(max_length=255)
     receipt = models.ForeignKey(Receipt, related_name="line_items", on_delete=models.CASCADE)
-    brand_item = models.ForeignKey(SKU, related_name="line_items", on_delete=models.CASCADE, null=True, blank=True)
+    sku = models.ForeignKey(SKU, related_name="line_items", on_delete=models.CASCADE, null=True, blank=True)
     total = MoneyField(max_digits=19, decimal_places=2, default_currency='EUR', blank=True, null=True)
     quantity = models.IntegerField(default=0)
 

@@ -17,11 +17,6 @@ class ItemAdmin(admin.ModelAdmin):
 
 admin.site.register(Item, ItemAdmin)
 
-class SKUAdmin(admin.ModelAdmin):
-    search_fields = ["description"]
-    list_filter = ["item"]
-
-admin.site.register(SKU, SKUAdmin)
 class CheckoutInline(admin.StackedInline):
     model = Checkout
     extra = 1
@@ -37,3 +32,10 @@ class ReceiptAdmin(admin.ModelAdmin):
     inlines = [LineItemInline]
 
 admin.site.register(Receipt, ReceiptAdmin)
+
+class SKUAdmin(admin.ModelAdmin):
+    inlines = [LineItemInline]
+    search_fields = ["description"]
+    list_filter = ["item"]
+
+admin.site.register(SKU, SKUAdmin)
