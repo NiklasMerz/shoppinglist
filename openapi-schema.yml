@@ -933,6 +933,171 @@ paths:
           description: ''
       tags:
       - api
+  /api/lineitems/:
+    get:
+      operationId: listLineItems
+      description: Receipt endpoint
+      parameters:
+      - name: sku__item
+        required: false
+        in: query
+        description: sku__item
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LineItem'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createLineItem
+      description: Receipt endpoint
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LineItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LineItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LineItem'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineItem'
+          description: ''
+      tags:
+      - api
+  /api/lineitems/{id}/:
+    get:
+      operationId: retrieveLineItem
+      description: Receipt endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this line item.
+        schema:
+          type: string
+      - name: sku__item
+        required: false
+        in: query
+        description: sku__item
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineItem'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateLineItem
+      description: Receipt endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this line item.
+        schema:
+          type: string
+      - name: sku__item
+        required: false
+        in: query
+        description: sku__item
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LineItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LineItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LineItem'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineItem'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateLineItem
+      description: Receipt endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this line item.
+        schema:
+          type: string
+      - name: sku__item
+        required: false
+        in: query
+        description: sku__item
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LineItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LineItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LineItem'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineItem'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyLineItem
+      description: Receipt endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this line item.
+        schema:
+          type: string
+      - name: sku__item
+        required: false
+        in: query
+        description: sku__item
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
   /api/file-receipt/json:
     post:
       operationId: createReceiptData
@@ -1109,6 +1274,35 @@ components:
               item:
                 type: string
                 readOnly: true
+              date:
+                type: string
             required:
             - description
+            - date
           readOnly: true
+    LineItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        description:
+          type: string
+          maxLength: 255
+        total:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 100000000000000000
+          minimum: -100000000000000000
+          nullable: true
+        quantity:
+          type: integer
+        item:
+          type: string
+          readOnly: true
+        date:
+          type: string
+      required:
+      - description
+      - date

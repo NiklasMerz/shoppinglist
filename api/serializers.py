@@ -29,9 +29,10 @@ class CheckoutSerializer(serializers.ModelSerializer):
 
 class LineItemSerializer(serializers.ModelSerializer):
     item = serializers.PrimaryKeyRelatedField(read_only=True)
+    date = serializers.CharField(source='receipt.time')
     class Meta:
         model = LineItem
-        fields = ['id', 'description', 'total', 'quantity', 'item']
+        fields = ('id', 'description', 'total', 'quantity', 'item', 'date')
 
 class ReceiptSerializer(serializers.ModelSerializer):
     line_items = LineItemSerializer(many=True, read_only=True)

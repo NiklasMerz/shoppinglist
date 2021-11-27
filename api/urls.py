@@ -10,6 +10,7 @@ router.register(r'stores', views.StoreViewSet)
 router.register(r'trips', views.TripViewSet)
 router.register(r'checkouts', views.CheckoutViewSet)
 router.register(r'receipts', views.ReceiptViewSet)
+router.register(r'lineitems', views.LineItemsViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

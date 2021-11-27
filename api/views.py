@@ -83,6 +83,15 @@ class ReceiptViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     filterset_fields = ['trip']
 
+class LineItemsViewSet(viewsets.ModelViewSet):
+    """
+    Receipt endpoint
+    """
+    queryset = LineItem.objects.all().order_by('-receipt__time')
+    serializer_class = LineItemSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    filterset_fields = ['sku__item']
+
 # Receipt creation from images or parsed data from external services
 # Custom API not part of OpenAPI spec
 class ReceiptDataView(APIView):
