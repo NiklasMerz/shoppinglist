@@ -6,6 +6,7 @@ from .models import *
 admin.site.register(List)
 admin.site.register(Store)
 admin.site.register(Checkout)
+admin.site.register(LineItem)
 
 class SKUInline(admin.StackedInline):
     model = SKU
