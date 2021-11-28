@@ -50,10 +50,14 @@
 
 <ion-footer>
   <ion-toolbar color="primary" *ngIf="mode === 'add'" (click)="startShopping()">
-    <ion-title>Click to start shopping</ion-title>
+    <ion-title>
+      <b>Click to start shopping</b>
+    </ion-title>
   </ion-toolbar>
 
   <ion-toolbar color="danger" *ngIf="mode === 'buy' && trip" (click)="stopShopping()">
-    <ion-title>Shopping: {{trip.label}} <cd-timer format="hms"></cd-timer> Click to end</ion-title>
+    <ion-title>
+      <b>Click to end</b> - Shopping in progress: {{trip.label}} <cd-timer format="hms"></cd-timer>
+    </ion-title>
   </ion-toolbar>
 </ion-footer>
