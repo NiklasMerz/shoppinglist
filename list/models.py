@@ -111,3 +111,6 @@ class LineItem(models.Model):
 
     def __str__(self):
         return self.description
+
+    class Meta:
+        get_latest_by = ['-receipt__time']

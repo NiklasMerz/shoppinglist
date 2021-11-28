@@ -3,9 +3,31 @@ from rest_framework import serializers
 
 
 class ItemSerializer(serializers.ModelSerializer):
+    last_checkout = serializers.SerializerMethodField()
+    last_line_item_date = serializers.SerializerMethodField()
+    last_line_item_total = serializers.SerializerMethodField()
+
+    def get_last_checkout(self, obj):
+        try:
+            return obj.checkouts.latest().time
+        except:
+            return None
+
+    def get_last_line_item_date(self, obj):
+        try:
+            return LineItem.objects.filter(sku__in=obj.skus.all()).latest().receipt.time
+        except:
+            return None
+
+    def get_last_line_item_total(self, obj):
+        try:
+            return LineItem.objects.filter(sku__in=obj.skus.all()).latest().total.amount
+        except:
+            return None
+
     class Meta:
         model = Item
-        fields = ['id', 'description', 'note', 'buy', 'list']
+        fields = ['id', 'description', 'note', 'buy', 'list', 'last_checkout', 'last_line_item_date', 'last_line_item_total']
 
 class ListSerializer(serializers.ModelSerializer):
     class Meta:

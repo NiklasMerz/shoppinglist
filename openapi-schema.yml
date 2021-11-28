@@ -1166,6 +1166,15 @@ components:
         list:
           type: integer
           nullable: true
+        last_checkout:
+          type: string
+          readOnly: true
+        last_line_item_date:
+          type: string
+          readOnly: true
+        last_line_item_total:
+          type: string
+          readOnly: true
       required:
       - description
     Store:

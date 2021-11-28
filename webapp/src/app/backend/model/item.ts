@@ -17,5 +17,8 @@ export interface Item {
     note?: string | null;
     buy?: boolean;
     list?: number | null;
+    readonly last_checkout?: string;
+    readonly last_line_item_date?: string;
+    readonly last_line_item_total?: string;
 }
 
