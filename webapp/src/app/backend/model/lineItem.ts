@@ -11,7 +11,7 @@
  */
 
 
-export interface ReceiptLineItems { 
+export interface LineItem { 
     readonly id?: number;
     description: string;
     total?: string | null;

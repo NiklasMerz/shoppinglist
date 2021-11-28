@@ -4,6 +4,7 @@ import { IonSearchbar, ModalController, ToastController } from '@ionic/angular';
 import { ApiService, Checkout, Trip } from 'src/app/backend';
 
 import { Item } from '../../backend';
+import { ItemDetailPage } from '../item-detail/item-detail.page';
 import { StartShoppingPage } from '../startshopping/startshopping.page';
 @Component({
   selector: 'app-list',
@@ -127,6 +128,15 @@ export class ListPage implements OnInit {
     });
     await toast.present();
     this.showList();
+  }
+
+  openDetail(item: Item) {
+    this.modalCtrl.create({
+      component: ItemDetailPage,
+      componentProps: {
+        itemId: item.id,
+      }
+    }).then(modal => modal.present());
   }
 
   /**

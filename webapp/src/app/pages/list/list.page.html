@@ -29,8 +29,14 @@
     <ion-list-header color="primary">
       On List
     </ion-list-header>
-    <app-listitem *ngFor="let item of listItems" [item]="item" (delete)="removeFromList($event)">
+    <!-- Item click only opens details in add mode because it will conflickt with checkbox in buy mode -->
+    <app-listitem *ngFor="let item of listItems" [item]="item" (delete)="removeFromList($event)" (itemClick)="mode === 'add' ? openDetail($event) : undefined">
+      <!-- Checkbox for editmode -->
       <ion-checkbox slot="end" *ngIf="mode === 'buy'" (ionChange)="check(item)"></ion-checkbox>
+      <!-- Details for editmode -->
+      <ion-button slot="start" fill="clear" *ngIf="mode === 'buy'" color="secondary" (click)="openDetail(item)">
+        <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+      </ion-button>
     </app-listitem>
   </ion-list>
 
@@ -42,6 +48,11 @@
       <ion-button slot="end" fill="clear" (click)="add(item)">
         <ion-icon name="add" slot="end"></ion-icon>
         Add
+      </ion-button>
+
+      <!-- Details for add -->
+      <ion-button slot="start" fill="clear" color="secondary" (click)="openDetail(item)">
+        <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
       </ion-button>
     </app-listitem>
   </ion-list>

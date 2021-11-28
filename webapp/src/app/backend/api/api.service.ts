@@ -19,6 +19,7 @@ import { Observable }                                        from 'rxjs';
 
 import { Checkout } from '../model/models';
 import { Item } from '../model/models';
+import { LineItem } from '../model/models';
 import { List } from '../model/models';
 import { Receipt } from '../model/models';
 import { Store } from '../model/models';
@@ -187,6 +188,60 @@ export class ApiService {
 
         return this.httpClient.post<Item>(`${this.configuration.basePath}/api/items/`,
             item,
+            {
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Receipt endpoint
+     * @param lineItem 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createLineItem(lineItem?: LineItem, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<LineItem>;
+    public createLineItem(lineItem?: LineItem, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<LineItem>>;
+    public createLineItem(lineItem?: LineItem, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<LineItem>>;
+    public createLineItem(lineItem?: LineItem, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json',
+            'application/x-www-form-urlencoded',
+            'multipart/form-data'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.post<LineItem>(`${this.configuration.basePath}/api/lineitems/`,
+            lineItem,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -616,6 +671,58 @@ export class ApiService {
     }
 
     /**
+     * Receipt endpoint
+     * @param id A unique integer value identifying this line item.
+     * @param skuItem sku__item
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public destroyLineItem(id: string, skuItem?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public destroyLineItem(id: string, skuItem?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public destroyLineItem(id: string, skuItem?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public destroyLineItem(id: string, skuItem?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling destroyLineItem.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (skuItem !== undefined && skuItem !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>skuItem, 'sku__item');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/lineitems/${encodeURIComponent(String(id))}/`,
+            {
+                params: queryParameters,
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * List endpoint
      * @param id A unique integer value identifying this list.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -888,6 +995,55 @@ export class ApiService {
         }
 
         return this.httpClient.get<Array<Item>>(`${this.configuration.basePath}/api/items/`,
+            {
+                params: queryParameters,
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Receipt endpoint
+     * @param skuItem sku__item
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public listLineItems(skuItem?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<LineItem>>;
+    public listLineItems(skuItem?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<LineItem>>>;
+    public listLineItems(skuItem?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<LineItem>>>;
+    public listLineItems(skuItem?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (skuItem !== undefined && skuItem !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>skuItem, 'sku__item');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.get<Array<LineItem>>(`${this.configuration.basePath}/api/lineitems/`,
             {
                 params: queryParameters,
                 responseType: <any>responseType,
@@ -1194,6 +1350,72 @@ export class ApiService {
 
         return this.httpClient.patch<Item>(`${this.configuration.basePath}/api/items/${encodeURIComponent(String(id))}/`,
             item,
+            {
+                params: queryParameters,
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Receipt endpoint
+     * @param id A unique integer value identifying this line item.
+     * @param skuItem sku__item
+     * @param lineItem 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public partialUpdateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<LineItem>;
+    public partialUpdateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<LineItem>>;
+    public partialUpdateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<LineItem>>;
+    public partialUpdateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling partialUpdateLineItem.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (skuItem !== undefined && skuItem !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>skuItem, 'sku__item');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json',
+            'application/x-www-form-urlencoded',
+            'multipart/form-data'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.patch<LineItem>(`${this.configuration.basePath}/api/lineitems/${encodeURIComponent(String(id))}/`,
+            lineItem,
             {
                 params: queryParameters,
                 responseType: <any>responseType,
@@ -1554,6 +1776,59 @@ export class ApiService {
     }
 
     /**
+     * Receipt endpoint
+     * @param id A unique integer value identifying this line item.
+     * @param skuItem sku__item
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public retrieveLineItem(id: string, skuItem?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<LineItem>;
+    public retrieveLineItem(id: string, skuItem?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<LineItem>>;
+    public retrieveLineItem(id: string, skuItem?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<LineItem>>;
+    public retrieveLineItem(id: string, skuItem?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling retrieveLineItem.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (skuItem !== undefined && skuItem !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>skuItem, 'sku__item');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.get<LineItem>(`${this.configuration.basePath}/api/lineitems/${encodeURIComponent(String(id))}/`,
+            {
+                params: queryParameters,
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * List endpoint
      * @param id A unique integer value identifying this list.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -1864,6 +2139,72 @@ export class ApiService {
 
         return this.httpClient.put<Item>(`${this.configuration.basePath}/api/items/${encodeURIComponent(String(id))}/`,
             item,
+            {
+                params: queryParameters,
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Receipt endpoint
+     * @param id A unique integer value identifying this line item.
+     * @param skuItem sku__item
+     * @param lineItem 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public updateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<LineItem>;
+    public updateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<LineItem>>;
+    public updateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<LineItem>>;
+    public updateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling updateLineItem.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (skuItem !== undefined && skuItem !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>skuItem, 'sku__item');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json',
+            'application/x-www-form-urlencoded',
+            'multipart/form-data'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.put<LineItem>(`${this.configuration.basePath}/api/lineitems/${encodeURIComponent(String(id))}/`,
+            lineItem,
             {
                 params: queryParameters,
                 responseType: <any>responseType,

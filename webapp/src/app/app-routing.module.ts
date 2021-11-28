@@ -52,6 +52,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/trips/trips.module').then( m => m.TripsPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'item-detail',
+    loadChildren: () => import('./pages/item-detail/item-detail.module').then( m => m.ItemDetailPageModule)
+  },
 ];
 
 @NgModule({

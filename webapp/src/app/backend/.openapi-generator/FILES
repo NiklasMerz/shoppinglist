@@ -9,6 +9,7 @@ git_push.sh
 index.ts
 model/checkout.ts
 model/item.ts
+model/lineItem.ts
 model/list.ts
 model/models.ts
 model/receipt.ts
