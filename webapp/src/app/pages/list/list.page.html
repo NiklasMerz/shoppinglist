@@ -46,25 +46,14 @@
     </app-listitem>
   </ion-list>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <!-- TODO Animation -->
-    <ion-fab-button *ngIf="mode === 'add'" (click)="startShopping()">
-      <ion-icon name="bag"></ion-icon>
-    </ion-fab-button>
-
-    <ion-fab-button *ngIf="mode === 'buy'" (click)="stopShopping()" color="danger">
-      <ion-icon name="bag-check"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar color="primary" *ngIf="mode === 'add'">
-    <ion-title>Edit list</ion-title>
+  <ion-toolbar color="primary" *ngIf="mode === 'add'" (click)="startShopping()">
+    <ion-title>Click to start shopping</ion-title>
   </ion-toolbar>
 
-  <ion-toolbar color="danger" *ngIf="mode === 'buy' && trip">
-    <ion-title>Shopping: {{trip.label}} <cd-timer format="hms"></cd-timer></ion-title>
+  <ion-toolbar color="danger" *ngIf="mode === 'buy' && trip" (click)="stopShopping()">
+    <ion-title>Shopping: {{trip.label}} <cd-timer format="hms"></cd-timer> Click to end</ion-title>
   </ion-toolbar>
 </ion-footer>
