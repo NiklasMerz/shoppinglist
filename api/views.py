@@ -13,13 +13,24 @@ from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
 
 from list.receipts import file_reciept, file_reciept_from_image
 
+
+# List permission
+
+class UserPermissionGranted(permissions.BasePermission):
+    """
+    Custom permission to only allow user with permission to view
+    """
+
+    def has_object_permission(self, request, view, obj):
+        return request.user in obj.users or request.user.is_superuser or request.user.is_staff
+
 class ListViewSet(viewsets.ModelViewSet):
     """
     List endpoint
     """
     queryset = List.objects.all()
     serializer_class = ListSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [UserPermissionGranted]
 
 class ItemFilter(filters.FilterSet):
     description = filters.CharFilter(field_name="description", lookup_expr='contains')
