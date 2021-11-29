@@ -15,6 +15,7 @@ class Store(models.Model):
 class List(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=255)
+    users = models.ManyToManyField('auth.User', related_name='lists')
 
     def __str__(self):
        return self.name
