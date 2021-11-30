@@ -6,7 +6,7 @@ import { AuthGuard } from './auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'list',
     pathMatch: 'full'
   },
   {
@@ -28,7 +28,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'list/:id/:name',
+    path: 'list/:id',
     loadChildren: () => import('./pages/list/list.module').then( m => m.ListPageModule),
     canActivate: [AuthGuard]
   },

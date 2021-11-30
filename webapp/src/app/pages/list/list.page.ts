@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonSearchbar, ModalController, ToastController } from '@ionic/angular';
 import { ApiService, Checkout, Trip } from 'src/app/backend';
 
@@ -11,7 +11,7 @@ import { StartShoppingPage } from '../startshopping/startshopping.page';
   templateUrl: './list.page.html',
   styleUrls: ['./list.page.scss'],
 })
-export class ListPage implements OnInit {
+export class ListPage {
   @ViewChild(IonSearchbar) searchbar: IonSearchbar;
   allItems: Item[] = [];
   listItems: Item[] = [];
@@ -19,16 +19,31 @@ export class ListPage implements OnInit {
   name: string;
   mode: 'add' | 'buy' = 'add';
   searchActive = false;
-  listId: number;
+  listId: string;
   searchItem: Item;
   trip: Trip;
 
   constructor(private activatedRoute: ActivatedRoute, private api: ApiService, private modalCtrl: ModalController,
-    private toastCtrl: ToastController) { }
+    private toastCtrl: ToastController, private router: Router) { }
 
-  ngOnInit() {
-    this.name = this.activatedRoute.snapshot.paramMap.get('name');
-    this.listId = parseInt(this.activatedRoute.snapshot.paramMap.get('id'), 10);
+  ionViewDidEnter() {
+    const listId = this.activatedRoute.snapshot.paramMap.get('id');
+    this.name = this.activatedRoute.snapshot.queryParamMap.get('list');
+
+    if (listId !== null) {
+      this.listId = listId;
+      localStorage.setItem('listId', this.listId);
+      localStorage.setItem('listName', this.name);
+    } else {
+      const lastListId = localStorage.getItem('listId');
+      if (lastListId) {
+        this.listId = lastListId;
+        this.name = localStorage.getItem('listName');
+      } else {
+        this.router.navigate(['/trips']);
+      }
+    }
+
     this.showList();
   }
 
@@ -40,7 +55,7 @@ export class ListPage implements OnInit {
       this.searchActive = true;
       try {
         this.listItems = await this.getItems(true, lowercaseSearchTerm);
-        this.searchItem = {description: searchterm, list: this.listId};
+        this.searchItem = {description: searchterm, list: parseInt(this.listId, 10)};
         this.notListItems = await this.getItems(false, lowercaseSearchTerm);
       } catch (error) {
         console.error(error);
@@ -155,6 +170,6 @@ export class ListPage implements OnInit {
    * @returns items
    */
   private getItems(buy: boolean, search = undefined) {
-    return this.api.listItems(buy ? 'true': 'false', this.listId.toString(), search).toPromise();
+    return this.api.listItems(buy ? 'true': 'false', this.listId, search).toPromise();
   }
 }
