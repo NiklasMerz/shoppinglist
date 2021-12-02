@@ -8,11 +8,14 @@
   <div id="container">
     <p><strong class="capitalize">Login</strong></p>
 
-    <ion-input type="text" placeholder="Username" [(ngModel)]="username"></ion-input>
-    <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+    <form (ngSubmit)="login()">
+      <ion-input type="text" placeholder="Username" name="username" [(ngModel)]="username"></ion-input>
+      <ion-input type="password" placeholder="Password" name="password" (keyup.enter)="login()" [(ngModel)]="password"></ion-input>
 
-    <ion-button (click)="login()">Login</ion-button>
-    <ion-button (click)="logout()">Logout</ion-button>
+      <ion-button type="submit">Login</ion-button>
+      <ion-button (click)="logout()">Logout</ion-button>
+    </form>
+    
 
   </div>
 </ion-content>
