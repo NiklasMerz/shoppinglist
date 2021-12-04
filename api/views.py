@@ -16,13 +16,13 @@ from list.receipts import file_reciept, file_reciept_from_image
 
 # List permission
 
-class UserPermissionGranted(permissions.BasePermission):
+class UserPermissionGranted(permissions.IsAuthenticated):
     """
     Custom permission to only allow user with permission to view
     """
 
     def has_object_permission(self, request, view, obj):
-        return request.user in obj.users or request.user.is_superuser or request.user.is_staff
+        return obj.users.filter(pk=request.user.pk).exists() or request.user.is_superuser
 
 class ListViewSet(viewsets.ModelViewSet):
     """
@@ -31,6 +31,12 @@ class ListViewSet(viewsets.ModelViewSet):
     queryset = List.objects.all()
     serializer_class = ListSerializer
     permission_classes = [UserPermissionGranted]
+
+    def get_queryset(self):
+        """
+        Filter by user
+        """
+        return List.objects.filter(users=self.request.user)
 
 class ItemFilter(filters.FilterSet):
     description = filters.CharFilter(field_name="description", lookup_expr='contains')
@@ -61,7 +67,7 @@ class TripViewSet(viewsets.ModelViewSet):
     """
     queryset = Trip.objects.all().order_by('-time')
     serializer_class = TripSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [UserPermissionGranted]
 
 class CheckoutViewSet(viewsets.ModelViewSet):
     """
@@ -69,7 +75,7 @@ class CheckoutViewSet(viewsets.ModelViewSet):
     """
     queryset = Checkout.objects.all().order_by('-time')
     serializer_class = CheckoutSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [UserPermissionGranted]
 
     def perform_create(self, serializer):
         # Get current count from trip, set to checkout and increase count
@@ -91,7 +97,7 @@ class ReceiptViewSet(viewsets.ModelViewSet):
     """
     queryset = Receipt.objects.all().order_by('-time')
     serializer_class = ReceiptSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [UserPermissionGranted]
     filterset_fields = ['trip']
 
 class LineItemsViewSet(viewsets.ModelViewSet):
@@ -100,7 +106,7 @@ class LineItemsViewSet(viewsets.ModelViewSet):
     """
     queryset = LineItem.objects.all().order_by('-receipt__time')
     serializer_class = LineItemSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [UserPermissionGranted]
     filterset_fields = ['sku__item']
 
 # Receipt creation from images or parsed data from external services
