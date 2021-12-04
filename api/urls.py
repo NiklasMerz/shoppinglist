@@ -5,6 +5,7 @@ from rest_framework.schemas import get_schema_view
 
 router = routers.DefaultRouter()
 router.register(r'lists', views.ListViewSet)
+router.register(r'catalogitems', views.CatalogItemViewSet)
 router.register(r'items', views.ItemViewSet)
 router.register(r'stores', views.StoreViewSet)
 router.register(r'trips', views.TripViewSet)

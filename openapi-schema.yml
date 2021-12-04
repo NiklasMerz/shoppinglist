@@ -138,6 +138,171 @@ paths:
           description: ''
       tags:
       - api
+  /api/catalogitems/:
+    get:
+      operationId: listCatalogItems
+      description: Item endpoint
+      parameters:
+      - name: description
+        required: false
+        in: query
+        description: description
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CatalogItem'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createCatalogItem
+      description: Item endpoint
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatalogItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CatalogItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CatalogItem'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogItem'
+          description: ''
+      tags:
+      - api
+  /api/catalogitems/{id}/:
+    get:
+      operationId: retrieveCatalogItem
+      description: Item endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this catalog item.
+        schema:
+          type: string
+      - name: description
+        required: false
+        in: query
+        description: description
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogItem'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateCatalogItem
+      description: Item endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this catalog item.
+        schema:
+          type: string
+      - name: description
+        required: false
+        in: query
+        description: description
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatalogItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CatalogItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CatalogItem'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogItem'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateCatalogItem
+      description: Item endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this catalog item.
+        schema:
+          type: string
+      - name: description
+        required: false
+        in: query
+        description: description
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatalogItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CatalogItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CatalogItem'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogItem'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyCatalogItem
+      description: Item endpoint
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this catalog item.
+        schema:
+          type: string
+      - name: description
+        required: false
+        in: query
+        description: description
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
   /api/items/:
     get:
       operationId: listItems
@@ -1149,6 +1314,17 @@ components:
           maxLength: 255
       required:
       - name
+    CatalogItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        description:
+          type: string
+          maxLength: 255
+      required:
+      - description
     Item:
       type: object
       properties:

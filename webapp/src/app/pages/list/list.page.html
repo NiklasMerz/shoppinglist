@@ -41,7 +41,7 @@
 
   <ion-list *ngIf="searchActive && notListItems.length > 0">
     <ion-list-header color="danger">
-      Not on list
+      Previously on list
     </ion-list-header>
     <app-listitem *ngFor="let item of notListItems" [item]="item">
       <ion-button slot="end" fill="clear" (click)="add(item)">
@@ -50,7 +50,24 @@
       </ion-button>
 
       <!-- Details for add -->
-      <ion-button slot="start" fill="clear" color="secondary" (click)="openDetail(item)">
+      <ion-button slot="start" fill="clear" color="secondary" (click)="openDetail(item.catalog_item)">
+        <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+      </ion-button>
+    </app-listitem>
+  </ion-list>
+
+  <ion-list *ngIf="searchActive && catalogItems.length > 0">
+    <ion-list-header color="danger">
+      From catalog
+    </ion-list-header>
+    <app-listitem *ngFor="let item of catalogItems" [item]="item">
+      <ion-button slot="end" fill="clear" (click)="addFromCatalog(item)">
+        <ion-icon name="add" slot="end"></ion-icon>
+        Add
+      </ion-button>
+
+      <!-- Details for add -->
+      <ion-button slot="start" fill="clear" color="secondary" (click)="openDetail(item.id)">
         <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
       </ion-button>
     </app-listitem>

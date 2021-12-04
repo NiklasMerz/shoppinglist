@@ -1,3 +1,4 @@
+export * from './catalogItem';
 export * from './checkout';
 export * from './item';
 export * from './lineItem';
