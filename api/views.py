@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser
 from rest_framework import status
 from .serializers import *
-from rest_framework.permissions import IsAuthenticated
 from django_filters import rest_framework as filters
+from bridgekeeper import perms
 
 from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
 
@@ -16,27 +16,19 @@ from list.receipts import file_reciept, file_reciept_from_image
 
 # List permission
 
-class UserPermissionGranted(permissions.IsAuthenticated):
-    """
-    Custom permission to only allow user with permission to view
-    """
+class PermissionMixin(object):
 
-    def has_object_permission(self, request, view, obj):
-        return obj.users.filter(pk=request.user.pk).exists() or request.user.is_superuser
-
-class ListViewSet(viewsets.ModelViewSet):
+    def get_queryset(self):
+        perm_name = 'list.access_' + self.basename
+        queryset = super().get_queryset()
+        return perms[perm_name].filter(self.request.user, queryset)
+class ListViewSet(PermissionMixin, viewsets.ModelViewSet):
     """
     List endpoint
     """
     queryset = List.objects.all()
     serializer_class = ListSerializer
-    permission_classes = [UserPermissionGranted]
-
-    def get_queryset(self):
-        """
-        Filter by user
-        """
-        return List.objects.filter(users=self.request.user)
+    permission_classes = [permissions.IsAuthenticated]
 
 class ItemFilter(filters.FilterSet):
     description = filters.CharFilter(field_name="description", lookup_expr='contains')
@@ -45,7 +37,7 @@ class ItemFilter(filters.FilterSet):
         fields = ['buy', 'list', 'description']
 
 
-class ItemViewSet(viewsets.ModelViewSet):
+class ItemViewSet(PermissionMixin, viewsets.ModelViewSet):
     """
     Item endpoint
     """
@@ -61,21 +53,21 @@ class StoreViewSet(viewsets.ModelViewSet):
     serializer_class = StoreSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class TripViewSet(viewsets.ModelViewSet):
+class TripViewSet(PermissionMixin, viewsets.ModelViewSet):
     """
     Trip endpoint
     """
     queryset = Trip.objects.all().order_by('-time')
     serializer_class = TripSerializer
-    permission_classes = [UserPermissionGranted]
+    permission_classes = [permissions.IsAuthenticated]
 
-class CheckoutViewSet(viewsets.ModelViewSet):
+class CheckoutViewSet(PermissionMixin, viewsets.ModelViewSet):
     """
     Checkout endpoint
     """
     queryset = Checkout.objects.all().order_by('-time')
     serializer_class = CheckoutSerializer
-    permission_classes = [UserPermissionGranted]
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         # Get current count from trip, set to checkout and increase count
@@ -91,22 +83,22 @@ class CheckoutViewSet(viewsets.ModelViewSet):
 
         serializer.save(count=count)
 
-class ReceiptViewSet(viewsets.ModelViewSet):
+class ReceiptViewSet(PermissionMixin, viewsets.ModelViewSet):
     """
     Receipt endpoint
     """
     queryset = Receipt.objects.all().order_by('-time')
     serializer_class = ReceiptSerializer
-    permission_classes = [UserPermissionGranted]
+    permission_classes = [permissions.IsAuthenticated]
     filterset_fields = ['trip']
 
-class LineItemsViewSet(viewsets.ModelViewSet):
+class LineItemsViewSet(PermissionMixin, viewsets.ModelViewSet):
     """
     Receipt endpoint
     """
     queryset = LineItem.objects.all().order_by('-receipt__time')
     serializer_class = LineItemSerializer
-    permission_classes = [UserPermissionGranted]
+    permission_classes = [permissions.IsAuthenticated]
     filterset_fields = ['sku__item']
 
 # Receipt creation from images or parsed data from external services
@@ -115,7 +107,7 @@ class ReceiptDataView(APIView):
     """
     Creates receipt and related objects from json
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, format=None):
         json_data = request.data
@@ -129,7 +121,7 @@ class ReceiptImageView(APIView):
     """
     Creates receipt and related objects from image
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     parser_classes = [MultiPartParser]
 
     def post(self, request, format=None):
