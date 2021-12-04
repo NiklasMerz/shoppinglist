@@ -673,22 +673,22 @@ export class ApiService {
     /**
      * Receipt endpoint
      * @param id A unique integer value identifying this line item.
-     * @param skuItem sku__item
+     * @param skuCatalogItem sku__catalog_item
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public destroyLineItem(id: string, skuItem?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public destroyLineItem(id: string, skuItem?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public destroyLineItem(id: string, skuItem?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public destroyLineItem(id: string, skuItem?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+    public destroyLineItem(id: string, skuCatalogItem?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public destroyLineItem(id: string, skuCatalogItem?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public destroyLineItem(id: string, skuCatalogItem?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public destroyLineItem(id: string, skuCatalogItem?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling destroyLineItem.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (skuItem !== undefined && skuItem !== null) {
+        if (skuCatalogItem !== undefined && skuCatalogItem !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
-            <any>skuItem, 'sku__item');
+            <any>skuCatalogItem, 'sku__catalog_item');
         }
 
         let headers = this.defaultHeaders;
@@ -1008,19 +1008,19 @@ export class ApiService {
 
     /**
      * Receipt endpoint
-     * @param skuItem sku__item
+     * @param skuCatalogItem sku__catalog_item
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public listLineItems(skuItem?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<LineItem>>;
-    public listLineItems(skuItem?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<LineItem>>>;
-    public listLineItems(skuItem?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<LineItem>>>;
-    public listLineItems(skuItem?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public listLineItems(skuCatalogItem?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<Array<LineItem>>;
+    public listLineItems(skuCatalogItem?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<Array<LineItem>>>;
+    public listLineItems(skuCatalogItem?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<Array<LineItem>>>;
+    public listLineItems(skuCatalogItem?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (skuItem !== undefined && skuItem !== null) {
+        if (skuCatalogItem !== undefined && skuCatalogItem !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
-            <any>skuItem, 'sku__item');
+            <any>skuCatalogItem, 'sku__catalog_item');
         }
 
         let headers = this.defaultHeaders;
@@ -1364,23 +1364,23 @@ export class ApiService {
     /**
      * Receipt endpoint
      * @param id A unique integer value identifying this line item.
-     * @param skuItem sku__item
+     * @param skuCatalogItem sku__catalog_item
      * @param lineItem 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public partialUpdateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<LineItem>;
-    public partialUpdateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<LineItem>>;
-    public partialUpdateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<LineItem>>;
-    public partialUpdateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public partialUpdateLineItem(id: string, skuCatalogItem?: string, lineItem?: LineItem, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<LineItem>;
+    public partialUpdateLineItem(id: string, skuCatalogItem?: string, lineItem?: LineItem, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<LineItem>>;
+    public partialUpdateLineItem(id: string, skuCatalogItem?: string, lineItem?: LineItem, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<LineItem>>;
+    public partialUpdateLineItem(id: string, skuCatalogItem?: string, lineItem?: LineItem, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling partialUpdateLineItem.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (skuItem !== undefined && skuItem !== null) {
+        if (skuCatalogItem !== undefined && skuCatalogItem !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
-            <any>skuItem, 'sku__item');
+            <any>skuCatalogItem, 'sku__catalog_item');
         }
 
         let headers = this.defaultHeaders;
@@ -1778,22 +1778,22 @@ export class ApiService {
     /**
      * Receipt endpoint
      * @param id A unique integer value identifying this line item.
-     * @param skuItem sku__item
+     * @param skuCatalogItem sku__catalog_item
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public retrieveLineItem(id: string, skuItem?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<LineItem>;
-    public retrieveLineItem(id: string, skuItem?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<LineItem>>;
-    public retrieveLineItem(id: string, skuItem?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<LineItem>>;
-    public retrieveLineItem(id: string, skuItem?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public retrieveLineItem(id: string, skuCatalogItem?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<LineItem>;
+    public retrieveLineItem(id: string, skuCatalogItem?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<LineItem>>;
+    public retrieveLineItem(id: string, skuCatalogItem?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<LineItem>>;
+    public retrieveLineItem(id: string, skuCatalogItem?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling retrieveLineItem.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (skuItem !== undefined && skuItem !== null) {
+        if (skuCatalogItem !== undefined && skuCatalogItem !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
-            <any>skuItem, 'sku__item');
+            <any>skuCatalogItem, 'sku__catalog_item');
         }
 
         let headers = this.defaultHeaders;
@@ -2153,23 +2153,23 @@ export class ApiService {
     /**
      * Receipt endpoint
      * @param id A unique integer value identifying this line item.
-     * @param skuItem sku__item
+     * @param skuCatalogItem sku__catalog_item
      * @param lineItem 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<LineItem>;
-    public updateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<LineItem>>;
-    public updateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<LineItem>>;
-    public updateLineItem(id: string, skuItem?: string, lineItem?: LineItem, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
+    public updateLineItem(id: string, skuCatalogItem?: string, lineItem?: LineItem, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<LineItem>;
+    public updateLineItem(id: string, skuCatalogItem?: string, lineItem?: LineItem, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<LineItem>>;
+    public updateLineItem(id: string, skuCatalogItem?: string, lineItem?: LineItem, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<LineItem>>;
+    public updateLineItem(id: string, skuCatalogItem?: string, lineItem?: LineItem, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling updateLineItem.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (skuItem !== undefined && skuItem !== null) {
+        if (skuCatalogItem !== undefined && skuCatalogItem !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
-            <any>skuItem, 'sku__item');
+            <any>skuCatalogItem, 'sku__catalog_item');
         }
 
         let headers = this.defaultHeaders;

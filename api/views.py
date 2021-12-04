@@ -19,8 +19,11 @@ from list.receipts import file_reciept, file_reciept_from_image
 class PermissionMixin(object):
 
     def get_queryset(self):
-        perm_name = 'list.access_' + self.basename
         queryset = super().get_queryset()
+        if self.request is None:
+            return queryset.model.objects.none()
+
+        perm_name = 'list.access_' + self.basename
         return perms[perm_name].filter(self.request.user, queryset)
 class ListViewSet(PermissionMixin, viewsets.ModelViewSet):
     """
@@ -41,7 +44,7 @@ class ItemViewSet(PermissionMixin, viewsets.ModelViewSet):
     """
     Item endpoint
     """
-    queryset = Item.objects.all().order_by('index')
+    queryset = Item.objects.all()
     serializer_class = ItemSerializer
     permission_classes = [permissions.IsAuthenticated]
     filterset_class = ItemFilter
@@ -99,7 +102,7 @@ class LineItemsViewSet(PermissionMixin, viewsets.ModelViewSet):
     queryset = LineItem.objects.all().order_by('-receipt__time')
     serializer_class = LineItemSerializer
     permission_classes = [permissions.IsAuthenticated]
-    filterset_fields = ['sku__item']
+    filterset_fields = ['sku__catalog_item']
 
 # Receipt creation from images or parsed data from external services
 # Custom API not part of OpenAPI spec

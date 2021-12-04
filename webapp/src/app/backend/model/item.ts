@@ -20,5 +20,6 @@ export interface Item {
     readonly last_checkout?: string;
     readonly last_line_item_date?: string;
     readonly last_line_item_total?: string;
+    catalog_item?: number | null;
 }
 

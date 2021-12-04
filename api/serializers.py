@@ -27,7 +27,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ['id', 'description', 'note', 'buy', 'list', 'last_checkout', 'last_line_item_date', 'last_line_item_total']
+        fields = ['id', 'description', 'note', 'buy', 'list', 'last_checkout', 'last_line_item_date', 'last_line_item_total', 'catalog_item']
 
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
