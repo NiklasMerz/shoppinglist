@@ -20,25 +20,37 @@ class List(models.Model):
     def __str__(self):
        return self.name
 
-# Sorting
+
+class CatalogItem(models.Model):
+    """
+    This is a global item from a catalog which links list items and skus
+    """
+    id = models.BigAutoField(primary_key=True)
+
+    description = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+       return self.description
+
+    class Meta:
+        ordering = ['description']
 
 class Item(models.Model):
     """
     This is an item on a shopping list
     """
     id = models.BigAutoField(primary_key=True)
-    index = None # for sorting
 
     broadcasts_to = ["list", "all-lists"]
     broadcast_self = False
 
     list = models.ForeignKey(List, related_name="items", on_delete=models.SET_NULL, blank=True, null=True)
+    catalog_item = models.ForeignKey(CatalogItem, related_name="catalog_items", on_delete=models.SET_NULL, blank=True, null=True)
     description = models.CharField(max_length=255)
     note = models.TextField(default=None, blank=True, null=True)
-    ean = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     buy = models.BooleanField(default=True)
-    index = models.IntegerField(default=0)
 
     def __str__(self):
        return self.description
@@ -52,7 +64,7 @@ class SKU(models.Model):
     """
     id = models.BigAutoField(primary_key=True)
     description = models.CharField(max_length=255)
-    item = models.ForeignKey(Item, related_name="skus", on_delete=models.SET_NULL, blank=True, null=True)
+    catalog_item = models.ForeignKey(CatalogItem, related_name="skus", on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
        return self.description

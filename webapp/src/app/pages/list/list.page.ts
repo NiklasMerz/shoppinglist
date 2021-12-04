@@ -149,7 +149,7 @@ export class ListPage {
     this.modalCtrl.create({
       component: ItemDetailPage,
       componentProps: {
-        itemId: item.id,
+        itemId: item.catalog_item,
       }
     }).then(modal => modal.present());
   }
