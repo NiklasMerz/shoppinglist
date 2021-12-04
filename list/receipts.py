@@ -41,7 +41,7 @@ def create_receipt_verify(receipt, json_data, trip_id):
 
     for line_item in json_data['line_items']:
         item = SKU.objects.get_or_create(description=line_item['description'])
-        receipt.line_items.create(description=line_item['description'], total=line_item['total'], quantity=line_item['quantity'], brand_item=item[0])
+        receipt.line_items.create(description=line_item['description'], total=line_item['total'], quantity=line_item['quantity'], sku=item[0])
 
     receipt.save()
     return receipt
