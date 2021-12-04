@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'djmoney',
+    'bridgekeeper',
 ]
 
 MIDDLEWARE = [
@@ -116,6 +117,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'bridgekeeper.backends.RulePermissionBackend',
+ )
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

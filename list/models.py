@@ -70,13 +70,6 @@ class Trip(models.Model):
     notes = models.TextField(blank=True, null=True)
 
     @property
-    def users(self):
-        """
-        For permission checking
-        """
-        return self.list.users.all()
-
-    @property
     def label(self):
         if self.finish_time:
             return f'{self.store.name if self.store else self.notes} - {self.time.strftime("%Y-%m-%d %H:%M")} -> {self.finish_time.strftime("%H:%M")}'
@@ -93,12 +86,6 @@ class Checkout(models.Model):
     item = models.ForeignKey(Item, related_name="checkouts", on_delete=models.CASCADE)
     count = models.IntegerField(default=0)
 
-    @property
-    def users(self):
-        """
-        For permission checking
-        """
-        return self.trip.users
     class Meta:
         get_latest_by = ['-time']
 
@@ -110,12 +97,6 @@ class Receipt(models.Model):
     image = models.ImageField(upload_to='receipts', blank=True, null=True)
     ocr_data = models.JSONField(blank=True, null=True)
 
-    @property
-    def users(self):
-        """
-        For permission checking
-        """
-        return self.trip.users
     class Meta:
         get_latest_by = ['-time']
 
@@ -129,13 +110,6 @@ class LineItem(models.Model):
     sku = models.ForeignKey(SKU, related_name="line_items", on_delete=models.CASCADE, null=True, blank=True)
     total = MoneyField(max_digits=19, decimal_places=2, default_currency='EUR', blank=True, null=True)
     quantity = models.IntegerField(default=0)
-
-    @property
-    def users(self):
-        """
-        For permission checking
-        """
-        return self.receipt.users
 
     def __str__(self):
         return self.description
