@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonSearchbar, ModalController, ToastController } from '@ionic/angular';
-import { ApiService, Checkout, Trip } from 'src/app/backend';
+import { ApiService, CatalogItem, Checkout, Trip } from 'src/app/backend';
 
 import { Item } from '../../backend';
 import { ItemDetailPage } from '../item-detail/item-detail.page';
@@ -22,6 +22,7 @@ export class ListPage {
   listId: string;
   searchItem: Item;
   trip: Trip;
+  catalogItems: CatalogItem[] = [];
 
   constructor(private activatedRoute: ActivatedRoute, private api: ApiService, private modalCtrl: ModalController,
     private toastCtrl: ToastController, private router: Router) { }
@@ -57,6 +58,7 @@ export class ListPage {
         this.listItems = await this.getItems(true, lowercaseSearchTerm);
         this.searchItem = {description: searchterm, list: parseInt(this.listId, 10)};
         this.notListItems = await this.getItems(false, lowercaseSearchTerm);
+        this.catalogItems = await this.api.listCatalogItems(lowercaseSearchTerm).toPromise();
       } catch (error) {
         console.error(error);
       }
@@ -78,7 +80,15 @@ export class ListPage {
 
   add(item: Item) {
     item.buy = true;
-    this.api.updateItem(item.id.toString(), 'false', this.listId.toString(), undefined, item).toPromise().then(async () => {
+    this.api.partialUpdateItem(item.id.toString(), 'false', this.listId.toString(), undefined, item).toPromise().then(async () => {
+      this.showList();
+    }).catch(err => console.log(err));
+  }
+
+  async addFromCatalog(catalogItem: CatalogItem) {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const newItem: Item = { description: catalogItem.description, list: this.listId, catalog_item: catalogItem.id, buy: true };
+   await this.api.createItem(newItem).toPromise().then(async () => {
       this.showList();
     }).catch(err => console.log(err));
   }
@@ -145,11 +155,11 @@ export class ListPage {
     this.showList();
   }
 
-  openDetail(item: Item) {
+  openDetail(catalogId: number) {
     this.modalCtrl.create({
       component: ItemDetailPage,
       componentProps: {
-        itemId: item.catalog_item,
+        itemId: catalogId,
       }
     }).then(modal => modal.present());
   }

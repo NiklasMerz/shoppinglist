@@ -2,6 +2,11 @@ from list.models import *
 from rest_framework import serializers
 
 
+class CatalogItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CatalogItem
+        fields = ['id', 'description']
+
 class ItemSerializer(serializers.ModelSerializer):
     last_checkout = serializers.SerializerMethodField()
     last_line_item_date = serializers.SerializerMethodField()

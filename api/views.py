@@ -33,6 +33,21 @@ class ListViewSet(PermissionMixin, viewsets.ModelViewSet):
     serializer_class = ListSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+class CatalogItemFilter(filters.FilterSet):
+    description = filters.CharFilter(field_name="description", lookup_expr='contains')
+    class Meta:
+        model = CatalogItem
+        fields = ['description']
+
+class CatalogItemViewSet(viewsets.ModelViewSet):
+    """
+    Item endpoint
+    """
+    queryset = CatalogItem.objects.all()
+    serializer_class = CatalogItemSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    filterset_class = CatalogItemFilter
+
 class ItemFilter(filters.FilterSet):
     description = filters.CharFilter(field_name="description", lookup_expr='contains')
     class Meta:
