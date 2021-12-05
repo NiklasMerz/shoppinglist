@@ -63,6 +63,21 @@ class ItemViewSet(PermissionMixin, viewsets.ModelViewSet):
     serializer_class = ItemSerializer
     permission_classes = [permissions.IsAuthenticated]
     filterset_class = ItemFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        items = []
+
+        # TODO is there a django way?
+        # TODO use order from selected store
+        for item in queryset:
+            if len(item.checkouts.all()) > 0:
+                last_checkout = item.checkouts.latest()
+                items.append({"item": item, "index": last_checkout.count})
+            else:
+                items.append({"item": item, "index": 0})
+
+        return items.sort(key=lambda x: x["index"], reverse=False)
 class StoreViewSet(viewsets.ModelViewSet):
     """
     Store endpoint
