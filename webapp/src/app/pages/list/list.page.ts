@@ -86,8 +86,11 @@ export class ListPage {
   }
 
   async addFromCatalog(catalogItem: CatalogItem) {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const newItem: Item = { description: catalogItem.description, list: this.listId, catalog_item: catalogItem.id, buy: true };
+    const newItem: Item = {
+      description: catalogItem.description,
+      list: parseInt(this.listId, 10),
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      catalog_item: catalogItem.id, buy: true };
    await this.api.createItem(newItem).toPromise().then(async () => {
       this.showList();
     }).catch(err => console.log(err));
