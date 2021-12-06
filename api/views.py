@@ -63,21 +63,6 @@ class ItemViewSet(PermissionMixin, viewsets.ModelViewSet):
     serializer_class = ItemSerializer
     permission_classes = [permissions.IsAuthenticated]
     filterset_class = ItemFilter
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        items = []
-
-        # TODO is there a django way?
-        # TODO use order from selected store
-        for item in queryset:
-            if len(item.checkouts.all()) > 0:
-                last_checkout = item.checkouts.latest()
-                items.append({"item": item, "index": last_checkout.count})
-            else:
-                items.append({"item": item, "index": 0})
-
-        return items.sort(key=lambda x: x["index"], reverse=False)
 class StoreViewSet(viewsets.ModelViewSet):
     """
     Store endpoint
@@ -104,10 +89,11 @@ class CheckoutViewSet(PermissionMixin, viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         # Get current count from trip, set to checkout and increase count
+        count = 0
         trip = Trip.objects.filter(id=self.request.data['trip']).first()
-        count = trip.count
-        trip.count = count + 1
-        trip.save()
+        if trip.checkouts.count() > 0:
+            latest_checkout = trip.checkouts.last()
+            count = latest_checkout.count + 1
 
         # Update index in item. The last counter value for now
         item = Item.objects.filter(id=self.request.data['item']).first()
