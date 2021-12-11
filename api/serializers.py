@@ -11,6 +11,7 @@ class ItemSerializer(serializers.ModelSerializer):
     last_checkout = serializers.SerializerMethodField()
     last_line_item_date = serializers.SerializerMethodField()
     last_line_item_total = serializers.SerializerMethodField()
+    last_line_item_store = serializers.SerializerMethodField()
 
     def get_last_checkout(self, obj):
         try:
@@ -30,9 +31,15 @@ class ItemSerializer(serializers.ModelSerializer):
         except:
             return None
 
+    def get_last_line_item_store(self, obj):
+        try:
+            return LineItem.objects.filter(sku__in=obj.skus.all()).latest().receipt.store.name
+        except:
+            return None
+
     class Meta:
         model = Item
-        fields = ['id', 'description', 'note', 'buy', 'list', 'last_checkout', 'last_line_item_date', 'last_line_item_total', 'catalog_item']
+        fields = ['id', 'description', 'note', 'buy', 'list', 'last_checkout', 'last_line_item_date', 'last_line_item_total', 'last_line_item_store', 'catalog_item']
 
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
