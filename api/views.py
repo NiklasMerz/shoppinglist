@@ -34,7 +34,7 @@ class ListViewSet(PermissionMixin, viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 class CatalogItemFilter(filters.FilterSet):
-    description = filters.CharFilter(field_name="description", lookup_expr='contains')
+    description = filters.CharFilter(field_name="description", lookup_expr='icontains')
     class Meta:
         model = CatalogItem
         fields = ['description']
@@ -49,7 +49,7 @@ class CatalogItemViewSet(viewsets.ModelViewSet):
     filterset_class = CatalogItemFilter
 
 class ItemFilter(filters.FilterSet):
-    description = filters.CharFilter(field_name="description", lookup_expr='contains')
+    description = filters.CharFilter(field_name="description", lookup_expr='icontains')
     class Meta:
         model = Item
         fields = ['buy', 'list', 'description']
