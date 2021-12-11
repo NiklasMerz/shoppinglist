@@ -16,7 +16,6 @@ export interface Trip {
     readonly time?: string;
     store?: number | null;
     list?: number | null;
-    count?: number;
     finish_time?: string | null;
     readonly label?: string;
     notes?: string | null;

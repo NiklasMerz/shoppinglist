@@ -2,7 +2,7 @@
   <ion-item (click)="clck()">
     <ion-label>
       {{item.description}}
-      <p>{{item.last_checkout ? (item.last_checkout | date:'mediumDate') : (item.last_line_item_date | date:'mediumDate')}}</p>
+      <p>{{item.last_checkout ? (item.last_checkout | date:'mediumDate') : (item.last_line_item_date | date:'mediumDate')}} {{item.last_line_item_store}}</p>
     </ion-label>
     <ng-content></ng-content>
     <ion-badge *ngIf="item.last_line_item_total">
