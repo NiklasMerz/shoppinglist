@@ -11,7 +11,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './trip.page.html',
   styleUrls: ['./trip.page.scss'],
 })
-export class TripPage implements OnInit {
+export class TripPage {
   id: any;
   trip: Trip;
   receipt: Receipt;
@@ -20,10 +20,10 @@ export class TripPage implements OnInit {
   constructor(private api: ApiService, private activatedRouter: ActivatedRoute, private toastCtrl: ToastController,
     private http: HttpClient, private loadintCtrl: LoadingController) { }
 
-  ngOnInit() {
+  ionViewDidEnter() {
     this.init();
 
-    this.setupTestData();
+    //this.setupTestData();
   }
 
   save() {
