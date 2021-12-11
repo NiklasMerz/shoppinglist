@@ -51,12 +51,13 @@ class Item(models.Model):
     note = models.TextField(default=None, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     buy = models.BooleanField(default=True)
+    index = models.IntegerField(default=0)
 
     def __str__(self):
        return self.description
 
     class Meta:
-        ordering = ['description']
+        ordering = ['index']
 
 class SKU(models.Model):
     """
@@ -78,7 +79,6 @@ class Trip(models.Model):
     finish_time = models.DateTimeField(blank=True, null=True)
     store = models.ForeignKey(Store, related_name="trips", on_delete=models.CASCADE, null=True, blank=True)
     list = models.ForeignKey(List, related_name="trips", on_delete=models.CASCADE, null=True, blank=True)
-    count = models.IntegerField(default=0)
     notes = models.TextField(blank=True, null=True)
 
     @property
@@ -98,6 +98,8 @@ class Checkout(models.Model):
     item = models.ForeignKey(Item, related_name="checkouts", on_delete=models.CASCADE)
     count = models.IntegerField(default=0)
 
+    def __str__(self):
+        return f'{self.item.description} ({self.count})'
     class Meta:
         get_latest_by = ['-time']
 

@@ -89,10 +89,11 @@ class CheckoutViewSet(PermissionMixin, viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         # Get current count from trip, set to checkout and increase count
+        count = 0
         trip = Trip.objects.filter(id=self.request.data['trip']).first()
-        count = trip.count
-        trip.count = count + 1
-        trip.save()
+        if trip.checkouts.count() > 0:
+            latest_checkout = trip.checkouts.last()
+            count = latest_checkout.count + 1
 
         # Update index in item. The last counter value for now
         item = Item.objects.filter(id=self.request.data['item']).first()
