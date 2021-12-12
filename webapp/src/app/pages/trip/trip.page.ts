@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { ApiService, Receipt, Trip } from 'src/app/backend';

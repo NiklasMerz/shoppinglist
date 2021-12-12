@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ApiService, Trip } from 'src/app/backend';
 
 @Component({
@@ -6,12 +6,12 @@ import { ApiService, Trip } from 'src/app/backend';
   templateUrl: './trips.page.html',
   styleUrls: ['./trips.page.scss'],
 })
-export class TripsPage implements OnInit {
+export class TripsPage {
   trips: Trip[] = [];
 
   constructor(private api: ApiService) { }
 
-  ngOnInit() {
+  ionViewDidEnter() {
     this.load();
   }
 
