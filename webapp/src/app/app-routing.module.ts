@@ -56,6 +56,10 @@ const routes: Routes = [
     path: 'item-detail',
     loadChildren: () => import('./pages/item-detail/item-detail.module').then( m => m.ItemDetailPageModule)
   },
+  {
+    path: 'selectlist',
+    loadChildren: () => import('./pages/selectlist/selectlist.module').then( m => m.SelectlistPageModule)
+  },
 ];
 
 @NgModule({

@@ -1,10 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { ApiService, Receipt, Trip } from 'src/app/backend';
 
 import { environment } from '../../../environments/environment';
+import { SelectlistPage } from '../selectlist/selectlist.page';
 
 @Component({
   selector: 'app-trip',
@@ -18,7 +19,7 @@ export class TripPage {
   ocrJson: string;
 
   constructor(private api: ApiService, private activatedRouter: ActivatedRoute, private toastCtrl: ToastController,
-    private http: HttpClient, private loadintCtrl: LoadingController) { }
+    private http: HttpClient, private loadintCtrl: LoadingController, private modalCtrl: ModalController) { }
 
   ionViewDidEnter() {
     this.init();
@@ -56,6 +57,15 @@ export class TripPage {
   }
 
   async addReceiptImage(event) {
+    if (!this.id) {
+      const listId = await this.selectList();
+      console.debug(listId);
+      // TODO select store?
+      this.trip = {list: listId};
+      this.trip = await this.api.createTrip(this.trip).toPromise();
+      this.id = this.trip.id;
+    }
+
     const loading = await this.loadintCtrl.create({
       message: 'Uploading...'
     });
@@ -71,13 +81,23 @@ export class TripPage {
     }
     try {
       this.receipt = await this.http.post(url, formData).toPromise();
-      console.debug('res', this.receipt);
       loading.dismiss();
     } catch (err) {
       alert('Error uploading file');
       console.error('err', err);
       loading.dismiss();
     }
+  }
+
+  private async selectList() {
+    const modal = await this.modalCtrl.create({
+      component: SelectlistPage,
+      backdropDismiss: false
+    });
+    await modal.present();
+
+    const res = await modal.onDidDismiss();
+    return res.data.list.id;
   }
 
   private async init() {

@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Select list</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <ion-list>
+    <ion-list-header color="primary">
+      Lists
+    </ion-list-header>
+    <ion-item *ngFor="let list of lists" (click)="selectList(list)">
+      <ion-label> {{list.name}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
