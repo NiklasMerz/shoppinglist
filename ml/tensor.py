@@ -10,13 +10,23 @@ from tensorflow.keras import losses
 
 print(tf.__version__)
 
-url = "https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz"
+import os
+import tensorflow_io as tfio
 
-dataset = tf.keras.utils.get_file("aclImdb_v1", url,
-                                    untar=True, cache_dir='.',
-                                    cache_subdir='')
+endpoint="postgresql://{}:{}@{}?port={}&dbname={}&ssl=true".format(
+    os.environ['TFIO_DATABASE_USER'],
+    os.environ['TFIO_DATABASE_PASS'],
+    os.environ['TFIO_DATABASE_HOST'],
+    os.environ['TFIO_DATABASE_PORT'],
+    os.environ['TFIO_DATABASE_NAME'],
+)
 
-dataset_dir = os.path.join(os.path.dirname(dataset), 'aclImdb')
+dataset = tfio.experimental.IODataset.from_sql(
+    query="SELECT list_catalogitem.description as Item, list_sku.description as SKU FROM list_catalogitem JOIN list_sku ON list_catalogitem.id=list_sku.catalog_item_id;",
+    endpoint=endpoint)
+
+print(dataset.element_spec)
+
 
 os.listdir(dataset_dir)
 
@@ -112,9 +122,9 @@ model = tf.keras.Sequential([
 
 model.summary()
 
-model.compile(loss=losses.BinaryCrossentropy(from_logits=True),
+model.compile(loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               optimizer='adam',
-              metrics=tf.metrics.BinaryAccuracy(threshold=0.0))
+              metrics=['accuracy'])
 
 epochs = 10
 history = model.fit(
@@ -131,8 +141,8 @@ history_dict = history.history
 history_dict.keys()
 
 
-acc = history_dict['binary_accuracy']
-val_acc = history_dict['val_binary_accuracy']
+acc = history_dict['accuracy']
+val_acc = history_dict['val_accuracy']
 loss = history_dict['loss']
 val_loss = history_dict['val_loss']
 
@@ -165,7 +175,7 @@ export_model = tf.keras.Sequential([
 ])
 
 export_model.compile(
-    loss=losses.BinaryCrossentropy(from_logits=False), optimizer="adam", metrics=['accuracy']
+    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False), optimizer="adam", metrics=['accuracy']
 )
 
 # Test it with `raw_test_ds`, which yields raw strings
