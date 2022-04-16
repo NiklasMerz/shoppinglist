@@ -2,10 +2,23 @@ from list.models import *
 from rest_framework import serializers
 
 
+class LineItemSerializer(serializers.ModelSerializer):
+    item = serializers.PrimaryKeyRelatedField(read_only=True)
+    date = serializers.CharField(source='receipt.time')
+    class Meta:
+        model = LineItem
+        fields = ('id', 'description', 'total', 'quantity', 'item', 'date')
 class CatalogItemSerializer(serializers.ModelSerializer):
+    purchases = serializers.SerializerMethodField()
+
+    def get_purchases(self, obj):
+        try:
+            return LineItemSerializer(LineItem.objects.filter(sku__in=obj.skus.all()), many=True).data
+        except:
+            return None
     class Meta:
         model = CatalogItem
-        fields = ['id', 'description']
+        fields = ['id', 'description', 'purchases']
 
 class ItemSerializer(serializers.ModelSerializer):
     last_checkout = serializers.SerializerMethodField()
@@ -60,13 +73,6 @@ class CheckoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Checkout
         fields = ['id', 'time', 'trip', 'item', 'count']
-
-class LineItemSerializer(serializers.ModelSerializer):
-    item = serializers.PrimaryKeyRelatedField(read_only=True)
-    date = serializers.CharField(source='receipt.time')
-    class Meta:
-        model = LineItem
-        fields = ('id', 'description', 'total', 'quantity', 'item', 'date')
 
 class ReceiptSerializer(serializers.ModelSerializer):
     line_items = LineItemSerializer(many=True, read_only=True)
