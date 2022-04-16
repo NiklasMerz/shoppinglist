@@ -11,6 +11,7 @@ export class AppComponent {
   lists: List[] = null;
   public appPages = [
     { title: 'Trips', url: '/trips', icon: 'cart' },
+    { title: 'Catalog Items', url: '/items', icon: 'list-circle' },
   ];
   constructor(private api: ApiService) {
     this.api.listLists().subscribe(data => {

@@ -60,6 +60,11 @@ const routes: Routes = [
     path: 'selectlist',
     loadChildren: () => import('./pages/selectlist/selectlist.module').then( m => m.SelectlistPageModule)
   },
+  {
+    path: 'items',
+    loadChildren: () => import('./pages/items/items.module').then( m => m.ItemsPageModule),
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({
