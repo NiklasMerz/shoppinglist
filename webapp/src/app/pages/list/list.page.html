@@ -13,17 +13,6 @@
 
   <ion-searchbar placeholder="Search or add" (ionChange)="search($event)" showClearButton="always" (ionClear)="clear()"></ion-searchbar>
 
-  <ion-list *ngIf="searchActive && searchItem">
-    <ion-list-header color="secondary">
-      Add new item
-    </ion-list-header>
-    <app-listitem [item]="searchItem">
-      <ion-button slot="end" fill="clear" (click)="create(searchItem)">
-        <ion-icon name="add" slot="icon-only" color="secondary"></ion-icon>
-      </ion-button>
-    </app-listitem>
-  </ion-list>
-
   <ion-list *ngIf="listItems.length > 0">
     <ion-list-header color="primary">
       On List
@@ -69,6 +58,17 @@
       <!-- Details for add -->
       <ion-button slot="start" fill="clear" color="secondary" (click)="openDetail(item.id)">
         <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+      </ion-button>
+    </app-listitem>
+  </ion-list>
+
+  <ion-list *ngIf="searchActive && searchItem">
+    <ion-list-header color="secondary">
+      Add new item
+    </ion-list-header>
+    <app-listitem [item]="searchItem">
+      <ion-button slot="end" fill="clear" (click)="create(searchItem)">
+        <ion-icon name="add" slot="icon-only" color="secondary"></ion-icon>
       </ion-button>
     </app-listitem>
   </ion-list>
