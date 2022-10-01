@@ -1,8 +1,0 @@
-<turbo-frame id="send-item">
-     <form method="post" action="{% url 'send' view.kwargs.pk %}" data-turbo-frame="items">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Send">
-    </form>
-</turbo-frame>
-
