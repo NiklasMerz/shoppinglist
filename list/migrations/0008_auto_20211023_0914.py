@@ -2,7 +2,6 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import turbo.mixins
 
 
 class Migration(migrations.Migration):
@@ -21,7 +20,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('location', models.TextField()),
             ],
-            bases=(turbo.mixins.BroadcastableMixin, models.Model),
+            bases=(models.Model),
         ),
         migrations.CreateModel(
             name='Trip',
