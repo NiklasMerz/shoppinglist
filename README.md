@@ -32,8 +32,6 @@ The webapp runs on `http://localhost:8100`.
 
 # Open API
 
-> TODO NPM package angular client?
-
 * API URL: `http://localhost:8000/api/`
 
 * API Scheme: `http://localhost:8000/api/openapi`
