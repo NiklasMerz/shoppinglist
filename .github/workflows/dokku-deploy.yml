@@ -25,4 +25,4 @@ jobs:
         uses: dokku/github-action@master
         with:
           git_remote_url: 'ssh://dokku@100.120.73.21:22/shoppinglist'
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh_private_key: ${{ secrets.DOKKU_SSH }}
