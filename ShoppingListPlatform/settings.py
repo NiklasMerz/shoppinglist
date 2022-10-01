@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "channels",
     "list.apps.ListConfig",
-    "turbo",
     'webpack_tools',
     'oauth2_provider',
     'django_filters',

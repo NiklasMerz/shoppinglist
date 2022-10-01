@@ -12,10 +12,9 @@ import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ShoppingListPlatform.settings")
 
 from django.core.asgi import get_asgi_application
-from channels.routing import ProtocolTypeRouter, URLRouter
-from turbo.consumers import TurboStreamsConsumer
+from channels.routing import ProtocolTypeRouter
 
 
 application = ProtocolTypeRouter(
-    {"http": get_asgi_application(), "websocket": TurboStreamsConsumer.as_asgi()}
+    {"http": get_asgi_application()}
 )

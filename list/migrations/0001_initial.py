@@ -2,7 +2,6 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import turbo.mixins
 
 
 class Migration(migrations.Migration):
@@ -19,7 +18,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
             ],
-            bases=(turbo.mixins.BroadcastableMixin, models.Model),
+            bases=(models.Model),
         ),
         migrations.CreateModel(
             name='Item',
@@ -29,6 +28,6 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('list', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items', to='list.list')),
             ],
-            bases=(turbo.mixins.BroadcastableMixin, models.Model),
+            bases=(models.Model),
         ),
     ]
