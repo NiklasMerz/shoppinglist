@@ -1,0 +1,29 @@
+---
+name: 'deploy backend'
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      - main
+        dokku-deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cloning repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Tailscale
+        uses: tailscale/github-action@v1
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+
+      - name: Push to dokku
+        uses: dokku/github-action@master
+        with:
+          git_remote_url: 'ssh://dokku@100.120.73.21:22/shoppinglist'
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
