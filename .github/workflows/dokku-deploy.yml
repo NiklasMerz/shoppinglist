@@ -1,14 +1,14 @@
 name: 'deploy backend'
 
-# yamllint disable-line rule:truthy
-on:
+'on':
   push:
     branches:
       - main
-        dokku-deploy
+      - release
+      - dokku-deploy
 
 jobs:
-  deploy:
+  deploy-backend:
     runs-on: ubuntu-latest
     steps:
       - name: Cloning repo
