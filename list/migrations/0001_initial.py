@@ -18,7 +18,6 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
             ],
-            bases=(models.Model),
         ),
         migrations.CreateModel(
             name='Item',
@@ -28,6 +27,5 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('list', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items', to='list.list')),
             ],
-            bases=(models.Model),
         ),
     ]
