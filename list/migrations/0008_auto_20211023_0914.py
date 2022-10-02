@@ -20,7 +20,6 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('location', models.TextField()),
             ],
-            bases=(models.Model),
         ),
         migrations.CreateModel(
             name='Trip',
