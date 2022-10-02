@@ -14,10 +14,12 @@ import os
 from pathlib import Path
 import django_heroku
 import dotenv
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
+IS_HEROKU = "DYNO" in os.environ
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -25,10 +27,13 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "+fstz3hi5ulc0$k0m$@6pq=pon*@h1)dep(as2*b#o=t14sx--"
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if 'SECRET_KEY' in os.environ:
+    SECRET_KEY = os.environ["SECRET_KEY"]
 
-ALLOWED_HOSTS = ["localhost", "shoppinglisthotwire.herokuapp.com"]
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False if IS_HEROKU else True
+
+ALLOWED_HOSTS = ["localhost", "shoppinglist.merzlabs.de"]
 
 
 # Application definition
@@ -91,12 +96,21 @@ dotenv_file = os.path.join(BASE_DIR, ".env")
 if os.path.isfile(dotenv_file):
     dotenv.load_dotenv(dotenv_file)
 
+MAX_CONN_AGE = 600
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+if "DATABASE_URL" in os.environ and IS_HEROKU:
+    # Configure Django for DATABASE_URL environment variable.
+    DATABASES["default"] = dj_database_url.config(
+        conn_max_age=MAX_CONN_AGE, ssl_require=True)
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -174,6 +188,3 @@ CORS_ALLOWED_ORIGINS = [
     'https://shoppinglist-advanced.web.app',
     'https://shopping.merz.dev'
 ]
-
-# Activate Django-Heroku.
-django_heroku.settings(locals())
